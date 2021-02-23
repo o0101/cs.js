@@ -1,0 +1,27 @@
+{
+  "name": "c-s",
+  "version": "1.0.0",
+  "description": "Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in simple, clean, reusable code",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node -r esm src/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c9fe/cs.js.git"
+  },
+  "keywords": [
+    "computer science",
+    "data structures",
+    "algorithms",
+    "simple",
+    "clean",
+    "reusable"
+  ],
+  "author": "@dosy",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/c9fe/cs.js/issues"
+  },
+  "homepage": "https://github.com/c9fe/cs.js#readme"
+}
