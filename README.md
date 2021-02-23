@@ -4,5 +4,5 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 # Contents
 
-- [ ] [Heap](src/heap.js)
+- [] [Heap](src/heap.js)
 
