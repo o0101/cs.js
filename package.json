@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/c9fe/cs.js#readme",
   "devDependencies": {
+    "eslint": "^7.20.0",
     "esm": "^3.2.25",
     "nodemon": "^2.0.7"
   }
