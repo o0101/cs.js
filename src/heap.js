@@ -313,36 +313,77 @@ export default class Heap {
     }
 }
 
-
 // helper classes
-  class Tree {
-    constructor(options) {
-      if ( ! options ) {
-        options = DEFAULT_TREE_OPTIONS;
-      }
+class Tree {
+  // private fields
+  #root
 
-      this.config = Object.freeze(clone(options));
+  constructor(options) {
+    if ( ! options ) {
+      options = DEFAULT_TREE_OPTIONS;
+    }
+
+    this.config = Object.freeze(clone(options));
+  }
+
+  getRoot() {
+    return this.#root;
+  }
+
+  get *[Symbol.iterator]() {
+    const stack = [{node:this.getRoot(), depth:0}]; 
+
+    while(stack.length) {
+      const {node,depth} = stack.pop();
+      stack.push(...next.children.map(node => ({node,depth:depth + 1})));
+      yield {node,depth};
     }
   }
 
-  class Node {
-    constructor({parent, thing, children} = {}) {
-      Object.assign(this, {parent, thing});
-      if ( children !== undefined ) {
-        this.children = children;
+  newDeepestLeaf() {
+    let deepestNode;
+    let maxDepth = -1;
+
+    for(const {node,depth} of this) {
+      if ( depth > maxDepth ) {
+        deepestNode = node;
+        maxDepth = depth;
       }
     }
 
-    get children() {
-      return this.#children || [];
-    }
+    const newDeepestLeaf = new Node();
 
-    set children(newChildren) {
-      if ( Array.isArray(newChildren) ) {
-        this.#children = newChildren;
-      } else throw new TypeError(`Children can only be an array. Received: ${newChildren}`);
+    deepestNode.addChild(newDeepestLeaf);
+
+    return newDeepestLeaf;
+  }
+}
+
+class Node {
+  constructor({parent, thing, children} = {}) {
+    Object.assign(this, {parent, thing});
+    if ( children !== undefined ) {
+      this.children = children;
     }
   }
+
+  get children() {
+    return Array.from(this.#children || []);
+  }
+
+  set children(newChildren) {
+    if ( Array.isArray(newChildren) ) {
+      this.#children = Array.from(newChildren);
+    } else throw new TypeError(`Children can only be an array. Received: ${newChildren}`);
+  }
+
+  addChild(newChild) {
+    const children = this.children;
+    children.push(newChild);
+    newChild.parent = this;
+    this.children = children;
+  }
+}
 
 // helper methods
   function guardValidOptions(opts) {
