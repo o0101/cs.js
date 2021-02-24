@@ -124,14 +124,43 @@ export default class Heap {
 
     replace(thing) {
       // remove top of heap and push thing there
+      const top = this.peek();
+      
+      let aRoot;
 
+      if ( this.config.asTree ) {
+        aRoot = this.#store.getRoot();
+      } else {
+        aRoot = 0;
+      }
+
+      this.#updateThing(aRoot, thing);
+
+      return top;
     }
 
   // private instance methods
     // 
-    #updateThing(currentThing, newThing) {
+    #updateThing(aRoot, newThing) {
       // change the value of thing
+      let currentThing;
 
+      // get current and update aRoot's thing
+        if ( this.config.asTree ) {
+          currentThing = aRoot.thing;
+          aRoot.thing = newThing;
+        } else {
+          currentThing = this.#store[aRoot];
+          this.#store[aRoot] = newThing;
+        }
+
+      const comparison = this.#compare(newThing, currentThing);
+
+      if ( comparison > 0 ) {
+        this.siftUp(aRoot);
+      } else if ( comparison < 0 ) {
+        this.siftDown(aRoot);
+      }
     }
 
     #deleteThing(aRoot) {
@@ -145,8 +174,19 @@ export default class Heap {
       this.#siftDown(aRoot);
     }
 
-    #siftUp(thing) {
+    #siftUp(aRoot) {
+      let parent = this.#getParent(aRoot);
 
+      // as long as parent is lower in the heap than aRoot
+      while(parent !== undefined && this.#compare(parent, aRoot) < 0 ) {
+        // push it up, and get the new aRoot for comparison
+        ([aRoot] = this.#swap(aRoot, parent));  
+        // what just happened?
+        // aRoot has now become the slot that parent was
+
+        // get the next topChild for comparison
+        parent = this.#getParent(aRoot);
+      }
     }
 
     #siftDown(aRoot) {
@@ -154,7 +194,7 @@ export default class Heap {
       let topChild = this.#getTopFromList(children);
 
       // as long as aRoot is lower in the heap than topChild
-      while(this.#compare(aRoot, topChild) < 0 ) {
+      while(topChild !== undefined && this.#compare(aRoot, topChild) < 0 ) {
         // push it down, and get the new aRoot for comparison
         ([aRoot] = this.#swap(aRoot, topChild));  
         // what just happened?
@@ -163,6 +203,8 @@ export default class Heap {
         // get the next topChild for comparison
         children = this.#getChildren(aRoot);
         topChild = this.#getTopFromList(children);
+
+        if ( topChild === undefined ) break;
       }
     }
 
@@ -205,6 +247,16 @@ export default class Heap {
           return 0;
         } else {
           return this.config.min ? 1 : -1;
+        }
+      }
+    }
+
+    #getParent(aRoot) {
+      if ( this.config.asTree ) {
+        return aRoot.parent;
+      } else {
+        if ( aRoot > 0 ) {
+          return Math.floor((aRoot-1)/this.config.arity);
         }
       }
     }
