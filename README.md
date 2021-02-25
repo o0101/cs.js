@@ -9,7 +9,12 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 # Contents
 
 - [x] [Heap](src/heap.js)
+- [ ] \*Sorted-linked-array 
 - [ ] Skiplist
+- [ ] Priority queue
+- [ ] Self-organizing list (move-to-front, count, swap)
+- [ ] Circular queue (circular buffer, overwrite queue)
+- [ ] Suffix array (something efficient from here about strings BWT, FM-index)
 - [ ] Hashtable (discohash)
 - [ ] BST
 - [ ] BIT/Fenwich Tree
@@ -22,6 +27,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [ ] conflict-free replicated map
 - [ ] Conflict-free replicated JSON?
 
+\* - invention
 
 # Notes
 
@@ -34,3 +40,19 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - Both implementations appear correct as they give the correct, independently verified max and min values, regardless of arity.
 - There are some improvements I know about that can be made (in TODO) and also probably many improvements that I don't know about right now that can also be made. 
 - I have a feeling that in some edge cases these results may be incorrect, but I have no idea what might produce that, and it's just a hunch.
+
+## Sorted linked array
+
+- Motivation: avoid the insertion cost of sorted arrays, and avoid the lack of random access and fast search for linked lists
+- Similar work: skiplists solve this.
+- The idea is you have a linked list layer that is the API for insertion and deletion, and then you have an index layer that is the API for binary search and random access
+- The trick is how to keep these two layers in sync efficiently.
+- the problems are that:
+  - even you index a evenly distributed samply of the list at some point, after insertions and deletions, that sampling might be more accurate in some areas and less accurate in others, in that the gaps between adjacent samples may be shorter or longer than optimal
+  - so the binary search on the sample list, can take you to the linked list nodes that bound the interval where you should find / insert / delete your element of interest
+  - from there you still need to linear search that linked list interval
+- but can we do better if we then recursively provide another layer of sampling?
+- this is basically what skip lists do (the sampling means we skip over the elements we don't include in the representative sampling)
+- a sampling is really just a snapshot of (or a snapshot of pointers to) an interval of linked list nodes at some point
+- I think this is basically indexed skip lists. So in some sense I think skip lists are basically asymptotically optimal, since which every way you think of trying to solve this problem, you end up getting to skip list type structures. They're another fundamental, really, like trees, graphs, lista, and so on. Pretty fucking cool!
+- 
