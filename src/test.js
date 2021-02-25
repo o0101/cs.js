@@ -1,6 +1,8 @@
 import {execSync} from 'child_process';
 import * as CS from './index.js';
 
+const AS_TREE_SCALE_TEST_MAX = 1000;
+const AS_LIST_SCALE_TEST_MAX = 10000000;
 testAll();
 
 export default {
@@ -10,6 +12,7 @@ export default {
 export function testAll() {
   testHeapAsTree();
   testHeapAsList();
+  scaleTest();
 }
 
 function testHeapAsTree() {
@@ -110,5 +113,46 @@ function testHeapAsList() {
   console.log('findMax');
   console.log({max:newHeap.peek()});
   console.log();
+}
 
+function scaleTest() {
+  {
+    console.group(`Scale test heap as tree...`);
+    console.time(`Heap As Tree ${AS_TREE_SCALE_TEST_MAX} insertions`);
+    const newHeapAsTree = CS.Heap.create({max:true, arity:8});
+    let max = -Infinity, min = Infinity;
+    for( let i = 0; i < AS_TREE_SCALE_TEST_MAX; i++) {
+      const randomNumber = Math.floor(Math.random()*AS_TREE_SCALE_TEST_MAX);
+      newHeapAsTree.push(randomNumber);
+      if ( randomNumber > max ) {
+        max = randomNumber;
+      } 
+      if ( randomNumber < min ) {
+        min = randomNumber;
+      }
+    }
+    console.log({heapTop:newHeapAsTree.peek(), actual: {min, max}});
+    console.timeEnd(`Heap As Tree ${AS_TREE_SCALE_TEST_MAX} insertions`);
+    console.groupEnd(`Done!`);
+  }
+
+  {
+    console.group(`Scale test heap as list...`);
+    console.time(`Heap As List ${AS_LIST_SCALE_TEST_MAX} insertions`);
+    const newHeapAsList = CS.Heap.create({asTree:false,max:true, arity:8});
+    let max = -Infinity, min = Infinity;
+    for( let i = 0; i < AS_LIST_SCALE_TEST_MAX; i++) {
+      const randomNumber = Math.floor(Math.random()*AS_LIST_SCALE_TEST_MAX);
+      newHeapAsList.push(randomNumber);
+      if ( randomNumber > max ) {
+        max = randomNumber;
+      } 
+      if ( randomNumber < min ) {
+        min = randomNumber;
+      }
+    }
+    console.log({heapTop:newHeapAsList.peek(), actual:{min, max}});
+    console.timeEnd(`Heap As List ${AS_LIST_SCALE_TEST_MAX} insertions`);
+    console.groupEnd(`Done!`);
+  }
 }

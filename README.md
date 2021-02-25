@@ -4,5 +4,16 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 # Contents
 
-- [] [Heap](src/heap.js)
+- [x] [Heap](src/heap.js)
+
+
+# Notes
+
+## Heap
+
+- Implemented are variable arity (binary, ternary, n-ary) heaps using either a tree or a list as the storage.
+- Interesting that the list implementation is around 500 times faster than the tree implementation.
+- Heap as list can drop 10 million numbers in ~ 1 second on Intel(R) Xeon(R) CPU @ 2.00GHz
+- Heap as tree can drop 1000 numbers in ~ 50 milliseconds on Intel(R) Xeon(R) CPU @ 2.00GHz
+- Both implementations appear correct as they give the correct, independently verified max and min values, regardless of arity.
 

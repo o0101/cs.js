@@ -118,10 +118,7 @@ export default class Heap {
         this.#firstEmptySpace = this.#store.firstEmptyLeaf();
       } else {
         this.#store[aRoot] = thing;
-        this.#firstEmptySpace = this.#store.findIndex(thing => thing === Empty);
-        if ( this.#firstEmptySpace == -1 ) {
-          this.#firstEmptySpace = this.#store.length;
-        }
+        this.#firstEmptySpace = this.#store.length;
         this.#store[this.#firstEmptySpace] = Empty;
       }
 
