@@ -1,2 +1,2 @@
-export * from './heap.js';
+export * as Heap from './heap.js';
 

@@ -22,6 +22,8 @@
       // DEFAULT comparison is simply this applied to Numbers
   };
 
+  const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
+
   // helper constants
     const DEFAULT_TREE_OPTIONS = {
       arity: 2,               /* binary, then 3 is ternary, etc. */
@@ -31,8 +33,7 @@
     // Why? Because in some comparison schemes undefined or null could represent
     // a value, so it's better to have an unambiguous symbol for emptiness
     // than to assume undefined or null will NEVER be given semantic meaning by people
-  const Empty = Symbol.for('[[EmptyHeapSlot]]`);
-  export Empty;
+  export const Empty = Symbol.for('[[EmptyHeapSlot]]');
 
 export default class Heap {
   // private fields
@@ -62,7 +63,7 @@ export default class Heap {
 
       if ( options.asTree ) {
         this.#store = new Tree({arity: options.arity});
-        this.#firstEmptySpace = this.#store.newDeepestLeaf();
+        this.#firstEmptySpace = this.#store.firstEmptyLeaf();
       } else {
         this.#store = new Array();
         this.#firstEmptySpace = 0;
@@ -109,12 +110,16 @@ export default class Heap {
 
       let aRoot = this.#firstEmptySpace;
 
+      // insert the item and update the firstEmptySpace for next time
       if ( this.config.asTree ) {
         aRoot.thing = thing;
-        this.#firstEmptySpace = this.#store.newDeepestLeaf();
+        this.#firstEmptySpace = this.#store.firstEmptyLeaf();
       } else {
         this.#store[aRoot] = thing;
-        this.#firstEmptySpace += 1;
+        this.#firstEmptySpace = this.#store.findIndex(thing => thing === Empty);
+        if ( this.#firstEmptySpace == -1 ) {
+          this.#firstEmptySpace = this.#store.length;
+        }
       }
 
       this.#siftUp(aRoot);
@@ -313,10 +318,17 @@ export default class Heap {
     }
 }
 
+export function create(...args) {
+  return new Heap(...args);
+}
+
 // helper classes
 class Tree {
   // private fields
-  #root
+    // 
+    #root
+    #DFS_ITERATOR_OBJ
+    #BFS_ITERATOR_OBJ
 
   constructor(options) {
     if ( ! options ) {
@@ -324,6 +336,17 @@ class Tree {
     }
 
     this.config = Object.freeze(clone(options));
+
+    this.#DFS_ITERATOR_OBJ = {
+      get [Symbol.iterator]() {
+        return this.#dfsIterator;
+      }
+    };
+    this.#BFS_ITERATOR_OBJ = {
+      get [Symbol.iterator]() {
+        return this.#bfsIterator;
+      }
+    };
   }
 
   getRoot() {
@@ -335,31 +358,11 @@ class Tree {
   }
 
   bfs() {
-    return {
-      get *[Symbol.iterator]() {
-        const queue = [{node:this.getRoot(), depth:0}]; 
-
-        while(queue.length) {
-          const {node,depth} = queue.shift();
-          queue.push(...next.children.map(node => ({node,depth:depth + 1})));
-          yield {node,depth};
-        }
-      }
-    };
+    return this.#BFS_ITERATOR_OBJ;
   }
 
   dfs() {
-    return {
-      get *[Symbol.iterator]() {
-        const stack = [{node:this.getRoot(), depth:0}]; 
-
-        while(stack.length) {
-          const {node,depth} = stack.pop();
-          stack.push(...next.children.reverse().map(node => ({node,depth:depth + 1})));
-          yield {node,depth};
-        }
-      }
-    };
+    return this.#DFS_ITERATOR_OBJ;
   }
 
   firstEmptyLeaf() {
@@ -480,9 +483,32 @@ class Tree {
       return newRoot;
     }
   }
+
+  // private methods
+    *#bfsIterator() {
+      const queue = [{node:this.getRoot(), depth:0}]; 
+
+      while(queue.length) {
+        const {node,depth} = queue.shift();
+        queue.push(...next.children.map(node => ({node,depth:depth + 1})));
+        yield {node,depth};
+      }
+    }
+
+    *#dfsIterator() {
+      const stack = [{node:this.getRoot(), depth:0}]; 
+
+      while(stack.length) {
+        const {node,depth} = stack.pop();
+        stack.push(...next.children.reverse().map(node => ({node,depth:depth + 1})));
+        yield {node,depth};
+      }
+    }
 }
 
 class Node {
+  #children
+
   constructor({parent, thing, children} = {}) {
     Object.assign(this, {parent, thing});
     if ( children !== undefined ) {
@@ -510,7 +536,59 @@ class Node {
 
 // helper methods
   function guardValidOptions(opts) {
-    throw new TypeError(`Implement Guard Valid Options`);
+    const OptionTypes = {
+      asTree: 'boolean',         
+      asList: 'boolean',
+      max: 'boolean',              
+      min: 'boolean',
+      arity: 'number',              
+      compare: ['undefined', 'function']
+    };
+
+    const errors = [];
+    const typesValid = Object
+      .entries(opts)
+      .every(([key, value]) => {
+        const type = OptionTypes[key]
+        let valid;
+        if ( Array.isArray(type) ) {
+          valid = type.includes(typeof value);
+        } else {
+          valid = typeof value === type;
+        }
+        if ( ! valid ) {
+          errors.push({
+            key, value, 
+            message: `
+              Option ${key} must be a ${type} if given. 
+              It was ${value}.
+            `
+          });
+        }
+        return valid;
+      });
+
+    const keysValid = Object
+      .keys(opts)
+      .every(key => {
+        const valid = OptionKeys.has(key);
+        if ( ! valid ) {
+          errors.push({
+            key,
+            message: `
+              Options contained an unrecognized key: ${key}
+            `
+          });
+        }
+        return valid;
+      });
+
+    const isValid = typesValid && keysValid;
+
+    if ( ! isValid ) {
+      console.warn(JSON.stringify({errors,keysValid, typesValid}, null, 2));
+      throw new TypeError(`Options were invalid.`);
+    }
   }
 
   function clone(obj) {

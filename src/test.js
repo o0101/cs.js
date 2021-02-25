@@ -7,5 +7,6 @@ export default {
 };
 
 export function testAll() {
-
+  console.log({CS});
+  const newHeap = CS.Heap.create();
 }
