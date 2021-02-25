@@ -131,7 +131,7 @@ function scaleTest() {
         min = randomNumber;
       }
     }
-    console.log({heapTop:newHeapAsTree.peek(), actual: {min, max}});
+    console.log({size:newHeapAsTree.size, heapTop:newHeapAsTree.peek(), actual: {min, max}});
     console.timeEnd(`Heap As Tree ${AS_TREE_SCALE_TEST_MAX} insertions`);
     console.groupEnd(`Done!`);
   }
@@ -151,7 +151,7 @@ function scaleTest() {
         min = randomNumber;
       }
     }
-    console.log({heapTop:newHeapAsList.peek(), actual:{min, max}});
+    console.log({size: newHeapAsList.size, heapTop:newHeapAsList.peek(), actual:{min, max}});
     console.timeEnd(`Heap As List ${AS_LIST_SCALE_TEST_MAX} insertions`);
     console.groupEnd(`Done!`);
   }
