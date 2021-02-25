@@ -10,6 +10,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 - [x] [Heap](src/heap.js)
 - [ ] \*Sorted-linked-array 
+- [ ] Heap X Circular buffer ( I have an idea for something like concentric circles, heap, each row / layer of heap is actually a circle, maybe like a linked list, or a circular buffer. Somehow combining some heap priority property with some FIFO or overwrite thing. Not sure yet, but maybe there is something )
 - [ ] Skiplist
 - [ ] Priority queue
 - [ ] Self-organizing list (move-to-front, count, swap)
@@ -55,4 +56,4 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - this is basically what skip lists do (the sampling means we skip over the elements we don't include in the representative sampling)
 - a sampling is really just a snapshot of (or a snapshot of pointers to) an interval of linked list nodes at some point
 - I think this is basically indexed skip lists. So in some sense I think skip lists are basically asymptotically optimal, since which every way you think of trying to solve this problem, you end up getting to skip list type structures. They're another fundamental, really, like trees, graphs, lista, and so on. Pretty fucking cool!
-- 
+
