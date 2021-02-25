@@ -1,6 +1,8 @@
 # cs.js
 
-Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in simple, clean, reusable code
+Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in simple, clean, reusable code.
+
+**DISCLAIMER: You will probably disagree with "simple", "clean", "reusable". I don't care what you think.** I'm OK you have your own view on it. Don't expect me to conform with yours, nor do I think there is :sparkle: *one true way* :sparkle: but I'm open to hear your open-minded suggestions of what you think works better, as long as you can respect that I'll have a different view maybe :)
 
 # Contents
 
