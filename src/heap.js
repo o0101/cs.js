@@ -33,7 +33,7 @@
     // Why? Because in some comparison schemes undefined or null could represent
     // a value, so it's better to have an unambiguous symbol for emptiness
     // than to assume undefined or null will NEVER be given semantic meaning by people
-  export const Empty = Symbol.for('[[EmptyHeapSlot]]');
+  export const Empty = Symbol.for('@Empty');
 
 export default class Heap {
   // private fields
@@ -69,7 +69,9 @@ export default class Heap {
         this.#firstEmptySpace = 0;
       }
 
-      console.warn(`Need to implement Floyd algorithm for heapifying data`);
+      if ( data.length ) {
+        console.warn(`Need to implement Floyd algorithm for heapifying data`);
+      }
 
       this.#size = 0;
     }
@@ -162,9 +164,9 @@ export default class Heap {
       const comparison = this.#compare(newThing, currentThing);
 
       if ( comparison > 0 ) {
-        this.siftUp(aRoot);
+        this.#siftUp(aRoot);
       } else if ( comparison < 0 ) {
-        this.siftDown(aRoot);
+        this.#siftDown(aRoot);
       }
     }
 
@@ -183,14 +185,17 @@ export default class Heap {
       let parent = this.#getParent(aRoot);
 
       // as long as parent is lower in the heap than aRoot
-      while(parent !== undefined && this.#compare(parent, aRoot) < 0 ) {
-        // push it up, and get the new aRoot for comparison
-        ([aRoot] = this.#swap(aRoot, parent));  
-        // what just happened?
-        // aRoot has now become the slot that parent was
+      while(
+            parent !== undefined && 
+            this.#compare(this.#getThing(parent), this.#getThing(aRoot)) < 0 
+        ) {
+          // push it up, and get the new aRoot for comparison
+          ([aRoot] = this.#swap(aRoot, parent));  
+          // what just happened?
+          // aRoot has now become the slot that parent was
 
-        // get the next topChild for comparison
-        parent = this.#getParent(aRoot);
+          // get the next topChild for comparison
+          parent = this.#getParent(aRoot);
       }
     }
 
@@ -199,17 +204,28 @@ export default class Heap {
       let topChild = this.#getTopFromList(children);
 
       // as long as aRoot is lower in the heap than topChild
-      while(topChild !== undefined && this.#compare(aRoot, topChild) < 0 ) {
-        // push it down, and get the new aRoot for comparison
-        ([aRoot] = this.#swap(aRoot, topChild));  
-        // what just happened?
-        // aRoot has now become the slot that topChild was
+      while(
+          topChild !== undefined && 
+          this.#compare(aRoot, topChild) < 0 
+        ) {
+          // push it down, and get the new aRoot for comparison
+          ([aRoot] = this.#swap(aRoot, topChild));  
+          // what just happened?
+          // aRoot has now become the slot that topChild was
 
-        // get the next topChild for comparison
-        children = this.#getChildren(aRoot);
-        topChild = this.#getTopFromList(children);
+          // get the next topChild for comparison
+          children = this.#getChildren(aRoot);
+          topChild = this.#getTopFromList(children);
 
-        if ( topChild === undefined ) break;
+          if ( topChild === undefined ) break;
+      }
+    }
+
+    #getThing(slot) {
+      if ( this.config.asTree ) {
+        return slot.thing;
+      } else {
+        return this.#store[slot];
       }
     }
 
@@ -233,22 +249,22 @@ export default class Heap {
       return [b, a];
     }
 
-    #compare(a, b) {
+    #compare(aThing, bThing) {
       if ( this.config.compare ) {
-        return this.config.compare(a, b);
+        return this.config.compare(aThing, bThing);
       } else {
         // Empty is always lower in heap 
         // regardless of min or max
-        if ( b == Empty ) {
+        if ( bThing == Empty ) {
           return 1;
-        } else if ( a == Empty ) {
+        } else if ( aThing == Empty ) {
           return -1;
         }
 
         // heap-property comparison
-        if ( a > b ) {
+        if ( aThing > bThing ) {
           return this.config.max ? 1 : -1;
-        } else if ( a == b ) {
+        } else if ( aThing == bThing ) {
           return 0;
         } else {
           return this.config.min ? 1 : -1;
@@ -313,11 +329,33 @@ export default class Heap {
     }
 
   // static methods
+    static print(heap) {
+      if ( heap.config.asTree ) {
+        let row = 0;
+        for( const stuff of heap.#store.bfs() ) {
+          const {node,depth} = stuff;
+          if ( depth > row ) {
+            row = depth;
+            console.log('\n');
+          }
+          if ( typeof node.thing !== 'symbol' ) {
+            process.stdout.write(`node: ${node.thing} \t`);
+          } else {
+            process.stdout.write(`node: ${Symbol.keyFor(node.thing)} \t`);
+          }
+        }
+      } else {
+
+      }
+      console.log('\n\n');
+    }
+
     static merge(heap1, heap2) {
 
     }
 }
 
+export const Class = Heap;
 export function create(...args) {
   return new Heap(...args);
 }
@@ -337,14 +375,16 @@ class Tree {
 
     this.config = Object.freeze(clone(options));
 
+    const that = this;
+
     this.#DFS_ITERATOR_OBJ = {
       get [Symbol.iterator]() {
-        return this.#dfsIterator;
+        return that.#dfsIterator.bind(that);
       }
     };
     this.#BFS_ITERATOR_OBJ = {
       get [Symbol.iterator]() {
-        return this.#bfsIterator;
+        return that.#bfsIterator.bind(that);
       }
     };
   }
@@ -460,7 +500,7 @@ class Tree {
         return node;
       } else if ( node.children.length <  this.config.arity ) {
         // a node without a full complement of children
-        const newLeaf = new Node();
+        const newLeaf = new Node({thing:Empty});
         node.addChild(newLeaf);
         return newLeaf;
       }
@@ -473,12 +513,12 @@ class Tree {
     if ( firstNodeInRow ) {
       // all nodes are full and have values
       // so add a new leaf to a new row at the left
-      const newLeaf = new Node();
+      const newLeaf = new Node({thing: Empty});
       firstNodeInRow.addChild(newLeaf);
       return newLeaf;
     } else {
       // the tree has no nodes so create the first node
-      const newRoot = new Node();
+      const newRoot = new Node({thing: Empty});
       this.setRoot(newRoot);
       return newRoot;
     }
@@ -486,17 +526,25 @@ class Tree {
 
   // private methods
     *#bfsIterator() {
-      const queue = [{node:this.getRoot(), depth:0}]; 
+      const root = this.getRoot();
+
+      if ( ! root ) return;
+
+      const queue = [{node:root, depth:0}]; 
 
       while(queue.length) {
         const {node,depth} = queue.shift();
-        queue.push(...next.children.map(node => ({node,depth:depth + 1})));
+        queue.push(...node.children.map(child => ({node:child,depth:depth + 1})));
         yield {node,depth};
       }
     }
 
     *#dfsIterator() {
-      const stack = [{node:this.getRoot(), depth:0}]; 
+      const root = this.getRoot();
+
+      if ( ! root ) return;
+
+      const stack = [{node:root, depth:0}]; 
 
       while(stack.length) {
         const {node,depth} = stack.pop();
