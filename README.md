@@ -9,6 +9,18 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 # Contents
 
 - [x] [Heap](src/heap.js)
+- [ ] Skiplist
+- [ ] Hashtable (discohash)
+- [ ] BST
+- [ ] BIT/Fenwich Tree
+- [ ] Disjoint set union
+- [ ] Segment Tree
+- [ ] B-Tree
+- [ ] Radix trie
+- [ ] Hierarchical/topological search tree
+- [ ] Conflict-free replicated list
+- [ ] conflict-free replicated map
+- [ ] Conflict-free replicated JSON?
 
 
 # Notes
