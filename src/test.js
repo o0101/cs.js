@@ -63,7 +63,7 @@ function testHeapAsTree() {
 }
 
 function testHeapAsList() {
-  const newHeap = CS.Heap.create({asList:true});
+  const newHeap = CS.Heap.create({asTree:false});
   console.log('New heap');
   CS.Heap.Class.print(newHeap);
 
