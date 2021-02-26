@@ -10,6 +10,7 @@ export default {
 };
 
 export function testAll() {
+  console.log({mainExport:CS});
   testHeapAsTree();
   testHeapAsList();
   scaleTest();

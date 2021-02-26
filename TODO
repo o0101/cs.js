@@ -1,3 +1,6 @@
 - fix leaf change on deletion (we delete the last leaf, and move leaf to the deleted node, after its sift down)
+- add heapify
+- add 'heapsort' heap test, by pushing then popping and verifying order
+- implement skiplist
 
 
