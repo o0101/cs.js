@@ -37,6 +37,14 @@ export default class SkipList {
         throw new TypeError(`Deterministic node lifting has not been implemented yet.`);
       }
 
+      if ( options._breakLinearize ) {
+        console.warn(`You are using a developer option designed to test performance.
+          It deliberately degrades performance to a linearized linked-list level,
+          so that it can be compared to the speedup provided by skiplist.
+          Everything will be SO much slower. 
+        `);
+      }
+
       this.config = Object.freeze(clone(options));
 
       this.#root = new Node();
@@ -87,6 +95,7 @@ export default class SkipList {
       if ( inserted ) {
         // lift up the inserted node
         this.#liftUp(newNode, liftUpdates); 
+        this.#size += 1;
       }
 
       return inserted;
