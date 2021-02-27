@@ -183,9 +183,9 @@ function orderTest(opts) {
   let violations = 0;
 
   for( let r = 0; r < ORDER_TEST_RUNS; r++ ) {
-    console.log(`\nRun: ${r+1}`);
+    console.log(`Run: ${r+1}`);
     const heap = CS.Heap.create(opts);
-    let last = heap.config.max ? -Infinity : Infinity;
+    let last = heap.config.max ? Infinity : -Infinity;
 
     for( let i = 0; i < ORDER_TEST_MAX; i++ ) {
       heap.push(randomNumber(ORDER_TEST_MAX));
@@ -198,7 +198,6 @@ function orderTest(opts) {
       } else {
         valid = valid && (next >= last);
       }
-      last = next;
 
       if ( ! valid ) {
         console.log(`Heap property violation: ${last} -> ${next} does not satisfy ${
@@ -206,9 +205,11 @@ function orderTest(opts) {
         }`);
         violations ++;
       }
+
+      last = next;
     }
 
-    console.log(`\nEnd Run: ${r+1}\n`);
+    console.log(`End Run: ${r+1}`);
   }
 
   console.log(`Total ${violations} heap property violations across ${
@@ -218,7 +219,7 @@ function orderTest(opts) {
   if ( valid ) {
     console.log(`Test passed.`);
   } else {
-    console.warn(`Test failed.`);
+    console.error(`Test failed.`);
   }
 
   console.log(`\n`);
