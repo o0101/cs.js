@@ -29,9 +29,9 @@ export function testAll() {
     skipListHasTest({duplicatesOkay:true});   // failing
 
     skipListScaleTest();
-    //skipListScaleTest({max:true});
+    skipListScaleTest({max:true});
     skipListScaleTest({p:1/4});
-    skipListScaleTest({p:1/4, _breakLinearize: true});
+    //skipListScaleTest({p:1/4, _breakLinearize: true});
   }
 
   function skipListInsertTest(opts) {
