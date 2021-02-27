@@ -36,6 +36,8 @@ export default class SkipList {
       }
 
       this.config = Object.freeze(clone(options));
+
+      this.#root = new Node();
     }
 
     get depth() {
@@ -104,7 +106,7 @@ export default class SkipList {
       } else {
         level = node.nextList.length - 1;
 
-        while(node !== undefined && level >= 0) {
+        while(node !== undefined && level >= 0 && ! found) {
           const next = node.nextList[level];
 
           // if there are no more nodes at this level
@@ -172,14 +174,13 @@ export default class SkipList {
     #liftUp(node, updates) {
       if ( node == this.#root ) return;
       if ( this.config.randomized ) {
-        console.log({node,updates});
         let level = 0;
         while(true) {
           const val = Math.random(); 
           if( val <= this.config.p ) {
             level += 1;
             const prior = updates[level] || this.#root;
-            node.setNext(level, prior.next);
+            node.setNext(level, prior.nextList[level]);
             prior.setNext(level, node);
           } else break;
         }
@@ -219,7 +220,6 @@ export default class SkipList {
         while(node != undefined) {
           row.push(node.thing);
           node = node.nextList[i];
-          console.log(node);
         }
       }
 

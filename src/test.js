@@ -4,6 +4,8 @@ const AS_TREE_SCALE_TEST_MAX = 1000;
 const AS_LIST_SCALE_TEST_MAX = 10000000;
 const ORDER_TEST_MAX = 1000;
 const ORDER_TEST_RUNS = 3;
+const LIST_SIZE = 1000;
+const SLIST_SCALE_MAX = 100000;
 
 testAll();
 
@@ -18,7 +20,20 @@ export function testAll() {
 
 // skiplist tests
   function testSkipList() {
-    const slist = CS.SkipList.create();
+    skipListInsertTest();
+    skipListInsertTest({max:true});
+
+    skipListHasTest();
+    skipListHasTest({max:true});
+    skipListHasTest({duplicatesOkay:true});   // failing
+
+    skipListScaleTest();
+    skipListScaleTest({max:true});
+  }
+
+  function skipListInsertTest(opts) {
+    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
+    const slist = CS.SkipList.create(opts);
 
     slist.insert(0);
     slist.insert(1);
@@ -29,6 +44,66 @@ export function testAll() {
     slist.insert(6);
 
     CS.SkipList.Class.print(slist);
+    console.log();
+  }
+
+  function skipListHasTest(opts) {
+    console.log(`Skiplist has test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(LIST_SIZE);
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+      valid = valid && !slist.has('not in list');
+    }
+
+    CS.SkipList.Class.print(slist);
+    
+    if ( valid ) {
+      console.log(`Test passed. All inserted numbers tested as present in skiplist.`);
+    } else {
+      console.error(`Test failed. Not all numbers inserted tested as present.`);
+    }
+    console.log();
+  }
+
+  function skipListScaleTest(opts) {
+    console.time(`Skiplist scale test. Insert phase`);
+    console.group(`Skiplist scale test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(SLIST_SCALE_MAX);
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+
+    console.timeEnd(`Skiplist scale test. Insert phase`);
+    console.time(`Skiplist scale test. Has phase`);
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+    }
+
+    if ( valid ) {
+      console.log(`Scale Has Test passed.`);
+    } else {
+      console.error(`Scale Has Test failed.`);
+    }
+    
+    console.timeEnd(`Skiplist scale test. Has phase`);
+    console.groupEnd();
+    console.log();
   }
 
 // heap tests
@@ -252,4 +327,12 @@ export function testAll() {
 // helpers
   function randomNumber(n) {
     return Math.floor(Math.random()*n);
+  }
+
+  function randomNumberList(len) {
+    const list = [];
+    while(len--) {
+      list.push(randomNumber(len));
+    }
+    return list;
   }
