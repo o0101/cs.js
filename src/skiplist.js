@@ -9,7 +9,6 @@
     p: 1/2,                 /* probability node lifts to higher levels */
     randomized: true,       /* if we base lifting on randomizedation   */
       // false uses a deterministic lifting scheme
-
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -28,13 +27,18 @@ export default class SkipList {
 
       guardValidOptions(options);
 
+      // implementation progress option checkso
+
+      if ( !options.randomized ) {
+        throw new TypeError(`Deterministic node lifting has not been implemented yet.`);
+      }
+
       this.config = Object.freeze(clone(options));
     }
 
     get size() {
       return this.#size;
     }
-
 
   // static methods
     static print(skiplist) {
@@ -57,13 +61,8 @@ class Node {
   // private fields
   #listNext
 
-  constructor({thing, listNext} = {}) {
+  constructor({thing} = {}) {
     Object.assign(this, {thing});
-    if ( Array.isArray(listNext) ) {
-      this.#listNext = listNext;
-    } else {
-      this.#listNext = [];
-    }
   }
 
   get listNext() {
@@ -74,11 +73,7 @@ class Node {
     throw new TypeError(`Cannot set successors for all lists, use setNextAtList(i, node) instead.`);
   }
 
-  getNextAtList(i) {
-    return this.#listNext[i];
-  }
-
-  setNextAtList(i, node) {
+  setNext(i, node) {
     return this.#listNext[i] = node;
   }
 }
@@ -86,9 +81,8 @@ class Node {
 // helper methods
   function guardValidOptions(opts) {
     const OptionTypes = {
-      asTree: 'boolean',         
-      max: 'boolean',              
-      arity: 'number',              
+      p: 'number',         
+      randomized: 'boolean',
       compare: ['undefined', 'function']
     };
 
@@ -130,10 +124,22 @@ class Node {
         return valid;
       });
 
-    const isValid = typesValid && keysValid;
+    const extraValid = opts.p < 1.0 && opts.p > 0;
+
+    if ( ! extraValid ) {
+      errors.push({
+        key: 'p', value: opts.p, 
+        message: `
+          Option p (node lifting probability) must be between 0 and 1 exclusive.
+          It was ${opts.p}.
+        `
+      });
+    }
+
+    const isValid = typesValid && keysValid && extraValid;
 
     if ( ! isValid ) {
-      console.warn(JSON.stringify({errors,keysValid, typesValid}, null, 2));
+      console.warn(JSON.stringify({opts, errors, keysValid, typesValid, extraValid}, null, 2));
       throw new TypeError(`Options were invalid.`);
     }
   }
