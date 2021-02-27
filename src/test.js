@@ -6,6 +6,7 @@ const ORDER_TEST_MAX = 1000;
 const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
+const DELETE_P = 0.25;
 
 testAll();
 
@@ -14,7 +15,7 @@ export default {
 };
 
 export function testAll() {
-  //testHeap();
+  testHeap();
   testSkipList();
 }
 
@@ -32,6 +33,9 @@ export function testAll() {
     skipListScaleTest({max:true});
     skipListScaleTest({p:1/4});
     //skipListScaleTest({p:1/4, _breakLinearize: true});
+
+    skipListDeleteTest();
+    skipListDeleteTest({max:true});
   }
 
   function skipListInsertTest(opts) {
@@ -106,6 +110,52 @@ export function testAll() {
     
     console.timeEnd(`Skiplist scale test. Has phase`);
     console.groupEnd();
+    console.log();
+  }
+
+  function skipListDeleteTest(opts) {
+    console.log(`Skiplist delete test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(LIST_SIZE);
+    const deleteList = list.filter(() => Math.random() <= DELETE_P);
+
+    const ISIZE = (new Set(list)).size;
+    const DSIZE = (new Set(deleteList)).size;
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+    }
+
+    for(const num of deleteList) {
+      slist.delete(num);
+    }
+
+    for(const num of deleteList) {
+      const test = !slist.has(num);
+      valid = valid && test
+      if ( ! test ) {
+        console.log(`Requested delete of ${num} but skiplist still has it.`);
+        slist.has(num, true);
+      }
+    }
+
+    CS.SkipList.Class.print(slist);
+    
+    if ( valid ) {
+      console.log(`Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.`);
+    } else {
+      console.error(`Test failed. Not all numbers inserted or deleted tested correctly.`);
+    }
+
+    console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${slist.size}`);
+
     console.log();
   }
 

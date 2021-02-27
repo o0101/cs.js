@@ -46,7 +46,12 @@ export default class SkipList {
 
       this.config = Object.freeze(clone(options));
 
+      if ( data.length ) {
+        console.warn(`Need to implement skip list algorithm for ingesting data`);
+      }
+
       this.#root = new Node();
+      this.#size = 0;
     }
 
     get depth() {
@@ -93,6 +98,28 @@ export default class SkipList {
       return doInsert;
     }
 
+    delete(thing) {
+      let deleted = false;
+
+      let {node, has} = this.#locate(thing);
+
+      if ( has ) {
+        for( let i = 0; i < Math.max(node.lastList.length, node.nextList.length); i++ ) {
+          const next = node.nextList[i];
+          const lastNode = node.lastList[i];
+          if ( lastNode ) {
+            lastNode.setNext(i, next);
+          }
+        }
+
+        deleted = true;
+
+        this.#size -= 1;
+      }
+
+      return deleted;
+    }
+
   // private instance methods
     // locate a thing, and save any update path 
     #locate(thing, updates = []) {
@@ -108,6 +135,7 @@ export default class SkipList {
 
         while(node !== undefined && level >= 0 && ! found) {
           const next = node.nextList[level];
+          //console.log({next, level, node});
 
           // if there are no more nodes at this level
           if ( next == undefined ) {
@@ -122,6 +150,7 @@ export default class SkipList {
               goAcross(next);
             } else { // if it equals next thing
               found = true;
+              node = next;
               if ( this.config.dupeslicatesOkay ) { 
                 // move toward the last duplicate
                 goAcross(next);
@@ -163,17 +192,20 @@ export default class SkipList {
       if ( node == this.#root ) return;
       if ( this.config.randomized ) {
         let level = 0;
+
+        /* eslint-disable no-constant-condition */
         while(true) {
           const val = Math.random(); 
-          if( val <= this.config.p ) {
+          if ( val <= this.config.p ) {
             level += 1;
             const prior = updates[level] || this.#root;
             node.setNext(level, prior.nextList[level]);
             prior.setNext(level, node);
           } else break;
         }
+        /* eslint-enable no-constant-condition */
       } else {
-
+        throw new TypeError(`Need to implement deterministic lifting.`);
       }
     }
 
@@ -185,7 +217,7 @@ export default class SkipList {
         // order comparison
         if ( aThing > bThing ) {
           return this.config.max ? 1 : -1;
-        } else if ( aThing == bThing ) {
+        } else if ( aThing === bThing ) {
           return 0;
         } else {
           return !this.config.max ? 1 : -1;
@@ -217,12 +249,24 @@ export default class SkipList {
         console.log(`Row: ${i}: ${row.join(' ')}`);
       }
 
+      console.log(`Size: ${skiplist.size}`);
+
       console.log('\n\n');
     }
 
     static merge(slist1, slist2) {
-
+      console.log({slist1,slist2});
+      throw new TypeError(`Need to implement skip list merge.`);
     }
+
+  // debug methods
+    _debugShowWork(thing) {
+      const updates = [];
+      const {node, has} = this.#locate(thing, updates);
+      console.log({node, has, nextList: node.nextList, lastList: node.lastList, updates});
+      return has;
+    }
+
 }
 
 export const Class = SkipList;
@@ -233,14 +277,21 @@ export function create(...args) {
 class Node {
   // private fields
   #nextList
+  #lastList
 
   constructor({thing} = {}) {
     this.thing = thing;
     this.#nextList = [];
+    this.#lastList = [];
   }
 
   get nextList() {
-    return Array.from(this.#nextList);
+    // Array.from ?
+    return this.#nextList;
+  }
+
+  get lastList() {
+    return this.#lastList;
   }
 
   set nextList(nothing) {
@@ -248,6 +299,9 @@ class Node {
   }
 
   setNext(i, node) {
+    if ( node ) {
+      node.#lastList[i] = this;
+    }
     return this.#nextList[i] = node;
   }
 }
