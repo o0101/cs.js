@@ -9,12 +9,14 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 # Contents
 
 - [x] [Heap](src/heap.js)
-- [ ] [Skiplist](src/skiplist.js)
+- [x] [Skiplist](src/skiplist.js)
+- [ ] Self-organizing list (move-to-front, count, swap)
+- [ ] Priority queue
+- [ ] (Adaptive?) Radix trie
 - [ ] \*Sorted-linked-array 
 - [ ] Heap X Circular buffer ( I have an idea for something like concentric circles, heap, each row / layer of heap is actually a circle, maybe like a linked list, or a circular buffer. Somehow combining some heap priority property with some FIFO or overwrite thing. Not sure yet, but maybe there is something )
-- [ ] Priority queue
-- [ ] Self-organizing list (move-to-front, count, swap)
 - [ ] Circular queue (circular buffer, overwrite queue)
+- [ ] Suffix trie
 - [ ] Suffix array (something efficient from here about strings BWT, FM-index)
 - [ ] Hashtable (discohash)
 - [ ] BST
@@ -22,7 +24,6 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [ ] Disjoint set union
 - [ ] Segment Tree
 - [ ] B-Tree
-- [ ] Radix trie
 - [ ] Hierarchical/topological search tree
 - [ ] Conflict-free replicated list
 - [ ] conflict-free replicated map
