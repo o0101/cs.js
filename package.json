@@ -26,6 +26,9 @@
   },
   "homepage": "https://github.com/c9fe/cs.js#readme",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.8",
+    "@babel/plugin-proposal-private-methods": "^7.13.0",
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
     "eslint": "^7.20.0",
     "esm": "^3.2.25",
     "nodemon": "^2.0.7"

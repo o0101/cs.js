@@ -6,6 +6,10 @@
 
 // constants
   const DEFAULT_OPTIONS = {
+    p: 1/2,                 /* probability node lifts to higher levels */
+    randomized: true,       /* if we base lifting on randomizedation   */
+      // false uses a deterministic lifting scheme
+
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -13,6 +17,7 @@
 export default class SkipList {
   // private fields
   #size
+  #root
 
   // API
     constructor(options, ...data) {
@@ -24,7 +29,6 @@ export default class SkipList {
       guardValidOptions(options);
 
       this.config = Object.freeze(clone(options));
-
     }
 
     get size() {
@@ -50,30 +54,32 @@ export function create(...args) {
 }
 
 class Node {
-  #children
+  // private fields
+  #listNext
 
-  constructor({parent, thing, children} = {}) {
-    Object.assign(this, {parent, thing});
-    if ( children !== undefined ) {
-      this.children = children;
+  constructor({thing, listNext} = {}) {
+    Object.assign(this, {thing});
+    if ( Array.isArray(listNext) ) {
+      this.#listNext = listNext;
+    } else {
+      this.#listNext = [];
     }
   }
 
-  get children() {
-    return Array.from(this.#children || []);
+  get listNext() {
+    return Array.from(this.#listNext);
   }
 
-  set children(newChildren) {
-    if ( Array.isArray(newChildren) ) {
-      this.#children = Array.from(newChildren);
-    } else throw new TypeError(`Children can only be an array. Received: ${newChildren}`);
+  set listNext(nothing) {
+    throw new TypeError(`Cannot set successors for all lists, use setNextAtList(i, node) instead.`);
   }
 
-  addChild(newChild) {
-    const children = this.children;
-    children.push(newChild);
-    newChild.parent = this;
-    this.children = children;
+  getNextAtList(i) {
+    return this.#listNext[i];
+  }
+
+  setNextAtList(i, node) {
+    return this.#listNext[i] = node;
   }
 }
 

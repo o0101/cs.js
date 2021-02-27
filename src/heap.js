@@ -382,7 +382,7 @@ export default class Heap {
     }
 
     static merge(heap1, heap2) {
-
+      console.log({heap1,heap2});
     }
 }
 
@@ -580,7 +580,7 @@ class Tree {
 
       while(stack.length) {
         const {node,depth} = stack.pop();
-        stack.push(...next.children.reverse().map(node => ({node,depth:depth + 1})));
+        stack.push(...node.children.reverse().map(childNode => ({node:childNode,depth:depth + 1})));
         yield {node,depth};
       }
     }
