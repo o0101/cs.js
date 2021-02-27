@@ -10,7 +10,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 - [x] [Heap](src/heap.js)
 - [x] [Skiplist](src/skiplist.js)
-- [ ] Self-organizing list (move-to-front, count, swap)
+- [x] [Self-organizing list](src/sol.js) (
 - [ ] Priority queue
 - [ ] (Adaptive?) Radix trie
 - [ ] \*Sorted-linked-array 
@@ -58,3 +58,6 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - a sampling is really just a snapshot of (or a snapshot of pointers to) an interval of linked list nodes at some point
 - I think this is basically indexed skip lists. So in some sense I think skip lists are basically asymptotically optimal, since which every way you think of trying to solve this problem, you end up getting to skip list type structures. They're another fundamental, really, like trees, graphs, lista, and so on. Pretty fucking cool!
 
+## Self organizing list
+
+- move-to-front (2nd place) on double access, otherwise swap toward front
