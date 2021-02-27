@@ -11,6 +11,8 @@
     randomized: true,       /* if we base lifting on randomizedation   */
       // false uses a deterministic lifting scheme
     duplicatesOkay: false,  /* only insert each thing once, true allows dupes */
+    _breakLinearize: false, /* don't only use the lower level. This is a dev setting */
+      // mainly used to compare time between linear vs higher level #locate 
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -105,6 +107,10 @@ export default class SkipList {
         return {node: undefined, has: false};
       } else {
         level = node.nextList.length - 1;
+
+        if ( this.config._breakLinearize ) {
+          level = 0;
+        }
 
         while(node !== undefined && level >= 0 && ! found) {
           const next = node.nextList[level];
@@ -271,6 +277,7 @@ class Node {
       max: 'boolean',
       randomized: 'boolean',
       duplicatesOkay: 'boolean',
+      _breakLinearize: 'boolean',
       compare: ['undefined', 'function']
     };
 

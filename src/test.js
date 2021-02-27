@@ -22,13 +22,16 @@ export function testAll() {
   function testSkipList() {
     skipListInsertTest();
     skipListInsertTest({max:true});
+    skipListInsertTest({max:true, _breakLinearize: true});
 
     skipListHasTest();
     skipListHasTest({max:true});
     skipListHasTest({duplicatesOkay:true});   // failing
 
     skipListScaleTest();
-    skipListScaleTest({max:true});
+    //skipListScaleTest({max:true});
+    skipListScaleTest({p:1/4});
+    skipListScaleTest({p:1/4, _breakLinearize: true});
   }
 
   function skipListInsertTest(opts) {
