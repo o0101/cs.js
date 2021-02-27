@@ -18,7 +18,6 @@ export default class SkipList {
   // private fields
   #size
   #root
-  #depth
 
   // API
     constructor(options, ...data) {
@@ -38,7 +37,7 @@ export default class SkipList {
       this.config = Object.freeze(clone(options));
     }
 
-    get #depth() {
+    get depth() {
       return Math.floor(
         Math.log(this.#size) /
         Math.log(1/this.config.p)
@@ -56,7 +55,7 @@ export default class SkipList {
       let node = this.#root;
       let level = node.levelNext.length - 1;
 
-      while(!inserted && node !== undefined && level >= 0 &&) {
+      while(!inserted && node !== undefined && level >= 0) {
         const next = node.levelNext[level];
 
         // if there are no more nodes at this level
@@ -127,7 +126,7 @@ export default class SkipList {
 
   // private instance methods
     // life a node up to higher levels
-    #lift(node) {
+    #liftUp(node, updates) {
       if ( this.config.randomized ) {
 
       } else {
