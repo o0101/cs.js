@@ -32,18 +32,17 @@ export default class SkipList {
       guardValidOptions(options);
 
       // implementation progress option checkso
+        if ( !options.randomized ) {
+          throw new TypeError(`Deterministic node lifting has not been implemented yet.`);
+        }
 
-      if ( !options.randomized ) {
-        throw new TypeError(`Deterministic node lifting has not been implemented yet.`);
-      }
-
-      if ( options._breakLinearize ) {
-        console.warn(`You are using a developer option designed to test performance.
-          It deliberately degrades performance to a linearized linked-list level,
-          so that it can be compared to the speedup provided by skiplist.
-          Everything will be SO much slower. 
-        `);
-      }
+        if ( options._breakLinearize ) {
+          console.warn(`You are using a developer option designed to test performance.
+            It deliberately degrades performance to a linearized linked-list level,
+            so that it can be compared to the speedup provided by skiplist.
+            Everything will be SO much slower. 
+          `);
+        }
 
       this.config = Object.freeze(clone(options));
 
@@ -61,128 +60,102 @@ export default class SkipList {
       return this.#size;
     }
 
+    has(thing) {
+      return this.#locate(thing).has;
+    }
+
     insert(thing) {
       const liftUpdates = [];
-      let newNode;
       let doInsert = false;
-      let inserted = false;
+      let newNode;
 
       let {node, has} = this.#locate(thing, liftUpdates);
 
       if ( has ) {
-        if ( this.config.duplicatesOkay ) {
-          // node will be the last in the chain of 'thing' nodes
-          doInsert = true;
-        }
-      } else {
-        doInsert = true;
-      }
+        // node will be the last in the chain of 'thing' nodes
+        if ( this.config.duplicatesOkay ) doInsert = true;
+      } else doInsert = true;
 
       if ( doInsert ) {
         newNode = new Node({thing});
-        if ( node == undefined ) {
-          this.#root = newNode;
-        } else {
-          const post = node.nextList[0];
-          node.setNext(0, newNode);
-          if ( post !== undefined ) {
-            newNode.setNext(0, post);
-          }
-        }
-        inserted = true;
-      }
 
-      if ( inserted ) {
+        if ( node !== undefined ) {
+          const post = node.nextList[0];
+          if ( post !== undefined ) newNode.setNext(0, post);
+          node.setNext(0, newNode);
+        } else this.#root = newNode;
+
         // lift up the inserted node
         this.#liftUp(newNode, liftUpdates); 
         this.#size += 1;
       }
 
-      return inserted;
-    }
-
-    has(thing) {
-      return this.#locate(thing).has;
+      return doInsert;
     }
 
   // private instance methods
+    // locate a thing, and save any update path 
     #locate(thing, updates = []) {
-      let found = false;
-      let lastNode;
       let node = this.#root;
+      let found = false;
       let level;
+      let lastNode;
 
-      if ( node == undefined ) {
-        return {node: undefined, has: false};
-      } else {
+      if ( node !== undefined ) {
         level = node.nextList.length - 1;
 
-        if ( this.config._breakLinearize ) {
-          level = 0;
-        }
+        if ( this.config._breakLinearize ) level = 0;
 
         while(node !== undefined && level >= 0 && ! found) {
           const next = node.nextList[level];
 
           // if there are no more nodes at this level
           if ( next == undefined ) {
-            // save this node for possible update on lifting
-            updates[level] = node;
-            // go down
-            level -= 1;
+            goDown();
           } else { // there are more nodes at this level and we could go across
             // so we need to compare the next
             const comparison = this.#compare(thing, next.thing);
 
             if ( comparison > 0 ) { // if thing comes before next.thing
-              // save this node for possible update on lifting
-              updates[level] = node;
-              // go down
-              level -= 1;
+              goDown();
             } else if ( comparison < 0 ) { // if it comes after next.thing
-              // save last node
-              lastNode = node;
-              // save this node for possible update on lifting
-              updates[level] = node;
-              // go across
-              node = next; 
+              goAcross(next);
             } else { // if it equals next thing
-              if ( this.config.dupeslicatesOkay ) { // and duplicates are OK
-                found = true;
-                // save last node
-                lastNode = node;
-                // save this node for possible update on lifting
-                updates[level] = node;
-                // go across 
-                node = next;
-              } else { // if we don't allow duplicates
-                found = true;
+              found = true;
+              if ( this.config.dupeslicatesOkay ) { 
+                // move toward the last duplicate
+                goAcross(next);
               }
             }
           }
         }
-      }
 
-      if ( node == undefined ) {
-        // we reached the end of the bottom path
-        // for dev let's just check our condition is true
-        // that we ARE on the bottom path
-          if ( level !== 0 ) {
-            throw new TypeError(`Post loop path end can only occur on bottom path. 
-              Something is UP with your skiplist.
-            `);
-          }
-      
-        // save for possible lift updates
-        updates[level] = lastNode;
-        node = lastNode;
-      } else if ( level < 0 ) {
-        // we are somewhere in the middle of the bottom path 
+        if ( node == undefined ) {
+          // we reached the end of the bottom path
+          node = lastNode;
+        }
 
         updates[0] = node;
       }
 
       return {node, has: found}
+
+      // helper closures
+        function goDown() {
+          // save this node for possible update on lifting
+          updates[level] = node;
+          // go down
+          level -= 1;
+        }
+
+        function goAcross(next) {
+          // save this node for possible update on lifting
+          updates[level] = node;
+          // save for possible insertion
+          lastNode = node;
+          // go across
+          node = next;
+        }
     }
 
     // life a node up to higher levels
@@ -262,7 +235,7 @@ class Node {
   #nextList
 
   constructor({thing} = {}) {
-    Object.assign(this, {thing});
+    this.thing = thing;
     this.#nextList = [];
   }
 
