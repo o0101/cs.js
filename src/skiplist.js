@@ -10,6 +10,7 @@
     p: 1/2,                 /* probability node lifts to higher levels */
     randomized: true,       /* if we base lifting on randomizedation   */
       // false uses a deterministic lifting scheme
+    duplicatesOkay: false,  /* only insert each thing once, true allows dupes */
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -50,85 +51,138 @@ export default class SkipList {
 
     insert(thing) {
       const liftUpdates = [];
+      let newNode;
+      let doInsert = false;
       let inserted = false;
-      let lastNode;
-      let node = this.#root;
-      let level = node.levelNext.length - 1;
 
-      while(!inserted && node !== undefined && level >= 0) {
-        const next = node.levelNext[level];
+      let {node, has} = this.#locate(thing, liftUpdates);
 
-        // if there are no more nodes at this level
-        if ( next == undefined ) {
-          // go down
-          level -= 1;
+      if ( has ) {
+        if ( this.config.duplicatesOkay ) {
+          // node will be the last in the chain of 'thing' nodes
+          doInsert = true;
         }
-
-        const comparison = this.#compare(thing, next.thing);
-
-        if ( comparison > 0 ) { // if thing comes before next.thing
-          // go down
-          level -= 1;
-        } else if ( comparison < 0 ) { // if it comes after next.thing
-          // save last node
-          lastNode = node;
-          // save this node for possible update on lifting
-          liftUpdates[level] = node;
-          // go across
-          node = next; 
-        } else { // if it equals next thing
-          if ( this.config.dupeslicatesOkay ) { // and duplicates are OK
-            // save last node
-            lastNode = node;
-            // save this node for possible update on lifting
-            liftUpdates[level] = node;
-            // go across 
-            node = next;
-          } else { // if we don't allow duplicates
-            inserted = true;
-          }
-        }
+      } else {
+        doInsert = true;
       }
 
-      if ( ! inserted ) {
-        const newNode = new Node({thing});
-
+      if ( doInsert ) {
+        newNode = new Node({thing});
         if ( node == undefined ) {
-          // we reached the end of the bottom path
-          
-
-          // for dev let's just check our condition is true
-          // that we ARE on the bottom path
-            if ( level !== 0 ) {
-              throw new TypeError(`Post loop path end can only occur on bottom path. 
-                Something is UP with your skiplist.
-              `);
-            }
-        
-          lastNode.setLevelNext(0, newNode);
-        } else if ( level < 0 ) {
-          // we are somewhere in the middle of the bottom path 
-
-          // so insert between node and node.next
-          const postNewNode = node.next;
-
-          node.setLevelNext(0, newNode);
-          newNode.setLevelNext(0, postNewNode);
+          this.#root = newNode;
+        } else {
+          const post = node.nextList[0];
+          node.setNext(0, newNode);
+          if ( post !== undefined ) {
+            newNode.setNext(0, post);
+          }
         }
-
         inserted = true;
+      }
 
-        this.#liftUp(newNode, liftUpdates); // lift up the inserted node
+      if ( inserted ) {
+        // lift up the inserted node
+        this.#liftUp(newNode, liftUpdates); 
       }
 
       return inserted;
     }
 
+    has(thing) {
+      return this.#locate(thing).has;
+    }
+
   // private instance methods
+    #locate(thing, updates = []) {
+      let found = false;
+      let lastNode;
+      let node = this.#root;
+      let level;
+
+      if ( node == undefined ) {
+        return {node: undefined, has: false};
+      } else {
+        level = node.nextList.length - 1;
+
+        while(node !== undefined && level >= 0) {
+          const next = node.nextList[level];
+
+          // if there are no more nodes at this level
+          if ( next == undefined ) {
+            // save this node for possible update on lifting
+            updates[level] = node;
+            // go down
+            level -= 1;
+          } else { // there are more nodes at this level and we could go across
+            // so we need to compare the next
+            const comparison = this.#compare(thing, next.thing);
+
+            if ( comparison > 0 ) { // if thing comes before next.thing
+              // save this node for possible update on lifting
+              updates[level] = node;
+              // go down
+              level -= 1;
+            } else if ( comparison < 0 ) { // if it comes after next.thing
+              // save last node
+              lastNode = node;
+              // save this node for possible update on lifting
+              updates[level] = node;
+              // go across
+              node = next; 
+            } else { // if it equals next thing
+              if ( this.config.dupeslicatesOkay ) { // and duplicates are OK
+                found = true;
+                // save last node
+                lastNode = node;
+                // save this node for possible update on lifting
+                updates[level] = node;
+                // go across 
+                node = next;
+              } else { // if we don't allow duplicates
+                found = true;
+              }
+            }
+          }
+        }
+      }
+
+      if ( node == undefined ) {
+        // we reached the end of the bottom path
+        // for dev let's just check our condition is true
+        // that we ARE on the bottom path
+          if ( level !== 0 ) {
+            throw new TypeError(`Post loop path end can only occur on bottom path. 
+              Something is UP with your skiplist.
+            `);
+          }
+      
+        // save for possible lift updates
+        updates[level] = lastNode;
+        node = lastNode;
+      } else if ( level < 0 ) {
+        // we are somewhere in the middle of the bottom path 
+
+        updates[0] = node;
+      }
+
+      return {node, has: found}
+    }
+
     // life a node up to higher levels
     #liftUp(node, updates) {
+      if ( node == this.#root ) return;
       if ( this.config.randomized ) {
-
+        console.log({node,updates});
+        let level = 0;
+        while(true) {
+          const val = Math.random(); 
+          if( val <= this.config.p ) {
+            level += 1;
+            const prior = updates[level] || this.#root;
+            node.setNext(level, prior.next);
+            prior.setNext(level, node);
+          } else break;
+        }
       } else {
 
       }
@@ -152,11 +206,28 @@ export default class SkipList {
 
   // static methods
     static print(skiplist) {
-      let row = 0;
-      
+      const rows = [];
+      if ( ! skiplist.#root ) return;
+      const nextList = skiplist.#root.nextList;
 
       // print each level 
 
+      for( let i = nextList.length - 1; i >= 0; i-- ) {
+        const row = [];   
+        let node = skiplist.#root;
+        rows[i] = row;
+        while(node != undefined) {
+          row.push(node.thing);
+          node = node.nextList[i];
+          console.log(node);
+        }
+      }
+
+
+      for( let i = rows.length - 1; i >= 0; i-- ) {
+        const row = rows[i];
+        console.log(`Row: ${i}: ${row.join(' ')}`);
+      }
 
       console.log('\n\n');
     }
@@ -173,22 +244,23 @@ export function create(...args) {
 
 class Node {
   // private fields
-  #levelNext
+  #nextList
 
   constructor({thing} = {}) {
     Object.assign(this, {thing});
+    this.#nextList = [];
   }
 
-  get levelNext() {
-    return Array.from(this.#levelNext);
+  get nextList() {
+    return Array.from(this.#nextList);
   }
 
-  set levelNext(nothing) {
+  set nextList(nothing) {
     throw new TypeError(`Cannot set successors for all lists, use setNextAtList(i, node) instead.`);
   }
 
   setNext(i, node) {
-    return this.#levelNext[i] = node;
+    return this.#nextList[i] = node;
   }
 }
 
@@ -196,7 +268,9 @@ class Node {
   function guardValidOptions(opts) {
     const OptionTypes = {
       p: 'number',         
+      max: 'boolean',
       randomized: 'boolean',
+      duplicatesOkay: 'boolean',
       compare: ['undefined', 'function']
     };
 

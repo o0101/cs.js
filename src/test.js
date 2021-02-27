@@ -18,7 +18,17 @@ export function testAll() {
 
 // skiplist tests
   function testSkipList() {
+    const slist = CS.SkipList.create();
 
+    slist.insert(0);
+    slist.insert(1);
+    slist.insert(2);
+    slist.insert(3);
+    slist.insert(4);
+    slist.insert(5);
+    slist.insert(6);
+
+    CS.SkipList.Class.print(slist);
   }
 
 // heap tests
