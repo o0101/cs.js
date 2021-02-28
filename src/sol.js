@@ -245,8 +245,6 @@ export function create(...args) {
         return valid;
       });
 
-    const isValid = typesValid && keysValid;
-
     let extraValid = true;
     
     // ensure probabilities are good
@@ -295,6 +293,8 @@ export function create(...args) {
             extraValid = false;
           }
         } 
+
+    const isValid = typesValid && keysValid && extraValid;
 
     if ( ! isValid ) {
       console.warn(JSON.stringify({errors,keysValid, typesValid}, null, 2));

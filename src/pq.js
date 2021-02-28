@@ -1,4 +1,3 @@
-import {clone} from './lib/common.js';
 import Heap from './heap.js';
 import {Empty} from './lib/tree.js';
 
@@ -43,7 +42,7 @@ export default class PQ {
           arity: 4
         };
 
-        this.#store = new Heap(heapOpts);
+        this.#store = new Heap(heapOpts, data);
       }
 
       isEmpty() {
@@ -57,6 +56,10 @@ export default class PQ {
 
       pull() {
         return this.#store.pop();
+      }
+
+      top() {
+        return this.#store.peek();
       }
 
       get size() {

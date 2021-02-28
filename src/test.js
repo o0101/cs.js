@@ -15,13 +15,16 @@ export default {
   testAll
 };
 
-export function testAll() {
+export function testAll(opts = {}) {
   testHeap();
   testSkipList();
   testPQ();
 
-  // seemingly not so useful
-  //testSelfOrganizingList(); 
+  // behind an options because
+  // it's seemingly not so useful
+  if ( opts.sol ) {
+    testSelfOrganizingList(); 
+  }
 }
 
 // PQ (priority queue) tests

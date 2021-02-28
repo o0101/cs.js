@@ -1,5 +1,4 @@
-import {clone} from './lib/common.js';
-import {Tree, Node, Empty} from './lib/tree.js';
+import {Tree, Empty} from './lib/tree.js';
 
 /* DEV LOG
   I implemented this on Feb 24 2021
@@ -34,7 +33,7 @@ export default class Heap {
   #firstEmptySpace
 
   // API
-    constructor(options, ...data) {
+    constructor(options, data) {
       if ( ! options ) {
         options = DEFAULT_OPTIONS;
       }
@@ -63,8 +62,19 @@ export default class Heap {
         this.#store[this.#firstEmptySpace] = Empty;
       }
 
-      if ( data.length ) {
-        console.warn(`Need to implement Floyd algorithm for heapifying data`);
+      if ( data !== undefined ) {
+        try {
+          for( const thing of data ) {
+            this.insert(thing);
+          }
+        } catch(e) {
+          console.warn({e, data});
+          if ( e.toString().includes('iterable') ) {
+            throw new TypeError(`Parameter 'data' needs to be iterable, if provided. It was not.`);
+          } else {
+            throw e;
+          }
+        }
       }
 
       this.#size = 0;
@@ -391,6 +401,17 @@ export default class Heap {
 
     static merge(heap1, heap2) {
       console.log({heap1,heap2});
+    }
+
+    static heapify(heap, data) {
+      // the idea is
+      // we build a tree first
+      // that can hold data (asTree or as list)
+      // then we fill from end of data to start
+      // from right bottom of tree moving to top and left
+      // and at each stage we call siftDown on every node
+      // this runs in O(n) 
+      console.log({heap,data});
     }
 }
 

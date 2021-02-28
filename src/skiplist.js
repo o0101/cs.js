@@ -15,6 +15,7 @@ import {Node} from './lib/linkedlist.js';
     duplicatesOkay: false,  /* only insert each thing once, true allows dupes */
     _breakLinearize: false, /* don't only use the lower level. This is a dev setting */
       // mainly used to compare time between linear vs higher level #locate 
+    compare: undefined      /* custom comparator function */
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -25,7 +26,7 @@ export default class SkipList {
   #root
 
   // API
-    constructor(options, ...data) {
+    constructor(options, data) {
       if ( ! options ) {
         options = DEFAULT_OPTIONS;
       }
@@ -48,12 +49,23 @@ export default class SkipList {
 
       this.config = Object.freeze(options);
 
-      if ( data.length ) {
-        console.warn(`Need to implement skip list algorithm for ingesting data`);
-      }
-
       this.#root = new Node();
       this.#size = 0;
+
+      if ( data !== undefined ) {
+        try {
+          for( const thing of data ) {
+            this.insert(thing);
+          }
+        } catch(e) {
+          console.warn({e, data});
+          if ( e.toString().includes('iterable') ) {
+            throw new TypeError(`Parameter 'data' needs to be iterable, if provided. It was not.`);
+          } else {
+            throw e;
+          }
+        }
+      }
     }
 
     get depth() {
@@ -214,7 +226,7 @@ export default class SkipList {
     // determine order between two things
     #compare(aThing, bThing) {
       if ( this.config.compare ) {
-        return this.config.compare(aThing, bThing);
+        return this.config.compare.call(this, aThing, bThing);
       } else {
         // order comparison
         if ( aThing > bThing ) {
@@ -342,9 +354,5 @@ export function create(...args) {
       console.warn(JSON.stringify({opts, errors, keysValid, typesValid, extraValid}, null, 2));
       throw new TypeError(`Options were invalid.`);
     }
-  }
-
-  function clone(obj) {
-    return JSON.parse(JSON.stringify(obj));
   }
  
