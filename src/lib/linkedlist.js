@@ -30,6 +30,8 @@ export class LinkedList {
 
     set head(node) {
       const previousFirst = this.#root.nextList[0];
+      if ( previousFirst === node ) return;
+      this.delete(node);
       this.#root.setNext(0, node);
       node.setNext(0, previousFirst);
       this.#length += 1;
@@ -37,6 +39,8 @@ export class LinkedList {
 
     set tail(node) {
       const previousLast = this.#terminus.lastList[0];
+      if ( previousLast === node ) return;
+      this.delete(node);
       previousLast.setNext(0, node);
       node.setNext(0, this.#terminus);
       this.#length += 1;
@@ -53,8 +57,10 @@ export class LinkedList {
     delete(node) {
       const nodeBefore = node.lastList[0];
       const nodeAfter = node.nextList[0];
-      nodeBefore.setNext(0, nodeAfter);
-      this.#length -= 1;
+      if ( nodeBefore ) {
+        nodeBefore.setNext(0, nodeAfter);
+        this.#length -= 1;
+      }
       return node;
     }
 

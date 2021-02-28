@@ -16,8 +16,8 @@ export default {
 };
 
 export function testAll() {
-  testHeap();
-  testSkipList();
+  //testHeap();
+  //testSkipList();
   testSelfOrganizingList();
 }
 
@@ -25,7 +25,7 @@ export function testAll() {
   function testSelfOrganizingList() {
     solScaleTest();
     solIteratorTest();
-    //solScaleTest({asLinkedList:true}); // failing
+    solScaleTest({asLinkedList:true}); 
     solIteratorTest({asLinkedList:true});
   }
 
@@ -103,7 +103,7 @@ export function testAll() {
     const sol = CS.SOL.create(opts);
 
     // the higher the skew the better the self-organizing list performs
-    const list = randomNumberList(SOL_SCALE_MAX/100);
+    const list = randomNumberList(SOL_SCALE_MAX/10);
 
     let valid = true;
 

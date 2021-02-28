@@ -4,8 +4,8 @@ import {LinkedList, Node} from './lib/linkedlist.js';
   const UNITY_THRESH = 1e-5;
   const DEFAULT_OPTS = {
     asLinkedList: false,        /* underlying store is linked list, false is array */
-    moveToFront: 0.5,           /* MTF reorganize scheme probability */
-    swap: 0.5,                  /* swap reorganize scheme probability */
+    moveToFront: 0.2,           /* MTF reorganize scheme probability */
+    swap: 0.8,                  /* swap reorganize scheme probability */
     dupesOK: false,             /* duplicate keys are not OK, true they are */
     _breakNoReorganize: false,  /* debug option to compare performance with simple list */
   };
