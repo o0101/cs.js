@@ -1,4 +1,4 @@
-import {Node} from './lib/linkedlist.js';
+import {LinkedList, Node} from './lib/linkedlist.js';
 
 // constants
   const UNITY_THRESH = 1e-5;
@@ -29,7 +29,7 @@ export default class SOL {
       this.config = Object.freeze(clone(options));
 
       if ( this.config.asLinkedList ) {
-        this.#store = new Node();
+        this.#store = new LinkedList();
       } else {
         this.#store = [];
       }
@@ -38,10 +38,18 @@ export default class SOL {
 
     set(key, value) {
       const {index, copy} = this.#findOnly(key);
-      if ( copy !== undefined ) {
-        this.#store[index] = {key, value};
+      if ( copy !== undefined && ! this.config.dupesOK ) {
+        if ( this.config.asLinkedList ) {
+          copy.thing = {key, value};
+        } else {
+          this.#store[index] = {key, value};
+        }
       } else {
-        this.#store.push({key, value});
+        if ( this.config.asLinkedList ) {
+          this.#store.tail = new Node({thing:{key,value}});
+        } else {
+          this.#store.push({key, value});
+        }
       }
     }
 
@@ -52,33 +60,75 @@ export default class SOL {
     }
 
     get(key) {
-      return this.#locateAndReorganize(key).copy;
+      const {copy} = this.#locateAndReorganize(key);
+      if ( this.config.asLinkedList ) {
+        if ( copy !== undefined ) return copy.thing; 
+      } else {
+        return copy;
+      }
     }
 
     delete(key) {
       const {index, copy: obj} = this.#findOnly(key);
-      if ( index >= 0 ) {
-        this.#store.splice(index, 1);
+      if ( obj !== undefined ) {
+        if ( this.config.asLinkedList ) {
+          this.#store.delete(obj);
+          return obj.thing;
+        } else {
+          this.#store.splice(index, 1);
+          return obj;
+        }
       }
-      return obj;
     }
 
     get length() {
       return this.#store.length;
     }
 
+    get [Symbol.iterator]() {
+      return solIterator.bind(this);
+
+      function *solIterator() {
+        for(const thing of this.#store) {
+          yield thing;
+        }
+      }
+    }
+
   // public static methods
     static print(sol) {
       //console.log(`SOl: ${JSON.stringify(sol.#store)}`);
-      console.log(`SOL first 5: ${JSON.stringify(sol.#store.slice(0,5))}`);
-      console.log(`SOL length: ${sol.length}`);
+      if ( sol.config.asLinkedList ) {
+        console.log(`SOL first 5: ${JSON.stringify([...sol.#store].slice(0,5))}`);
+      } else {
+        console.log(`SOL first 5: ${JSON.stringify(sol.#store.slice(0,5))}`);
+        console.log(`SOL length: ${sol.length}`);
+      }
     }
 
   // private instance methods
     #findOnly(key) {
-      const index = this.#store.findIndex(({key:target}) => target === key);
-      const copy = this.#store[index];
-      return {index, copy};
+      if ( this.config.asLinkedList ) {
+        let index = 0;
+        let copy;
+        for( const node of this.#store ) {
+          if ( node.thing !== undefined && node.thing.key === key ) {
+            copy = node;
+            break;
+          }
+          index += 1;
+        }
+
+        if ( copy === undefined ) {
+          index = -1;
+        }
+
+        return {index, copy};
+      } else {
+        const index = this.#store.findIndex(({key:target}) => target === key);
+        const copy = this.#store[index];
+        return {index, copy};
+      }
     }
 
     #locateAndReorganize(key) {
@@ -87,34 +137,49 @@ export default class SOL {
 
       ({copy: obj, index} = this.#findOnly(key));
 
+      const item = obj;
+
       if ( obj === undefined ) {
         return {index: undefined, copy: undefined};
+      }
+
+      if ( this.config.asLinkedList ) {
+        obj = obj.thing;
       }
 
       const copy = {key,value: obj.value};
 
       if ( index == 0 ) return {index, copy};
 
+      const val = Math.random();
+
+      let method;
+      if ( val <= this.config.moveToFront ) {
+        method = 'mtf';
+      } else {
+        method = 'swap';
+      }
+
       if ( !this.config._breakNoReorganize ) {
-        if ( this.#lastAccessedKey == key ) {           // if two access in row and
-          if ( index > 1 ) {                            // if in 3rd place or later, 
-            // squeeze into 2nd place
-            this.#store.splice(index, 1);
-            index = 1;
-            this.#store.splice(index, 0, copy);
-          } else {                                      // if in 2nd place already swap to 1st place
-            const formerTop = this.#store[0];
-            this.#store[0]  = copy;
-            this.#store[1] = formerTop;
-            index = 0;
+        if ( this.config.asLinkedList ) {
+          if ( method === 'mtf' ) {
+            this.#store.head = item;
+          } else {
+            this.#store.advance(item);
           }
-        } else {                                        // or swap with lower index neighbour
-          const formerAhead = this.#store[index-1]; 
-          this.#store[index-1] = copy;
-          this.#store[index] = formerAhead;
-          this.#lastAccessedKey = key;
-          index = index - 1;
+        } else {
+          if ( method === 'mtf' ) {
+            this.#store.splice(index, 1);
+            index = 0;
+            this.#store.splice(index, 0, copy);
+          } else {
+            const formerAhead = this.#store[index-1]; 
+            this.#store[index-1] = copy;
+            this.#store[index] = formerAhead;
+            index = index - 1;
+          }
         }
+        this.#lastAccessedKey = key;
       } else {
         //console.log('No reorg');
       }

@@ -6,7 +6,7 @@ const ORDER_TEST_MAX = 1000;
 const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
-const SOL_SCALE_MAX = 100000;
+const SOL_SCALE_MAX = 10000;
 const DELETE_P = 0.25;
 
 testAll();
@@ -24,6 +24,9 @@ export function testAll() {
 // self-organizing list tests
   function testSelfOrganizingList() {
     solScaleTest();
+    solIteratorTest();
+    //solScaleTest({asLinkedList:true}); // failing
+    solIteratorTest({asLinkedList:true});
   }
 
   function solScaleTest(opts) {
@@ -84,6 +87,52 @@ export function testAll() {
     console.timeEnd(`Self-organizing list scale test. Delete phase`);
 
     console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${sol.length}`);
+
+    CS.SOL.Class.print(sol);
+
+    console.groupEnd();
+    console.log();
+  }
+
+  function solIteratorTest(opts = {}) {
+    console.group(`Self-organizing list iterator test. Opts: ${JSON.stringify(opts)}`);
+    console.time(`Self-organizing list iterator test.`);
+
+    opts.dupesOK = true;
+
+    const sol = CS.SOL.create(opts);
+
+    // the higher the skew the better the self-organizing list performs
+    const list = randomNumberList(SOL_SCALE_MAX/100);
+
+    let valid = true;
+
+    for(const num of list) {
+      sol.set(num, `number ${num}`);
+    }
+
+    let i = 0;
+
+    for(const item of sol) {
+      let num;
+
+      if ( sol.config.asLinkedList ) {
+        num = item.thing.key;
+      } else {
+        num = item.key;
+      }
+
+      valid = valid && num === list[i];
+      i++;
+    }
+
+    if ( valid ) {
+      console.log(`Iterator Test passed.`);
+    } else {
+      console.error(`Iterator Test failed.`);
+    }
+
+    console.timeEnd(`Self-organizing list iterator test.`);
 
     CS.SOL.Class.print(sol);
 
