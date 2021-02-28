@@ -27,6 +27,11 @@ export function testAll() {
     solIteratorTest();
     solScaleTest({asLinkedList:true}); 
     solIteratorTest({asLinkedList:true});
+
+    solScaleTest({_breakNoReorganize:true});
+    solIteratorTest({_breakNoReorganize:true});
+    solScaleTest({asLinkedList:true,_breakNoReorganize:true}); 
+    solIteratorTest({asLinkedList:true,_breakNoReorganize:true});
   }
 
   function solScaleTest(opts) {
