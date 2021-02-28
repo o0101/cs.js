@@ -6,6 +6,7 @@ const ORDER_TEST_MAX = 1000;
 const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
+const SOL_SCALE_MAX = 100000;
 const DELETE_P = 0.25;
 
 testAll();
@@ -15,9 +16,80 @@ export default {
 };
 
 export function testAll() {
-  testHeap();
-  testSkipList();
+  //testHeap();
+  //testSkipList();
+  testSelfOrganizingList();
 }
+
+// self-organizing list tests
+  function testSelfOrganizingList() {
+    solScaleTest();
+  }
+
+  function solScaleTest(opts) {
+    console.group(`Self-organizing list scale test. Opts: ${JSON.stringify(opts)}`);
+    console.time(`Self-organizing list scale test. Insert phase`);
+
+    const sol = CS.SOL.create(opts);
+    // the higher the skew the better the self-organizing list performs
+    const list = randomNumberSkewedList(SOL_SCALE_MAX, 0.85);
+    const deleteList = list.reverse().filter(() => Math.random() <= DELETE_P);
+
+    const ISIZE = (new Set(list)).size;
+    const DSIZE = (new Set(deleteList)).size;
+
+    let valid = true;
+
+    for(const num of list) {
+      sol.set(num, `number ${num}`);
+    }
+
+    for(const num of deleteList) {
+      sol.get(num);
+    }
+
+    for(const num of deleteList) {
+      valid = valid && sol.has(num);
+    }
+
+
+    if ( valid ) {
+      console.log(`Scale Has Test passed.`);
+    } else {
+      console.error(`Scale Has Test failed.`);
+    }
+
+    console.timeEnd(`Self-organizing list scale test. Insert phase`);
+    console.time(`Self-organizing list scale test. Delete phase`);
+
+    for(const num of deleteList) {
+      sol.delete(num);
+    }
+
+    for(const num of deleteList) {
+      const test = !sol.has(num);
+      valid = valid && test
+      if ( ! test ) {
+        console.log(`Requested delete of ${num} 
+          but skiplist still has it: ${JSON.stringify(sol.get(num))}`);
+      }
+    }
+
+    if ( valid ) {
+      console.log(`Scale Delete Test passed.`);
+    } else {
+      console.error(`Scale Delete Has Test failed.`);
+    }
+    
+    console.timeEnd(`Self-organizing list scale test. Delete phase`);
+
+    console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${sol.length}`);
+
+    CS.SOL.Class.print(sol);
+
+    console.groupEnd();
+    console.log();
+  }
 
 // skiplist tests
   function testSkipList() {
@@ -386,6 +458,22 @@ export function testAll() {
     const list = [];
     while(len--) {
       list.push(randomNumber(len));
+    }
+    return list;
+  }
+
+  function randomNumberSkewedList(len, Skew = 0.75) {
+    const list = [];
+    while(len--) {
+      if ( Math.random() <= Skew ) {
+        list.push(randomNumber(Math.log(len)));
+        if ( list[list.length -1 ]  == -Infinity ) {
+          list.pop();
+          //console.log(`Why we get -Infinity here?`);
+        }
+      } else {
+        list.push(randomNumber(len));
+      }
     }
     return list;
   }

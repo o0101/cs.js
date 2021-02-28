@@ -4,8 +4,10 @@
   - add 'heapsort' heap test, by pushing then popping and verifying order
 
 // skiplist
+  - prevent levels growing up if there's only one node in level below
   - add other methods (like reverse?)
   - add indexability (and getByIndex)
+  - handle deletion better -- delete the levels if last node
 
 // sol
   - test
