@@ -16,8 +16,8 @@ export default {
 };
 
 export function testAll() {
-  //testHeap();
-  //testSkipList();
+  testHeap();
+  testSkipList();
   testSelfOrganizingList();
 }
 

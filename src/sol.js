@@ -1,3 +1,5 @@
+import {Node} from './lib/linkedlist.js';
+
 // constants
   const UNITY_THRESH = 1e-5;
   const DEFAULT_OPTS = {
@@ -26,7 +28,11 @@ export default class SOL {
 
       this.config = Object.freeze(clone(options));
 
-      this.#store = [];
+      if ( this.config.asLinkedList ) {
+        this.#store = new Node();
+      } else {
+        this.#store = [];
+      }
       this.#lastAccessedKey = null;
     }
 

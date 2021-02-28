@@ -1,3 +1,5 @@
+import {Node} from './lib/linkedlist.js';
+
 /* DEV LOG
   I implemented this on Feb 24 2021
   from the Wikipedia article on heaps
@@ -266,44 +268,11 @@ export default class SkipList {
       console.log({node, has, nextList: node.nextList, lastList: node.lastList, updates});
       return has;
     }
-
 }
 
 export const Class = SkipList;
 export function create(...args) {
   return new SkipList(...args);
-}
-
-class Node {
-  // private fields
-  #nextList
-  #lastList
-
-  constructor({thing} = {}) {
-    this.thing = thing;
-    this.#nextList = [];
-    this.#lastList = [];
-  }
-
-  get nextList() {
-    // Array.from ?
-    return this.#nextList;
-  }
-
-  get lastList() {
-    return this.#lastList;
-  }
-
-  set nextList(nothing) {
-    throw new TypeError(`Cannot set successors for all lists, use setNextAtList(i, node) instead.`);
-  }
-
-  setNext(i, node) {
-    if ( node ) {
-      node.#lastList[i] = this;
-    }
-    return this.#nextList[i] = node;
-  }
 }
 
 // helper methods
