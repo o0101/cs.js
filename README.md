@@ -10,8 +10,8 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 - [x] [Heap](src/heap.js)
 - [x] [Skiplist](src/skiplist.js)
-- [x] [Self-organizing list](src/sol.js) (
-- [ ] Priority queue
+- [x] [Self-organizing list](src/sol.js) 
+- [x] [Priority queue](src/pq.js)
 - [ ] (Adaptive?) Radix trie
 - [ ] \*Sorted-linked-array 
 - [ ] Heap X Circular buffer ( I have an idea for something like concentric circles, heap, each row / layer of heap is actually a circle, maybe like a linked list, or a circular buffer. Somehow combining some heap priority property with some FIFO or overwrite thing. Not sure yet, but maybe there is something )

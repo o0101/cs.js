@@ -29,7 +29,7 @@ export default class SkipList {
       if ( ! options ) {
         options = DEFAULT_OPTIONS;
       }
-      options = Object.assign(clone(DEFAULT_OPTIONS), options);
+      options = Object.assign({}, DEFAULT_OPTIONS, options);
 
       guardValidOptions(options);
 
@@ -46,7 +46,7 @@ export default class SkipList {
           `);
         }
 
-      this.config = Object.freeze(clone(options));
+      this.config = Object.freeze(options);
 
       if ( data.length ) {
         console.warn(`Need to implement skip list algorithm for ingesting data`);

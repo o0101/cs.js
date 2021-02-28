@@ -9,7 +9,7 @@ import {Tree, Node, Empty} from './lib/tree.js';
 
 // constants
   const DEFAULT_OPTIONS = {
-    asTree: true,           /* underlying implementation as tree, false is list implementation */
+    asTree: false,           /* underlying implementation as tree, false is list implementation */
     max: true,              /* max heap, false is min heap */
     arity: 2,               /* binary, then 3 is ternary, etc. */
     compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
@@ -27,7 +27,6 @@ import {Tree, Node, Empty} from './lib/tree.js';
 
   // helper constants
 
-
 export default class Heap {
   // private fields
   #size
@@ -39,11 +38,11 @@ export default class Heap {
       if ( ! options ) {
         options = DEFAULT_OPTIONS;
       }
-      options = Object.assign(clone(DEFAULT_OPTIONS), options);
+      options = Object.assign({}, DEFAULT_OPTIONS, options);
 
       guardValidOptions(options);
 
-      this.config = Object.freeze(clone(options));
+      this.config = Object.freeze(options);
 
       if ( options.max ) {
         this.findMax = () => this.peek();
@@ -263,7 +262,7 @@ export default class Heap {
 
     #compare(aThing, bThing) {
       if ( this.config.compare ) {
-        return this.config.compare(aThing, bThing);
+        return this.config.compare.call(this, aThing, bThing);
       } else {
         // Empty is always lower in heap 
         // regardless of min or max
@@ -329,7 +328,8 @@ export default class Heap {
         // top is an index
         // list of indices
         list.forEach(index => {
-          const thing = this.#store[index];
+          //const thing = this.#store[index];
+          const thing = this.#getThing(index);
           if ( this.#compare(thing, topThing) >= 0 ) {
             top = index;
             topThing = thing;
@@ -341,18 +341,23 @@ export default class Heap {
     }
 
   // static methods
-    static print(heap) {
+    static print(heap, transform) {
       let row = 0;
+      console.log(`\nRow: ${row}\n`);
 
       if ( heap.config.asTree ) {
         for( const stuff of heap.#store.bfs() ) {
           const {node,depth} = stuff;
           if ( depth > row ) {
             row = depth;
-            console.log('\n');
+            console.log(`\nRow: ${row}\n`);
           }
           if ( typeof node.thing !== 'symbol' ) {
-            process.stdout.write(`node: ${node.thing} \t`);
+            if ( typeof node.thing === "object" ) {
+              process.stdout.write(`node: ${JSON.stringify(node.thing)} \t`);
+            } else {
+              process.stdout.write(`node: ${node.thing} \t`);
+            }
           } else {
             process.stdout.write(`node: ${Symbol.keyFor(node.thing)} \t`);
           }
@@ -364,10 +369,18 @@ export default class Heap {
           const thing = heap.#store[i];
           if ( depth > row ) {
             row = depth;
-            console.log('\n');
+            console.log(`\nRow: ${row}\n`);
           }
           if ( typeof thing !== 'symbol' ) {
-            process.stdout.write(`node: ${thing} \t`);
+            let out = thing;
+            if ( transform !== undefined ) {
+              out = transform(out); 
+            }
+            if ( typeof out === "object" ) {
+              process.stdout.write(`node: ${JSON.stringify(out)} \t`);
+            } else {
+              process.stdout.write(`node: ${out} \t`);
+            }
           } else {
             process.stdout.write(`node: ${Symbol.keyFor(thing)} \t`);
           }

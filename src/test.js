@@ -2,7 +2,7 @@ import * as CS from './index.js';
 
 const AS_TREE_SCALE_TEST_MAX = 1000;
 const AS_LIST_SCALE_TEST_MAX = 10000000;
-const ORDER_TEST_MAX = 1000;
+const ORDER_TEST_MAX = 10000;
 const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
@@ -16,10 +16,78 @@ export default {
 };
 
 export function testAll() {
-  //testHeap();
-  //testSkipList();
-  testSelfOrganizingList();
+  testHeap();
+  testSkipList();
+  testPQ();
+
+  // seemingly not so useful
+  //testSelfOrganizingList(); 
 }
+
+// PQ (priority queue) tests
+  function testPQ() {
+    pqOrderTest();
+    pqOrderTest({max:false});
+  }
+
+  function pqOrderTest(opts) {
+    console.log(`\n`);
+    console.group(`PQ order test testing opts: ${JSON.stringify(opts)}`);
+    let valid = true;
+    let violations = 0;
+
+    for( let r = 0; r < ORDER_TEST_RUNS; r++ ) {
+      console.log(`Run: ${r+1}`);
+      const pq = CS.PQ.create(opts);
+      let last = pq.config.max ? {priority: Infinity} : {priority: -Infinity};
+
+      for( let i = 0; i < ORDER_TEST_MAX; i++ ) {
+        const num = randomNumber(ORDER_TEST_MAX);
+        pq.insert({message: `hi i'm message number ${num}`, num}, num);
+      }
+
+      //CS.PQ.Class.print(pq);
+
+      while(pq.size) {
+        const next = pq.pull();
+        let test;
+        if ( pq.config.max ) {
+          test = (next.priority <= last.priority);
+        } else {
+          test = (next.priority >= last.priority);
+        }
+
+        valid = valid && test;
+
+        if ( ! test ) {
+          console.log(`PQ property violation: ${last.priority} -> ${next.priority} does not satisfy ${
+            pq.config.max ? 'max' : 'min'
+          }`);
+          violations ++;
+        }
+
+        last = next;
+      }
+
+      console.log(`End Run: ${r+1}`);
+    }
+
+    console.log(`Total ${violations} pq property violations across ${
+      ORDER_TEST_RUNS
+    } runs.`);
+
+    if ( valid ) {
+      console.log(`Test passed.`);
+    } else {
+      console.error(`Test failed.`);
+    }
+
+    console.log(`\n`);
+    console.groupEnd();
+
+
+    return valid;
+  }
 
 // self-organizing list tests
   function testSelfOrganizingList() {
@@ -176,7 +244,7 @@ export function testAll() {
     slist.insert(5);
     slist.insert(6);
 
-    CS.SkipList.Class.print(slist);
+    //CS.SkipList.Class.print(slist);
     console.log();
   }
 
@@ -197,7 +265,7 @@ export function testAll() {
       valid = valid && !slist.has('not in list');
     }
 
-    CS.SkipList.Class.print(slist);
+    //CS.SkipList.Class.print(slist);
     
     if ( valid ) {
       console.log(`Test passed. All inserted numbers tested as present in skiplist.`);
@@ -272,7 +340,7 @@ export function testAll() {
       }
     }
 
-    CS.SkipList.Class.print(slist);
+    //CS.SkipList.Class.print(slist);
     
     if ( valid ) {
       console.log(`Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.`);
@@ -299,14 +367,14 @@ export function testAll() {
     orderTest({max:false, arity:4});
     orderTest({max:false, arity:8});
     orderTest({max:false, arity:5});
-    orderTest({asTree: false, max:true, arity:2});
-    orderTest({asTree: false, max:true, arity:4});
-    orderTest({asTree: false, max:true, arity:8});
-    orderTest({asTree: false, max:true, arity:5});
-    orderTest({asTree: false, max:false, arity:2});
-    orderTest({asTree: false, max:false, arity:4});
-    orderTest({asTree: false, max:false, arity:8});
-    orderTest({asTree: false, max:false, arity:5});
+    orderTest({asTree: true, max:true, arity:2});
+    orderTest({asTree: true, max:true, arity:4});
+    orderTest({asTree: true, max:true, arity:8});
+    orderTest({asTree: true, max:true, arity:5});
+    orderTest({asTree: true, max:false, arity:2});
+    orderTest({asTree: true, max:false, arity:4});
+    orderTest({asTree: true, max:false, arity:8});
+    orderTest({asTree: true, max:false, arity:5});
   }
 
   function testHeapAsTree() {
@@ -462,16 +530,24 @@ export function testAll() {
       const heap = CS.Heap.create(opts);
       let last = heap.config.max ? Infinity : -Infinity;
 
-      for( let i = 0; i < ORDER_TEST_MAX; i++ ) {
+      const scaler = opts.asTree ? 10 : 1;
+
+      for( let i = 0; i < ORDER_TEST_MAX/scaler; i++ ) {
         heap.push(randomNumber(ORDER_TEST_MAX));
       }
 
+      //CS.Heap.Class.print(heap);
+
+      console.log(`Post push size: ${heap.size}`);
+
       while(heap.size) {
         const next = heap.pop();
-        if ( heap.config.max ) {
-          valid = valid && (next <= last);
-        } else {
-          valid = valid && (next >= last);
+        if ( typeof next !== 'symbol' ) {
+          if ( heap.config.max ) {
+            valid = valid && (next <= last);
+          } else {
+            valid = valid && (next >= last);
+          }
         }
 
         if ( ! valid ) {
