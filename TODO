@@ -10,6 +10,6 @@
   - handle deletion better -- delete the levels if last node
 
 // sol
-  - test
+  - implement with linked list. current array one seems slower than unorganized list!
 
 
