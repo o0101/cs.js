@@ -3,6 +3,7 @@ import {clone} from './common.js';
 const DEFAULT_TREE_OPTIONS = {
   arity: 2,               /* binary, then 3 is ternary, etc. */
 }
+const THING = 'thing';
 
 // used to uniquely determine if a slot is empty
   // Why? Because in some comparison schemes undefined or null could represent
@@ -207,10 +208,20 @@ export class Tree {
 export class Node {
   #children
 
-  constructor({parent, thing, children} = {}) {
-    Object.assign(this, {parent, thing});
-    if ( children !== undefined ) {
-      this.children = children;
+  constructor(opts) {
+    const {children} = opts;
+    this.parent = opts.parent;
+
+    if ( opts.hasOwnProperty(THING) ) {
+      this.thing = opts.thing;
+    } else {
+      this.thing = Empty;
+    }
+
+    if ( Array.isArray(children) ) {
+      for( const child of children ) {
+        this.addChild(child);
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import {Tree, Empty} from './lib/tree.js';
+import {Tree, Node, Empty} from './lib/tree.js';
 
 /* DEV LOG
   I implemented this on Feb 24 2021
@@ -62,11 +62,11 @@ export default class Heap {
         this.#store[this.#firstEmptySpace] = Empty;
       }
 
+      this.#size = 0;
+
       if ( data !== undefined ) {
         try {
-          for( const thing of data ) {
-            this.insert(thing);
-          }
+          Heap.heapify(this, data);
         } catch(e) {
           console.warn({e, data});
           if ( e.toString().includes('iterable') ) {
@@ -77,7 +77,6 @@ export default class Heap {
         }
       }
 
-      this.#size = 0;
     }
 
     get size() {
@@ -108,7 +107,9 @@ export default class Heap {
 
       this.#size -= 1;
 
-      return top;
+      if ( top !== Empty ) {
+        return top;
+      }
     }
 
     push(thing) {
@@ -312,7 +313,7 @@ export default class Heap {
         const {arity} = this.config;
         const start = arity*aRoot+1;
         const list = [];
-        for( let i = start; i < start+arity; i++ ){
+        for( let i = start; i < Math.min(this.#store.length,start+arity); i++ ){
           list.push(i);
         }
         return list;
@@ -350,6 +351,18 @@ export default class Heap {
       return top;
     }
 
+    *#unordered() {
+      if ( this.config.asTree ) {
+        for( const {node,depth} of this.#store.dfs() ) {
+          yield node.thing;
+        }
+      } else {
+        for( const item of this.#store ) {
+          yield item;
+        }
+      }
+    }
+
   // static methods
     static print(heap, transform) {
       let row = 0;
@@ -375,7 +388,6 @@ export default class Heap {
       } else {
         for( let i = 0; i < heap.#store.length; i++ ) {
           const depth = Math.floor(Math.log(i+1)/Math.log(heap.config.arity));
-          //console.log({depth,i, arity:heap.config.arity});
           const thing = heap.#store[i];
           if ( depth > row ) {
             row = depth;
@@ -400,10 +412,14 @@ export default class Heap {
     }
 
     static merge(heap1, heap2) {
-      console.log({heap1,heap2});
+      const bigList = [...heap1.#unordered(), ...heap2.#unordered()];
+      return new Heap(heap1.config, bigList);
     }
 
     static heapify(heap, data) {
+      if ( heap.size > 0 ) {
+        throw new TypeError(`Cannot call heapify using a non-empty heap.`);
+      }
       // the idea is
       // we build a tree first
       // that can hold data (asTree or as list)
@@ -411,7 +427,69 @@ export default class Heap {
       // from right bottom of tree moving to top and left
       // and at each stage we call siftDown on every node
       // this runs in O(n) 
-      console.log({heap,data});
+      const nodes = [];
+
+      const map = new Map();
+      for( let i = data.length - 1; i >= 0; i-- ) {
+        const nodeDepth = Math.floor(Math.log(i+1)/Math.log(heap.config.arity));
+        const parentIndex = Math.floor((i-1)/heap.config.arity);
+        if ( heap.config.asTree ) {
+          let childNode = nodes[i];
+          if ( ! childNode ) {
+            nodes[i] = childNode = new Node({thing: data[i]});
+            heap.#size += 1;
+          }
+
+          if ( i > 0 ) {
+            let parent = nodes[parentIndex];
+            if ( ! parent ) {
+              nodes[parentIndex] = parent = new Node({thing: data[parentIndex]});
+              if ( parentIndex === 0 ) {
+                heap.#store.setRoot(parent);
+              }
+              heap.#size += 1;
+            }
+
+            parent.addChild(childNode);
+          }
+        } else {
+          let child = heap.#store[i]; 
+          // we check slots we have already set using nodes,
+            // since we can allow undefined as a value
+            // Bug analysis:
+              // the previous check here child !== undefined
+                // was balking on first node because we set this.#store[0] = Empty
+                // as first free space
+                // while we also set a root node for tree implementation
+                // we create heapified data into tree separate to the #store tree
+                // then overwrite the root, so our tree check was not affected
+                // by this undefined comparison, but our array one way, because
+                // we are writing directly to store here
+          if ( ! nodes[i] ) {
+            heap.#store[i] = child = data[i];   
+            nodes[i] = true;
+            heap.#size += 1;
+          }
+
+          if ( parentIndex >= 0 ) {
+            let parent = heap.#store[parentIndex];
+            if ( ! nodes[parentIndex] ) {
+              heap.#store[parentIndex] = parent = data[parentIndex];
+              nodes[parentIndex] = true;
+              heap.#size += 1;
+            }
+          }
+        }
+      }
+
+      // now we have an unbalanced tree build and in store, 
+      // regardless of whether we use tree or list store
+
+      // now we need to call sift down
+      for( let i = nodes.length - 1; i >= 0; i-- ) {
+        const aRoot = heap.config.asTree ? nodes[i] : i;
+        heap.#siftDown(aRoot);
+      }
     }
 }
 
