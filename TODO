@@ -1,6 +1,5 @@
 // heap 
   - fix leaf change on deletion (we delete the last leaf, and move leaf to the deleted node, after its sift down)
-  - add heapify
 
 // skiplist
   - prevent levels growing up if there's only one node in level below
