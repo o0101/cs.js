@@ -1,11 +1,5 @@
 import {Node} from './lib/linkedlist.js';
 
-/* DEV LOG
-  I implemented this on Feb 24 2021
-  from the Wikipedia article on heaps
-  https://en.wikipedia.org/wiki/Heap_(data_structure)
-*/
-
 // constants
   const DEFAULT_OPTIONS = {
     max: false,             /* increasing order, true gives decreasing order */
