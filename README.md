@@ -13,6 +13,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [Self-organizing list](src/sol.js) 
 - [x] [Priority queue](src/pq.js)
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
+  - [ ] Structures for count distinct, hyperloglog, streaming 
 - [ ] [Treap](src/treap.js)
 - [ ] Median heap
 - [ ] [Balanced static BST](src/static-bst.js) ([Day–Stout–Warren algorithm](https://en.wikipedia.org/wiki/Day%E2%80%93Stout%E2%80%93Warren_algorithm))
