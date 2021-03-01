@@ -14,6 +14,8 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [Priority queue](src/pq.js)
 - [ ] [Treap](src/treap.js)
 - [ ] [Balanced static BST](src/static-bst.js) ([Day–Stout–Warren algorithm](https://en.wikipedia.org/wiki/Day%E2%80%93Stout%E2%80%93Warren_algorithm))
+- [ ] BIT/Fenwich Tree
+- [ ] Segment Tree
 - [ ] (Adaptive?) Radix trie
 - [ ] \*Sorted-linked-array 
 - [ ] Heap X Circular buffer ( I have an idea for something like concentric circles, heap, each row / layer of heap is actually a circle, maybe like a linked list, or a circular buffer. Somehow combining some heap priority property with some FIFO or overwrite thing. Not sure yet, but maybe there is something )
@@ -21,9 +23,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [ ] Suffix trie
 - [ ] Suffix array (something efficient from here about strings BWT, FM-index)
 - [ ] Hashtable (discohash)
-- [ ] BIT/Fenwich Tree
 - [ ] Disjoint set union
-- [ ] Segment Tree
 - [ ] B-Tree
 - [ ] Hierarchical/topological search tree
 - [ ] Conflict-free replicated list
