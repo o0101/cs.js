@@ -17,7 +17,7 @@ export default class Trie {
 
   // API
     constructor(data) {
-      this.#store = new TrieNode({char:'', value:Start});
+      this.#store = new TrieNode({value:Empty});
       this.#size = 0;
       if ( data !== undefined ) {
         Trie.trieify(this, data);
@@ -32,19 +32,23 @@ export default class Trie {
       return this.get(string).found;
     }
 
-    set(string, value) {
+    set(string, value = true) {
       let {node, suffix} = this.#locate(string);
       
       if ( suffix.length > 0 ) {
         for( const char of suffix ) {
           if ( !( char in node.children) ) {
-            node.children[char] = new TrieNode({char});
+            node.children[char] = new TrieNode();
           } 
           node = node.children[char];
         }
       }
 
-      this.#size += 1;
+      if ( node.value === Empty ) {
+        // only increment size if nothing is set here before
+        this.#size += 1;
+      }
+
       node.value = value;
     }
 
@@ -67,6 +71,22 @@ export default class Trie {
         const wholeSubtreeDeleted = this.#delete(string, this.#store, 0); 
         this.#size -= 1;
         return wholeSubtreeDeleted;
+      }
+    }
+
+    get [Symbol.iterator]() {
+      return this.#stringValueDfs.bind(this);
+    }
+
+    *keys() {
+      for( const {string} of this ) {
+        yield string;
+      }
+    }
+
+    *values() {
+      for( const {value} of this ) {
+        yield value;
       }
     }
 
@@ -107,7 +127,44 @@ export default class Trie {
       return node.value === Empty && Object.keys(node.children).length === 0;
     }
 
-    *#bfs() {
+    *#stringValueDfs() {
+      const root = this.#store;
+      const stack = [{node:root, char: '', depth:0}]; 
+      const path = [];
+
+      while(stack.length) {
+        const {node,depth,char} = stack.pop();
+        let string;
+
+        if ( depth < path.length ) {
+          path.length = depth;
+        }
+
+        path.push(char);
+
+        if ( node.value !== Empty ) {
+          string = path.join('');
+        }
+
+        const childObjects = Object.entries(node.children)
+          .reverse()
+          .map(
+            ([char, node]) => ({node, char, depth:depth + 1})
+          )
+
+        if ( childObjects.length === 0 ) {
+          path.pop();
+        } else {
+          stack.push(...childObjects);
+        }
+
+        if ( string !== undefined ) {
+          yield {string, value: node.value};
+        }
+      }
+    }
+
+    *#nodeBfs() {
       const root = this.#store;
       const queue = [{node:root, depth:0}]; 
 
@@ -125,7 +182,7 @@ export default class Trie {
 
       console.log(`\n\tRow: ${row}`);
 
-      for( const stuff of trie.#bfs() ) {
+      for( const stuff of trie.#nodeBfs() ) {
         const {node,depth} = stuff;
         if ( depth > row ) {
           row = depth;
@@ -133,12 +190,12 @@ export default class Trie {
         }
         if ( typeof node.value !== 'symbol' ) {
           if ( typeof node.value === "object" ) {
-            process.stdout.write(`node: ${node.char} -> ${JSON.stringify(node.value)} \t`);
+            process.stdout.write(`node: ${node.char || ''} -> ${JSON.stringify(node.value)} \t`);
           } else {
-            process.stdout.write(`node: ${node.char} -> ${node.value} \t`);
+            process.stdout.write(`node: ${node.char || ''} -> ${node.value} \t`);
           }
         } else {
-          process.stdout.write(`node: ${node.char} -> ${Symbol.keyFor(node.value)} \t`);
+          process.stdout.write(`node: ${node.char || ''} -> ${Symbol.keyFor(node.value)} \t`);
         }
       }
 

@@ -8,6 +8,7 @@ const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
 const SOL_SCALE_MAX = 10000;
 const TRIE_SCALE_MAX = 100000;
+const TRIE_REPEAT_RUNS = 3;
 const DELETE_P = 0.25;
 
 testAll();
@@ -17,11 +18,14 @@ export default {
 };
 
 export function testAll(opts = {}) {
-  //testHeap();
-  //testSkipList();
-  //testSelfOrganizingList(); 
-  //testPQ();
+  console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+  testHeap();
+  testSkipList();
+  testSelfOrganizingList(); 
+  testPQ();
   testTrie();
+
+  console.log('Tests complete.\n\n');
 }
 
 // trie tests
@@ -30,11 +34,14 @@ export function testAll(opts = {}) {
     subtrieDeletionTest();
     trieScaleTest();
     trieScaleDeleteAndHasTest();
+    trieKeyIteratorTest();
+    repeatedIdempotentTest();
   }
 
   function basicTest() {
     const trie = CS.Trie.create();
 
+    console.group(`\nBasic trie test.`);
     console.log('Empty trie:\n');
     console.log(`size: ${trie.size}`);
 
@@ -53,9 +60,9 @@ export function testAll(opts = {}) {
       {test: 'has ab', val: trie.has('ab') },
       {test: 'has abracadabra', val: trie.has('abracadabra') },
       {test: 'size is 3', val: trie.size === 3 },
-      {test: `has ''`, val: trie.has('') },
     ]
     const falses = [
+      {test: `has ''`, val: trie.has('') },
       {test: 'has xyz', val: trie.has('xyz') },
       {test: 'has abr', val: trie.has('abr') },
     ];
@@ -87,9 +94,11 @@ export function testAll(opts = {}) {
       const failedFalses = falses.filter(test => test.val !== false);
       console.log(JSON.stringify({failedTrues, failedFalses}, null, 2));
     }
+    console.groupEnd();
   }
 
   function subtrieDeletionTest() {
+    console.group(`\nSubtrie deletion test.`);
     const trie = CS.Trie.create();
 
     trie.insert('heliocopter', 999);
@@ -108,15 +117,17 @@ export function testAll(opts = {}) {
     } else {
       console.log(`Subtrie deletion test passed.`);
     }
+    console.groupEnd();
   }
 
   function trieScaleTest() {
-    console.group(`Trie scale test.`);
-    console.time(`Trie scale test.`);
+    console.group(`\nTrie scale test.`);
 
     const trie = CS.Trie.create();
     const list = randomWordList(TRIE_SCALE_MAX);
     let valid = true;
+
+    console.time(`Trie scale test.`);
 
     for( const word of list ) {
       trie.insert(word, randomNumber(Math.floor(Math.log(TRIE_SCALE_MAX))));
@@ -144,7 +155,183 @@ export function testAll(opts = {}) {
   }
 
   function trieScaleDeleteAndHasTest() {
+    console.group(`\nTrie scale delete and has test.`);
 
+    const trie = CS.Trie.create();
+    const list = [...new Set(randomWordList(TRIE_SCALE_MAX))];
+    const deleteList = [...new Set(list.filter(() => Math.random() > 0.5))];
+    const addSet = new Set(list);
+    const deleteSet = new Set(deleteList);
+    const neverAddedList = randomWordList(TRIE_SCALE_MAX).filter(word => !addSet.has(word));
+    let valid = true;
+
+    console.time(`Trie scale test.`);
+
+    for( const word of list ) {
+      trie.insert(word, randomNumber(Math.floor(Math.log(TRIE_SCALE_MAX))));
+    }
+
+    const postInsertTrieSize = trie.size;
+
+    for( const word of deleteList ) {
+      trie.delete(word);
+      const test = !trie.has(word);
+      valid = valid && test;
+      if ( ! test ) {
+        console.error(`Scale has test failed: ${word} was not present`); 
+      }
+    }
+
+    for ( const word of neverAddedList ) {
+      const test = !trie.has(word);
+      if ( ! test ) {
+        console.error(`Word ${word} was never added. But trie has it.`);
+      }
+      valid = valid && test;
+    }
+
+    const postDeleteTrieSize = trie.size;
+
+    console.timeEnd(`Trie scale test.`);
+
+    const sizeTest = postInsertTrieSize === addSet.size && postDeleteTrieSize === (addSet.size - deleteSet.size);
+
+    if ( ! sizeTest ) {
+      console.error(`Scale size test failed.
+        Expected sizes: ${JSON.stringify({
+          postInsertTrieSize: addSet.size, postDeleteTrieSize: addSet.size - deleteSet.size
+        })}. 
+        Actual sizes: ${JSON.stringify({
+          postInsertTrieSize, postDeleteTrieSize
+        })}.
+      `);
+    }
+
+    valid = valid && sizeTest;
+
+    if ( ! valid ) {
+      console.error(`Trie scale test failed.`);
+    } else {
+      console.log(`Trie scale test passed.`);
+    }
+
+    //CS.Trie.Class.print(trie);
+
+    console.groupEnd();
+  }
+
+  function trieKeyIteratorTest() {
+    console.group(`\nTrie key iterator test.`);
+
+    const trie = CS.Trie.create();
+
+    trie.set('abc');
+    trie.set('xyz');
+    trie.set('wxy');
+    trie.set('akka dakka');
+    trie.set('wyx904');
+
+    let keys = [...trie.keys()];
+
+    keys.sort();
+
+    const test = keys.join(',') === 'abc,akka dakka,wxy,wyx904,xyz';
+
+    if ( ! test ) {
+      console.error(`Trie key iterator test failed. Got: ${keys.join(',')}`);
+    } else {
+      console.log(`Trie key iterator short test passed.`);
+    }
+
+    keys.forEach(k => trie.delete(k));
+
+    //CS.Trie.Class.print(trie);
+
+    const list = [...new Set(randomWordList(TRIE_SCALE_MAX))];
+
+    for( const word of list ) {
+      trie.insert(word);  
+    }
+
+    list.sort();
+
+    keys = [...trie.keys()];
+    keys.sort();
+
+    const longTest = list.join(',') === keys.join(',');
+
+    if ( ! longTest ) {
+      console.error(`Trie key iterator long test failed.`);
+    } else {
+      console.log(`Trie key iterator long test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+  function repeatedIdempotentTest() {
+    console.group(`\nTrie repeated idempotent test.`);
+
+    const trie = CS.Trie.create();
+    const list = randomWordList(TRIE_SCALE_MAX);
+    const addSet = new Set(list);
+    let valid = true;
+
+    console.time(`Trie repeated idempotent test.`);
+
+    for( const word of list ) {
+      trie.insert(word, word.length);
+    }
+
+    const firstRunKeys = [...trie.keys()].sort();
+
+    for( let i = 1; i < TRIE_REPEAT_RUNS; i++ ) {
+      for( const word of list ) {
+        trie.insert(word, word.length);
+      }
+
+      for( const word of list ) {
+        const test = trie.has(word);
+        valid = valid && test;
+        if ( ! test ) {
+          console.log(`Scale test has failed: ${word} was not present`); 
+        }
+      }
+    } 
+
+    const postRepeatKeys = [...trie.keys()].sort();
+
+    console.timeEnd(`Trie repeated idempotent test.`);
+
+    const keyTest = firstRunKeys.join(',') === postRepeatKeys.join(',');
+
+    if ( ! keyTest ) {
+      console.error(`Key test failed. 
+        Key set should in trie should be the same no matter how many times it is added.`);
+    }
+
+    const sizeTest = trie.size === addSet.size;
+
+    if ( ! sizeTest ) {
+      console.error(`Size test failed. 
+        Trie size should be the same as the number of unique keys added,
+        regardless of how many times those keys were added.
+        Expected: ${addSet.size}
+        Actual: ${trie.size}
+      `);
+    }
+
+    valid = valid && keyTest && sizeTest;
+
+    if ( ! valid ) {
+      console.error(`Trie repeated idempotent test failed.`);
+    } else {
+      console.log(`Trie repeated idempotent test passed.`);
+    }
+
+    //CS.Trie.Class.print(trie);
+
+    console.groupEnd();
   }
 
 // heap tests
