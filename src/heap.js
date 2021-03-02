@@ -353,7 +353,7 @@ export default class Heap {
 
     *#unordered() {
       if ( this.config.asTree ) {
-        for( const {node,depth} of this.#store.dfs() ) {
+        for( const {node} of this.#store.dfs() ) {
           yield node.thing;
         }
       } else {
@@ -429,9 +429,7 @@ export default class Heap {
       // this runs in O(n) 
       const nodes = [];
 
-      const map = new Map();
       for( let i = data.length - 1; i >= 0; i-- ) {
-        const nodeDepth = Math.floor(Math.log(i+1)/Math.log(heap.config.arity));
         const parentIndex = Math.floor((i-1)/heap.config.arity);
         if ( heap.config.asTree ) {
           let childNode = nodes[i];
@@ -453,28 +451,15 @@ export default class Heap {
             parent.addChild(childNode);
           }
         } else {
-          let child = heap.#store[i]; 
-          // we check slots we have already set using nodes,
-            // since we can allow undefined as a value
-            // Bug analysis:
-              // the previous check here child !== undefined
-                // was balking on first node because we set this.#store[0] = Empty
-                // as first free space
-                // while we also set a root node for tree implementation
-                // we create heapified data into tree separate to the #store tree
-                // then overwrite the root, so our tree check was not affected
-                // by this undefined comparison, but our array one way, because
-                // we are writing directly to store here
           if ( ! nodes[i] ) {
-            heap.#store[i] = child = data[i];   
+            heap.#store[i] = data[i];   
             nodes[i] = true;
             heap.#size += 1;
           }
 
           if ( parentIndex >= 0 ) {
-            let parent = heap.#store[parentIndex];
             if ( ! nodes[parentIndex] ) {
-              heap.#store[parentIndex] = parent = data[parentIndex];
+              heap.#store[parentIndex] = data[parentIndex];
               nodes[parentIndex] = true;
               heap.#size += 1;
             }

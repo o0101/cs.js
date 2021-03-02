@@ -212,7 +212,7 @@ export class Node {
     const {children} = opts;
     this.parent = opts.parent;
 
-    if ( opts.hasOwnProperty(THING) ) {
+    if ( Object.hasOwnProperty.call(opts, THING) ) {
       this.thing = opts.thing;
     } else {
       this.thing = Empty;
