@@ -167,11 +167,6 @@ export function create(...args) {
 // helper classes
   export class TrieNode {
     constructor(opts = {}) {
-      if ( opts.char === undefined ) {
-        throw new TypeError(`TrieNode must be created with a string passsed to the 'char' option`);
-      } 
-      this.char = opts.char;
-
       if ( Object.hasOwnProperty.call(opts, 'value') ) {
         this.value = opts.value;
       } else {
