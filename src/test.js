@@ -7,6 +7,7 @@ const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
 const SOL_SCALE_MAX = 10000;
+const TRIE_SCALE_MAX = 10000;
 const DELETE_P = 0.25;
 
 testAll();
@@ -16,16 +17,135 @@ export default {
 };
 
 export function testAll(opts = {}) {
-  testHeap();
-  testSkipList();
-  testPQ();
-
-  // behind an options because
-  // it's seemingly not so useful
-  if ( opts.sol ) {
-    testSelfOrganizingList(); 
-  }
+  //testHeap();
+  //testSkipList();
+  //testSelfOrganizingList(); 
+  //testPQ();
+  testTrie();
 }
+
+// trie tests
+  function testTrie() {
+    basicTest();
+    subtrieDeletionTest();
+    trieScaleTest();
+    trieScaleDeleteAndHasTest();
+  }
+
+  function basicTest() {
+    const trie = CS.Trie.create();
+
+    console.log('Empty trie:\n');
+    console.log(`size: ${trie.size}`);
+
+    CS.Trie.Class.print(trie);
+
+    trie.set('abc', 123);
+    trie.set('ab', 9);
+    trie.set('abracadabra', 12);
+
+    console.log('Trie after 3 insertions:\n');
+    console.log(`size: ${trie.size}`);
+    CS.Trie.Class.print(trie);
+
+    const trues = [
+      {test: 'has abc', val: trie.has('abc') },
+      {test: 'has ab', val: trie.has('ab') },
+      {test: 'has abracadabra', val: trie.has('abracadabra') },
+      {test: 'size is 3', val: trie.size === 3 },
+      {test: `has ''`, val: trie.has('') },
+    ]
+    const falses = [
+      {test: 'has xyz', val: trie.has('xyz') },
+      {test: 'has abr', val: trie.has('abr') },
+    ];
+
+    trie.delete('ab');
+
+    console.log('Trie after 1 deletion:\n');
+    console.log(`size: ${trie.size}`);
+    CS.Trie.Class.print(trie);
+
+    falses.push({val: trie.has('ab'), test: 'has ab after delete'});
+
+    trues.push(...[
+      {test: 'get abc value is 123', val: trie.get('abc').value === 123 },
+      {test: 'get abracadabra value is 12', val: trie.get('abracadabra').value === 12 },
+      {test: 'size is 2', val: trie.size === 2 }
+    ]);
+
+    const truesValid = trues.every(test => test.val === true);
+    const falsesValid = falses.every(test => test.val === false);
+
+    const valid = truesValid && falsesValid;
+
+    if ( valid ) {
+      console.log(`Trie basic test passed.`);
+    } else {
+      console.error(`Trie basic test failed.`);
+      const failedTrues = trues.filter(test => test.val !== true);
+      const failedFalses = falses.filter(test => test.val !== false);
+      console.log(JSON.stringify({failedTrues, failedFalses}, null, 2));
+    }
+  }
+
+  function subtrieDeletionTest() {
+    const trie = CS.Trie.create();
+
+    trie.insert('heliocopter', 999);
+    trie.insert('heliocentric', 888);
+
+    CS.Trie.Class.print(trie);
+
+    trie.delete('heliocopter');
+
+    CS.Trie.Class.print(trie);
+
+    const expectFalse = Object.keys(CS.Trie.Class._testLocate(trie, 'helioc').node.children).length > 1;
+
+    if ( expectFalse !== false ) {
+      console.error(`Subtrie deletion test failed.`);
+    } else {
+      console.log(`Subtrie deletion test passed.`);
+    }
+  }
+
+  function trieScaleTest() {
+    console.group(`Trie scale test.`);
+    console.time(`Trie scale test.`);
+
+    const trie = CS.Trie.create();
+    const list = randomWordList(TRIE_SCALE_MAX);
+    let valid = true;
+
+    for( const word of list ) {
+      trie.insert(word, randomNumber(Math.floor(Math.log(TRIE_SCALE_MAX))));
+    }
+
+    for( const word of list ) {
+      const test = trie.has(word);
+      valid = valid && test;
+      if ( ! test ) {
+        console.log(`Scale test has failed: ${word} was not present`); 
+      }
+    }
+
+    console.timeEnd(`Trie scale test.`);
+
+    if ( ! valid ) {
+      console.error(`Trie scale test failed.`);
+    } else {
+      console.log(`Trie scale test passed.`);
+    }
+
+    //CS.Trie.Class.print(trie);
+
+    console.groupEnd();
+  }
+
+  function trieScaleDeleteAndHasTest() {
+
+  }
 
 // heap tests
   function testHeap() {
@@ -736,6 +856,10 @@ export function testAll(opts = {}) {
       list.push(randomNumber(len));
     }
     return list;
+  }
+
+  function randomWordList(len) {
+    return randomNumberList(len).map(num => num.toString(36));
   }
 
   function randomNumberSkewedList(len, Skew = 0.75) {

@@ -11,8 +11,9 @@ import {Empty} from './lib/tree.js';
 
 export default class Trie {
   // private fields
-  #size
-  #store
+    // size, and the root node
+    #size
+    #store
 
   // API
     constructor(data) {
@@ -27,6 +28,10 @@ export default class Trie {
       return this.#size;
     }
 
+    has(string) {
+      return this.get(string).found;
+    }
+
     set(string, value) {
       let {node, suffix} = this.#locate(string);
       
@@ -37,36 +42,46 @@ export default class Trie {
           } 
           node = node.children[char];
         }
-        this.#size += 1;
       }
 
+      this.#size += 1;
       node.value = value;
     }
 
     get(string) {
       const {suffix, node} = this.#locate(string);
-      let found = true;
+
+      let found = false;
       let value;
 
-      if ( suffix.length === 0 ) {
+      if ( suffix.length === 0 && node.value !== Empty ) {
         ({value} = node);
-      } else {
-        found = false;
+        found = true;
       }
 
       return {found, value}
     }
 
     delete(string) {
-      return this.#delete(string, this.#store, 0); 
+      if ( this.has(string) ) {
+        const wholeSubtreeDeleted = this.#delete(string, this.#store, 0); 
+        this.#size -= 1;
+        return wholeSubtreeDeleted;
+      }
+    }
+
+  // API alias
+    insert(key, value) {
+      return this.set(key, value);
     }
 
   // private instance methods
+    // locate a string in the trie
     #locate(string) {
       let node = this.#store;
       let suffixStart = 0;
 
-      for( const char in string ) {
+      for( const char of string ) {
         if ( char in node.children ) {
           node = node.children[char];
           suffixStart += 1;
@@ -82,32 +97,48 @@ export default class Trie {
         node.value = Empty; 
       } else {
         const char = string[i];
-        if ( char in node.children && this.#delete(string, node.children[char], i+1) ) {
-          delete node.children[char];
+        if ( char in node.children ) {
+          const subtreeEmpty = this.#delete(string, node.children[char], i+1);
+          if ( subtreeEmpty ) {
+            delete node.children[char];
+          }
         }
       }
       return node.value === Empty && Object.keys(node.children).length === 0;
     }
 
+    *#bfs() {
+      const root = this.#store;
+      const queue = [{node:root, depth:0}]; 
+
+      while(queue.length) {
+        const {node,depth} = queue.shift();
+        queue.push(...Object.values(node.children).map(child => ({node:child,depth:depth + 1})));
+        yield {node,depth};
+      }
+    }
+
   // static methods
     static print(trie) {
       let row = 0;
-      console.log(`\nRow: ${row}\n`);
+      console.log(`\nTrie. Size: ${trie.size}`);
 
-      for( const stuff of trie.#store.bfs() ) {
+      console.log(`\n\tRow: ${row}`);
+
+      for( const stuff of trie.#bfs() ) {
         const {node,depth} = stuff;
         if ( depth > row ) {
           row = depth;
-          console.log(`\nRow: ${row}\n`);
+          console.log(`\n\tRow: ${row}`);
         }
-        if ( typeof node.thing !== 'symbol' ) {
-          if ( typeof node.thing === "object" ) {
-            process.stdout.write(`node: ${JSON.stringify(node.thing)} \t`);
+        if ( typeof node.value !== 'symbol' ) {
+          if ( typeof node.value === "object" ) {
+            process.stdout.write(`node: ${node.char} -> ${JSON.stringify(node.value)} \t`);
           } else {
-            process.stdout.write(`node: ${node.thing} \t`);
+            process.stdout.write(`node: ${node.char} -> ${node.value} \t`);
           }
         } else {
-          process.stdout.write(`node: ${Symbol.keyFor(node.thing)} \t`);
+          process.stdout.write(`node: ${node.char} -> ${Symbol.keyFor(node.value)} \t`);
         }
       }
 
@@ -121,6 +152,11 @@ export default class Trie {
     static trieify(trie, data) {
       console.log({trie,data});
     }
+
+    // static test methods
+      static _testLocate(trie, key) {
+        return trie.#locate(key);
+      }
 }
 
 export const Class = Trie;
