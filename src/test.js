@@ -36,6 +36,7 @@ export function testAll(opts = {}) {
     trieScaleDeleteAndHasTest();
     trieKeyIteratorTest();
     repeatedIdempotentTest();
+    edgecaseTrieIteratorTest();
   }
 
   function basicTest() {
@@ -330,6 +331,29 @@ export function testAll(opts = {}) {
     }
 
     //CS.Trie.Class.print(trie);
+
+    console.groupEnd();
+  }
+
+  function edgecaseTrieIteratorTest() {
+    console.group(`\nTrie iterator edgecase test.`);
+
+    const trie = CS.Trie.create();
+
+    trie.set('abcdefghijklmnopq');
+    trie.set('abx');
+
+    let keys = [...trie.keys()];
+
+    keys.sort();
+
+    const test = keys.join(',') === 'abcdefghijklmnopq,abx';
+
+    if ( ! test ) {
+      console.error(`Trie iterator edgecase test failed. Got: ${keys.join(',')}`);
+    } else {
+      console.log(`Trie iterator edgecase test passed.`);
+    }
 
     console.groupEnd();
   }

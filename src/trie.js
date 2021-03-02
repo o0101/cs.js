@@ -137,6 +137,7 @@ export default class Trie {
         let string;
 
         if ( depth < path.length ) {
+          // cut the path back to the depth of the current node
           path.length = depth;
         }
 
