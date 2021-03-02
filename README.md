@@ -12,7 +12,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [Skiplist](src/skiplist.js)
 - [x] [Self-organizing list](src/sol.js) 
 - [x] [Priority queue](src/pq.js)
-- [ ] [Radix trie](src/trie.js) (Adaptive?)
+- [x] [Trie](src/trie.js)
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
   - [ ] Structures for count distinct, hyperloglog, streaming 
   - one reference for something related https://github.com/marmarelis/rolling-quantiles
@@ -21,6 +21,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [ ] [Balanced static BST](src/static-bst.js) ([Day–Stout–Warren algorithm](https://en.wikipedia.org/wiki/Day%E2%80%93Stout%E2%80%93Warren_algorithm))
 - [ ] BIT/Fenwich Tree
 - [ ] Segment Tree
+- [ ] [Radix trie](src/trie.js) (Adaptive?)
 - [ ] \*Sorted-linked-array 
 - [ ] Heap X Circular buffer ( I have an idea for something like concentric circles, heap, each row / layer of heap is actually a circle, maybe like a linked list, or a circular buffer. Somehow combining some heap priority property with some FIFO or overwrite thing. Not sure yet, but maybe there is something )
 - [ ] Circular queue (circular buffer, overwrite queue)
