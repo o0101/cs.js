@@ -7,7 +7,7 @@ const ORDER_TEST_RUNS = 3;
 const LIST_SIZE = 1000;
 const SLIST_SCALE_MAX = 100000;
 const SOL_SCALE_MAX = 10000;
-const TRIE_SCALE_MAX = 10000;
+const TRIE_SCALE_MAX = 100000;
 const DELETE_P = 0.25;
 
 testAll();
