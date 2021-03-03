@@ -1,3 +1,4 @@
+import SingList from './lib/singlist.js';
 import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
@@ -20,6 +21,7 @@ export default {
 
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+  testSingList();
   testLinkedList();
   testHeap();
   testSkipList();
@@ -31,6 +33,15 @@ export function testAll(opts = {}) {
 }
 
 // linkedlist tests
+  function testSingList() {
+    const sl = new SingList([1,2,3]);
+    console.log([...sl]);
+    sl.reverse();
+    console.log([...sl]);
+    sl.recursiveReverse(null, sl.head);
+    console.log([...sl]);
+  }
+
   function testLinkedList() {
     const ll = new LinkedList();
       
