@@ -182,6 +182,22 @@ export default class Heap {
         this.#store[aRoot] = Empty;
       }
       this.#siftDown(aRoot);
+
+
+      // delete the existing extra space
+      const extraSpace = this.#firstEmptySpace;
+      if ( this.config.asTree ) {
+        const {parent} = extraSpace;
+        if( parent ) {
+          parent.deleteSubtree(extraSpace);
+        }
+      } else {
+        if ( extraSpace === this.#store.length - 1 ) {
+          this.#store.length = extraSpace;
+        }
+      }
+      // update first empty space to be the new slot
+      this.#firstEmptySpace = aRoot;
     }
 
     #siftUp(aRoot) {

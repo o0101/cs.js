@@ -1,6 +1,6 @@
 import * as CS from './index.js';
 
-const AS_TREE_SCALE_TEST_MAX = 1000;
+const AS_TREE_SCALE_TEST_MAX = 10000000;
 const AS_LIST_SCALE_TEST_MAX = 10000000;
 const ORDER_TEST_MAX = 10000;
 const ORDER_TEST_RUNS = 3;
@@ -20,10 +20,10 @@ export default {
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   testHeap();
-  testSkipList();
-  testSelfOrganizingList(); 
-  testPQ();
-  testTrie();
+  //testSkipList();
+  //testSelfOrganizingList(); 
+  //testPQ();
+  //testTrie();
 
   console.log('Tests complete.\n\n');
 }

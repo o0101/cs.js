@@ -241,5 +241,14 @@ export class Node {
     newChild.parent = this;
     this.children = children;
   }
+
+  deleteSubtree(child) {
+    const children = this.children;
+    const index = children.indexOf(child);
+    if ( index >= 0 ) {
+      children.splice(index,1);
+    }
+    this.children = children;
+  }
 }
 
