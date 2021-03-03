@@ -1,6 +1,3 @@
-// linkedlist
-  - add reverse (root and terminus and doubly linked, reverse is constant time)
-
 // skiplist
   - prevent levels growing up if there's only one node in level below
   - add other methods (like reverse? root and terminus and double linked)

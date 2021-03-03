@@ -1,3 +1,4 @@
+import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
 const AS_TREE_SCALE_TEST_MAX = 10000;
@@ -19,6 +20,7 @@ export default {
 
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+  testLinkedList();
   testHeap();
   testSkipList();
   testSelfOrganizingList(); 
@@ -27,6 +29,34 @@ export function testAll(opts = {}) {
 
   console.log('Tests complete.\n\n');
 }
+
+// linkedlist tests
+  function testLinkedList() {
+    const ll = new LinkedList();
+      
+    const big = randomNumberList(1000);
+    big.sort();
+
+    for( const num of big ) {
+      ll.push(num);
+    }
+
+    //console.log(big);
+
+    ll.reverse();
+    big.reverse();
+
+    for( const num of big ) {
+      const head = ll.unshift();
+      //const head = ll.pop();
+      //console.log(head);
+      if ( head === num ) continue;
+      else {
+        console.error(`LinkedList reverse failed. Head ${head} !== ${num}`);
+        break;
+      }
+    }
+  }
 
 // trie tests
   function testTrie() {
