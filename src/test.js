@@ -1,6 +1,6 @@
 import * as CS from './index.js';
 
-const AS_TREE_SCALE_TEST_MAX = 10000000;
+const AS_TREE_SCALE_TEST_MAX = 10000;
 const AS_LIST_SCALE_TEST_MAX = 10000000;
 const ORDER_TEST_MAX = 10000;
 const ORDER_TEST_RUNS = 3;
@@ -20,10 +20,10 @@ export default {
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   testHeap();
-  testSkipList();
-  testSelfOrganizingList(); 
-  testPQ();
-  testTrie();
+  //testSkipList();
+  //testSelfOrganizingList(); 
+  //testPQ();
+  //testTrie();
 
   console.log('Tests complete.\n\n');
 }
@@ -562,7 +562,7 @@ export function testAll(opts = {}) {
     {
       console.group(`Scale test heap as tree...`);
       console.time(`Heap As Tree ${AS_TREE_SCALE_TEST_MAX} insertions`);
-      const newHeapAsTree = CS.Heap.create({max:true, arity:8});
+      const newHeapAsTree = CS.Heap.create({asTree: true, max:true, arity:8});
       let max = -Infinity, min = Infinity;
       for( let i = 0; i < AS_TREE_SCALE_TEST_MAX; i++) {
         const randomNumber = Math.floor(Math.random()*AS_TREE_SCALE_TEST_MAX);

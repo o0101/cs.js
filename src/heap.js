@@ -8,7 +8,7 @@ import {Tree, Node, Empty} from './lib/tree.js';
 
 // constants
   const DEFAULT_OPTIONS = {
-    asTree: false,           /* underlying implementation as tree, false is list implementation */
+    asTree: false,          /* underlying implementation as tree, false is list implementation */
     max: true,              /* max heap, false is min heap */
     arity: 2,               /* binary, then 3 is ternary, etc. */
     compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
@@ -76,7 +76,6 @@ export default class Heap {
           }
         }
       }
-
     }
 
     get size() {
@@ -382,14 +381,16 @@ export default class Heap {
   // static methods
     static print(heap, transform) {
       let row = 0;
-      console.log(`\nRow: ${row}\n`);
+      console.log(`\nHeap (${heap.config.asTree ? 'as tree' : 'as list'})`);
+      console.log(`#store: ${heap.#store.constructor.name}`);
+      console.log(`\nRow: ${row}`);
 
       if ( heap.config.asTree ) {
         for( const stuff of heap.#store.bfs() ) {
           const {node,depth} = stuff;
           if ( depth > row ) {
             row = depth;
-            console.log(`\nRow: ${row}\n`);
+            console.log(`\n\nRow: ${row}`);
           }
           if ( typeof node.thing !== 'symbol' ) {
             if ( typeof node.thing === "object" ) {
@@ -407,7 +408,7 @@ export default class Heap {
           const thing = heap.#store[i];
           if ( depth > row ) {
             row = depth;
-            console.log(`\nRow: ${row}\n`);
+            console.log(`\n\nRow: ${row}`);
           }
           if ( typeof thing !== 'symbol' ) {
             let out = thing;

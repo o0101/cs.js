@@ -149,7 +149,7 @@ export class Tree {
       if ( node.thing === Empty ) {
         // an empty node in the tree
         return node;
-      } else if ( node.children.length <  this.config.arity ) {
+      } else if ( node.degree <  this.config.arity ) {
         // a node without a full complement of children
         const newLeaf = new Node({thing:Empty});
         node.addChild(newLeaf);
@@ -206,49 +206,53 @@ export class Tree {
 }
 
 export class Node {
-  #children
+  // private fields
+    // node children
+    #children
 
-  constructor(opts) {
-    const {children} = opts;
-    this.parent = opts.parent;
+  // API 
+    constructor(opts) {
+      const {children} = opts;
+      this.parent = opts.parent;
 
-    if ( Object.hasOwnProperty.call(opts, THING) ) {
-      this.thing = opts.thing;
-    } else {
-      this.thing = Empty;
-    }
+      if ( Object.hasOwnProperty.call(opts, THING) ) {
+        this.thing = opts.thing;
+      } else {
+        this.thing = Empty;
+      }
 
-    if ( Array.isArray(children) ) {
-      for( const child of children ) {
-        this.addChild(child);
+      this.#children = [];
+
+      if ( Array.isArray(children) ) {
+        for( const child of children ) {
+          this.addChild(child);
+        }
       }
     }
-  }
 
-  get children() {
-    return Array.from(this.#children || []);
-  }
-
-  set children(newChildren) {
-    if ( Array.isArray(newChildren) ) {
-      this.#children = Array.from(newChildren);
-    } else throw new TypeError(`Children can only be an array. Received: ${newChildren}`);
-  }
-
-  addChild(newChild) {
-    const children = this.children;
-    children.push(newChild);
-    newChild.parent = this;
-    this.children = children;
-  }
-
-  deleteSubtree(child) {
-    const children = this.children;
-    const index = children.indexOf(child);
-    if ( index >= 0 ) {
-      children.splice(index,1);
+    get degree() {
+      return this.#children.length;
     }
-    this.children = children;
-  }
+
+    get children() {
+      return this.#children;
+    }
+
+    set children(newChildren) {
+      throw new TypeError(`Cannot set all children array. Use addChild instead.`);
+    }
+
+    addChild(newChild) {
+      this.#children.push(newChild);
+      newChild.parent = this;
+    }
+
+    deleteSubtree(child) {
+      const children = this.#children;
+      const index = children.indexOf(child);
+      if ( index >= 0 ) {
+        children.splice(index,1);
+      }
+    }
 }
 
