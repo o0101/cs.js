@@ -20,10 +20,10 @@ export default {
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   testHeap();
-  //testSkipList();
-  //testSelfOrganizingList(); 
-  //testPQ();
-  //testTrie();
+  testSkipList();
+  testSelfOrganizingList(); 
+  testPQ();
+  testTrie();
 
   console.log('Tests complete.\n\n');
 }
