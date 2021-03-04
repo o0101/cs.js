@@ -2,16 +2,19 @@ import SingList from './lib/singlist.js';
 import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
-const AS_TREE_SCALE_TEST_MAX = 10000;
-const AS_LIST_SCALE_TEST_MAX = 10000000;
-const ORDER_TEST_MAX = 10000;
-const ORDER_TEST_RUNS = 3;
-const LIST_SIZE = 1000;
-const SLIST_SCALE_MAX = 100000;
-const SOL_SCALE_MAX = 10000;
-const TRIE_SCALE_MAX = 100000;
-const TRIE_REPEAT_RUNS = 3;
-const DELETE_P = 0.25;
+// constants
+  const AS_TREE_SCALE_TEST_MAX = 10000;
+  const AS_LIST_SCALE_TEST_MAX = 10000000;
+  const ORDER_TEST_MAX = 10000;
+  const ORDER_TEST_RUNS = 3;
+  const LIST_SIZE = 1000;
+  const SLIST_SCALE_MAX = 100000;
+  const SOL_SCALE_MAX = 10000;
+  const TRIE_SCALE_MAX = 100000;
+  const TRIE_REPEAT_RUNS = 3;
+  const DELETE_P = 0.25;
+  const QUICKSORT_SCALE_MAX = 10000;
+  const MERGESORT_SCALE_MAX = 100000;
 
 testAll();
 
@@ -21,6 +24,12 @@ export default {
 
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+  
+  testMergeSort();
+  testQuickSort();
+
+  return;
+
   testSkipList();
   testSingList();
   testLinkedList();
@@ -31,6 +40,106 @@ export function testAll(opts = {}) {
 
   console.log('Tests complete.\n\n');
 }
+
+// mergesort tests
+  function testMergeSort() {
+    mergeSortOrderTest();
+    mergeSortOrderTest({invert:true});
+    mergeSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    mergeSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function mergeSortOrderTest(opts = {}) {
+    console.group(`\nMergeSort test: ${JSON.stringify({opts})}. Length: ${MERGESORT_SCALE_MAX}`);
+
+    const list = randomNumberList(MERGESORT_SCALE_MAX);
+    const compare = opts.compare;
+    let valid = true;
+
+    console.time(`MergeSort test`);
+    const sortedList = CS.MergeSort.sort(list, opts);
+    console.timeEnd(`MergeSort test`);
+
+    let lastVal = CS.MergeSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.MergeSort.signedCompare(lastVal, val, compare, opts.invert);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          MergeSort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    if ( ! valid ) {
+      console.error(`MergeSort test failed.`);
+    } else {
+      console.log(`MergeSort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// quicksort tests
+  function testQuickSort() {
+    quickSortOrderTest();
+    quickSortOrderTest({invert:true});
+    quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function quickSortOrderTest(opts = {}) {
+    console.group(`\nQuickSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(QUICKSORT_SCALE_MAX);
+    const compare = opts.compare;
+    let valid = true;
+
+    console.time(`QuickSort test`);
+    CS.QuickSort.sort(list, opts);
+    console.timeEnd(`QuickSort test`);
+
+    let lastVal = CS.QuickSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+
+    for( const val of list ) {
+      const comparison = CS.QuickSort.signedCompare(lastVal, val, compare, opts.invert);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          QuickSort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    if ( ! valid ) {
+      console.error(`QuickSort test failed.`);
+    } else {
+      console.log(`QuickSort test passed.`);
+    }
+
+    console.groupEnd();
+  }
 
 // skiplist tests
   function testSkipList() {

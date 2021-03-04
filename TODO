@@ -1,6 +1,5 @@
 // the sorts
-  - implement mergesort (iterative and recursive)
-  - implement quicksort (iterative and recursive)
+  - implement quickselect (and another O(n) selection algorithm)
 
 // skiplist
   - improve performance (index awareness has overhead, maybe increased 3x our times)
