@@ -21,16 +21,205 @@ export default {
 
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+  testSkipList();
+  return;
   testSingList();
   testLinkedList();
   testHeap();
-  testSkipList();
   testSelfOrganizingList(); 
   testPQ();
   testTrie();
 
   console.log('Tests complete.\n\n');
 }
+
+// skiplist tests
+  function testSkipList() {
+    skipListMapTest();
+    skipListIndexTest();
+    return;
+    skipListInsertTest();
+    skipListInsertTest({max:true});
+    skipListInsertTest({max:true, _breakLinearize: true});
+
+    skipListHasTest();
+    skipListHasTest({max:true});
+    skipListHasTest({duplicatesOkay:true});   // failing
+
+    skipListScaleTest();
+    skipListScaleTest({max:true});
+    skipListScaleTest({p:1/4});
+    //skipListScaleTest({p:1/4, _breakLinearize: true});
+
+    skipListDeleteTest();
+    skipListDeleteTest({max:true});
+  }
+
+  function skipListIndexTest(opts) {
+    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
+    const slist = CS.SkipList.create(opts);
+
+    slist.insert(0);
+    slist.insert(1);
+    slist.insert(2);
+    slist.insert(3);
+    slist.insert(4);
+    slist.insert(5);
+    slist.insert(6);
+
+    CS.SkipList.Class.print(slist, true);
+
+    console.log(slist.getSlot(0), slist.getSlot(1), slist.getSlot(2));
+  }
+
+  function skipListMapTest(opts) {
+    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
+    const slist = CS.SkipList.create(opts);
+    let valid = true;
+
+    for( let i = 0; i < 1000;i++ ) {
+      slist.set(i, i**2 + 1);
+    }
+
+    CS.SkipList.Class.print(slist);
+
+    for( let i = 1000 - 1; i >= 0;i-- ) {
+      const val = slist.get(i).value;
+      const test = val === i**2 + 1;
+      valid = valid && test;
+      if ( ! test ) {
+        console.error(`SkipList Map test violation. Value ${val} at i ${i} not ${i**2+1}.`);
+      }
+    }
+
+    if ( ! valid ) { 
+      console.error(`SkipList Map test failed.`);
+    } else {
+      console.log(`SkipList Map test passed.`);
+    }
+  }
+
+  function skipListInsertTest(opts) {
+    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
+    const slist = CS.SkipList.create(opts);
+
+    slist.insert(0);
+    slist.insert(1);
+    slist.insert(2);
+    slist.insert(3);
+    slist.insert(4);
+    slist.insert(5);
+    slist.insert(6);
+    slist.insert(-1);
+
+    CS.SkipList.Class.print(slist);
+    console.log();
+  }
+
+  function skipListHasTest(opts) {
+    console.log(`Skiplist has test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(LIST_SIZE);
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+      valid = valid && !slist.has('not in list');
+    }
+
+    //CS.SkipList.Class.print(slist);
+    
+    if ( valid ) {
+      console.log(`Test passed. All inserted numbers tested as present in skiplist.`);
+    } else {
+      console.error(`Test failed. Not all numbers inserted tested as present.`);
+    }
+    console.log();
+  }
+
+  function skipListScaleTest(opts) {
+    console.time(`Skiplist scale test. Insert phase`);
+    console.group(`Skiplist scale test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(SLIST_SCALE_MAX);
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+
+    console.timeEnd(`Skiplist scale test. Insert phase`);
+    console.time(`Skiplist scale test. Has phase`);
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+    }
+
+    if ( valid ) {
+      console.log(`Scale Has Test passed.`);
+    } else {
+      console.error(`Scale Has Test failed.`);
+    }
+    
+    console.timeEnd(`Skiplist scale test. Has phase`);
+    console.groupEnd();
+    console.log();
+  }
+
+  function skipListDeleteTest(opts) {
+    console.log(`Skiplist delete test. Opts: ${JSON.stringify(opts)}`);
+
+    const slist = CS.SkipList.create(opts);
+    const list = randomNumberList(LIST_SIZE);
+    const deleteList = list.filter(() => Math.random() <= DELETE_P);
+
+    const ISIZE = (new Set(list)).size;
+    const DSIZE = (new Set(deleteList)).size;
+
+    let valid = true;
+
+    for(const num of list) {
+      slist.insert(num);
+    }
+
+    for(const num of list) {
+      valid = valid && slist.has(num);
+    }
+
+    for(const num of deleteList) {
+      slist.delete(num);
+    }
+
+    for(const num of deleteList) {
+      const test = !slist.has(num);
+      valid = valid && test
+      if ( ! test ) {
+        console.log(`Requested delete of ${num} but skiplist still has it.`);
+        slist.has(num, true);
+      }
+    }
+
+    //CS.SkipList.Class.print(slist);
+    
+    if ( valid ) {
+      console.log(`Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.`);
+    } else {
+      console.error(`Test failed. Not all numbers inserted or deleted tested correctly.`);
+    }
+
+    console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${slist.size}`);
+
+    console.log();
+  }
 
 // linkedlist tests
   function testSingList() {
@@ -766,146 +955,6 @@ export function testAll(opts = {}) {
     console.groupEnd();
 
     return valid;
-  }
-
-// skiplist tests
-  function testSkipList() {
-    skipListInsertTest();
-    skipListInsertTest({max:true});
-    skipListInsertTest({max:true, _breakLinearize: true});
-
-    skipListHasTest();
-    skipListHasTest({max:true});
-    skipListHasTest({duplicatesOkay:true});   // failing
-
-    skipListScaleTest();
-    skipListScaleTest({max:true});
-    skipListScaleTest({p:1/4});
-    //skipListScaleTest({p:1/4, _breakLinearize: true});
-
-    skipListDeleteTest();
-    skipListDeleteTest({max:true});
-  }
-
-  function skipListInsertTest(opts) {
-    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
-    const slist = CS.SkipList.create(opts);
-
-    slist.insert(0);
-    slist.insert(1);
-    slist.insert(2);
-    slist.insert(3);
-    slist.insert(4);
-    slist.insert(5);
-    slist.insert(6);
-
-    //CS.SkipList.Class.print(slist);
-    console.log();
-  }
-
-  function skipListHasTest(opts) {
-    console.log(`Skiplist has test. Opts: ${JSON.stringify(opts)}`);
-
-    const slist = CS.SkipList.create(opts);
-    const list = randomNumberList(LIST_SIZE);
-
-    let valid = true;
-
-    for(const num of list) {
-      slist.insert(num);
-    }
-
-    for(const num of list) {
-      valid = valid && slist.has(num);
-      valid = valid && !slist.has('not in list');
-    }
-
-    //CS.SkipList.Class.print(slist);
-    
-    if ( valid ) {
-      console.log(`Test passed. All inserted numbers tested as present in skiplist.`);
-    } else {
-      console.error(`Test failed. Not all numbers inserted tested as present.`);
-    }
-    console.log();
-  }
-
-  function skipListScaleTest(opts) {
-    console.time(`Skiplist scale test. Insert phase`);
-    console.group(`Skiplist scale test. Opts: ${JSON.stringify(opts)}`);
-
-    const slist = CS.SkipList.create(opts);
-    const list = randomNumberList(SLIST_SCALE_MAX);
-
-    let valid = true;
-
-    for(const num of list) {
-      slist.insert(num);
-    }
-
-
-    console.timeEnd(`Skiplist scale test. Insert phase`);
-    console.time(`Skiplist scale test. Has phase`);
-
-    for(const num of list) {
-      valid = valid && slist.has(num);
-    }
-
-    if ( valid ) {
-      console.log(`Scale Has Test passed.`);
-    } else {
-      console.error(`Scale Has Test failed.`);
-    }
-    
-    console.timeEnd(`Skiplist scale test. Has phase`);
-    console.groupEnd();
-    console.log();
-  }
-
-  function skipListDeleteTest(opts) {
-    console.log(`Skiplist delete test. Opts: ${JSON.stringify(opts)}`);
-
-    const slist = CS.SkipList.create(opts);
-    const list = randomNumberList(LIST_SIZE);
-    const deleteList = list.filter(() => Math.random() <= DELETE_P);
-
-    const ISIZE = (new Set(list)).size;
-    const DSIZE = (new Set(deleteList)).size;
-
-    let valid = true;
-
-    for(const num of list) {
-      slist.insert(num);
-    }
-
-    for(const num of list) {
-      valid = valid && slist.has(num);
-    }
-
-    for(const num of deleteList) {
-      slist.delete(num);
-    }
-
-    for(const num of deleteList) {
-      const test = !slist.has(num);
-      valid = valid && test
-      if ( ! test ) {
-        console.log(`Requested delete of ${num} but skiplist still has it.`);
-        slist.has(num, true);
-      }
-    }
-
-    //CS.SkipList.Class.print(slist);
-    
-    if ( valid ) {
-      console.log(`Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.`);
-    } else {
-      console.error(`Test failed. Not all numbers inserted or deleted tested correctly.`);
-    }
-
-    console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${slist.size}`);
-
-    console.log();
   }
 
 // PQ (priority queue) tests

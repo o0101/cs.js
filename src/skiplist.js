@@ -44,6 +44,8 @@ export default class SkipList {
       this.config = Object.freeze(options);
 
       this.#root = new Node();
+      this.#root.nextWidth = [0];
+      this.#root.lastWidth = null;
       this.#size = 0;
 
       if ( data !== undefined ) {
@@ -73,15 +75,35 @@ export default class SkipList {
       return this.#size;
     }
 
+    get(thing) {
+      const {node, has} = this.#locate(thing);
+      let value;
+      if ( has ) {
+        ({value} = node);
+      }
+      return {has, value};
+    }
+
+    getSlot(index) {
+      const {node, has} = this.#locateByIndex(index);
+
+      let thing;
+      let value;
+
+      if ( has ) {
+        ({value, thing} = node);
+      }
+      return {has, thing, value};
+    }
+
     has(thing) {
       return this.#locate(thing).has;
     }
 
-    insert(thing) {
+    insert(thing, value = true) {
       const liftUpdates = [];
       let doInsert = false;
-      let newNode;
-
+      
       let {node, has} = this.#locate(thing, liftUpdates);
 
       if ( has ) {
@@ -90,18 +112,18 @@ export default class SkipList {
       } else doInsert = true;
 
       if ( doInsert ) {
-        newNode = new Node({thing});
-
-        if ( node !== undefined ) {
-          const post = node.nextList[0];
-          if ( post !== undefined ) newNode.setNext(0, post);
-          node.setNext(0, newNode);
-        } else this.#root = newNode;
+        const newNode = new Node({thing});
+        newNode.nextWidth = [0];
+        newNode.lastWidth = [0];
 
         // lift up the inserted node
         this.#liftUp(newNode, liftUpdates); 
         this.#size += 1;
+
+        node = newNode;
       }
+
+      node.value = value;
 
       return doInsert;
     }
@@ -128,7 +150,49 @@ export default class SkipList {
       return deleted;
     }
 
+  // alias
+    set(thing, value) {
+      return this.insert(thing, value);
+    }
+
   // private instance methods
+    // insert on row 0 and lift a node up to higher levels
+    #liftUp(node, updates) {
+      if ( this.config.randomized ) {
+        let level = 0;
+
+        /* eslint-disable no-constant-condition */
+        while(true) {
+          const val = Math.random(); 
+          if ( level === 0 || val <= this.config.p ) {
+            let prior = updates[level];
+            if ( prior === undefined ) {
+              prior = updates[level] = this.#root;
+            }
+            node.setNext(level, prior.nextList[level]);
+            prior.setNext(level, node);
+          } else break;
+          level += 1;
+        }
+        /* eslint-enable no-constant-condition */
+
+        const root = this.#root;
+        updates.forEach((prior, level) => {
+          prior.nextWidth[level] = (prior.nextWidth[level] || 0) + 1;
+          //node.lastWidth[level] = prior.nextWidth[level];
+
+          const nextNode = prior.nextList[level];
+          if ( nextNode !== undefined ) {
+            //nextNode.lastWidth[level] = (nextNode.lastWidth[level] || 0) + 1;
+            node.nextWidth[level] = nextNode.lastWidth[level];
+          }
+
+        });
+      } else {
+        throw new TypeError(`Need to implement deterministic lifting.`);
+      }
+    }
+
     // locate a thing, and save any update path 
     #locate(thing, updates = []) {
       let node = this.#root;
@@ -195,26 +259,64 @@ export default class SkipList {
         }
     }
 
-    // life a node up to higher levels
-    #liftUp(node, updates) {
-      if ( node == this.#root ) return;
-      if ( this.config.randomized ) {
-        let level = 0;
+    #locateByIndex(index) {
+      let sum = 0;
+      let node = this.#root;
+      let found = false;
+      let level;
+      let lastNode;
 
-        /* eslint-disable no-constant-condition */
-        while(true) {
-          const val = Math.random(); 
-          if ( val <= this.config.p ) {
-            level += 1;
-            const prior = updates[level] || this.#root;
-            node.setNext(level, prior.nextList[level]);
-            prior.setNext(level, node);
-          } else break;
+      if ( node !== undefined ) {
+        level = node.nextList.length - 1;
+
+        if ( this.config._breakLinearize ) level = 0;
+
+        while(node !== undefined && level >= 0 && ! found) {
+          const linkWidth = node.nextWidth[level];
+          const next = node.nextList[level];
+          //console.log({next, level, node});
+
+          // if there are no more nodes at this level
+          if ( next == undefined ) {
+            goDown();
+          } else { // there are more nodes at this level and we could go across
+            // so we need to compare the next
+
+            if ( (sum + linkWidth) > index ) { // if thing comes before next.thing
+              goDown();
+            } else if ( (sum + linkWidth) < index ) { // if it comes after next.thing
+              goAcross(next, linkWidth);
+            } else { // if it equals next thing
+              found = true;
+              node = next;
+            }
+          }
         }
-        /* eslint-enable no-constant-condition */
-      } else {
-        throw new TypeError(`Need to implement deterministic lifting.`);
+
+        if ( node == undefined ) {
+          // we reached the end of the bottom path
+          // without finding index
+        }
       }
+
+      return {node, has: found}
+
+      // helper closures
+        function goDown() {
+          // save this node for possible update on lifting
+          sum += 0;
+          // go down
+          level -= 1;
+        }
+
+        function goAcross(next, linkWidth) {
+          // save this node for possible update on lifting
+          sum += linkWidth;
+          // save for possible insertion
+          lastNode = node;
+          // go across
+          node = next;
+        }
     }
 
     // determine order between two things
@@ -234,7 +336,7 @@ export default class SkipList {
     }
 
   // static methods
-    static print(skiplist) {
+    static print(skiplist, showWidths = false) {
       const rows = [];
       if ( ! skiplist.#root ) return;
       const nextList = skiplist.#root.nextList;
@@ -247,6 +349,9 @@ export default class SkipList {
         rows[i] = row;
         while(node != undefined) {
           row.push(node.thing);
+          if ( showWidths ) {
+            row.push(`(${node.nextWidth[i]})`);
+          }
           node = node.nextList[i];
         }
       }
