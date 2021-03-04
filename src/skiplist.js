@@ -87,11 +87,10 @@ export default class SkipList {
     getSlot(index) {
       const {node, has} = this.#locateByIndex(index);
 
-      let thing;
-      let value;
+      let thing, value;
 
       if ( has ) {
-        ({value, thing} = node);
+        ({thing, value} = node);
       }
       return {has, thing, value};
     }
@@ -104,7 +103,7 @@ export default class SkipList {
       const liftUpdates = [];
       let doInsert = false;
       
-      let {node, has} = this.#locate(thing, liftUpdates);
+      let {node, has, index} = this.#locate(thing, liftUpdates);
 
       if ( has ) {
         // node will be the last in the chain of 'thing' nodes
@@ -117,7 +116,7 @@ export default class SkipList {
         newNode.lastWidth = [0];
 
         // lift up the inserted node
-        this.#liftUp(newNode, liftUpdates); 
+        this.#liftUp(newNode, liftUpdates, index); 
         this.#size += 1;
 
         node = newNode;
@@ -150,6 +149,34 @@ export default class SkipList {
       return deleted;
     }
 
+    *entries() {
+      let node = this.#root;
+      while(node.nextList[0] !== undefined) {
+        node = node.nextList[0];
+        yield [node.thing, node.value];
+      }
+    }
+
+    *keys() {
+      let node = this.#root;
+      while(node.nextList[0] !== undefined) {
+        node = node.nextList[0];
+        yield node.thing;
+      }
+    }
+
+    *values() {
+      let node = this.#root;
+      while(node.nextList[0] !== undefined) {
+        node = node.nextList[0];
+        yield node.value;
+      }
+    }
+
+    get [Symbol.iterator]() {
+      return this.entries.bind(this);
+    }
+
   // alias
     set(thing, value) {
       return this.insert(thing, value);
@@ -157,7 +184,7 @@ export default class SkipList {
 
   // private instance methods
     // insert on row 0 and lift a node up to higher levels
-    #liftUp(node, updates) {
+    #liftUp(node, updates, targetIndex = 0) {
       if ( this.config.randomized ) {
         let level = 0;
 
@@ -167,8 +194,10 @@ export default class SkipList {
           if ( level === 0 || val <= this.config.p ) {
             let prior = updates[level];
             if ( prior === undefined ) {
-              prior = updates[level] = this.#root;
+              updates[level] = {node: this.#root, index: 0};
             }
+            prior = updates[level].node;
+
             node.setNext(level, prior.nextList[level]);
             prior.setNext(level, node);
           } else break;
@@ -176,17 +205,9 @@ export default class SkipList {
         }
         /* eslint-enable no-constant-condition */
 
-        const root = this.#root;
-        updates.forEach((prior, level) => {
-          prior.nextWidth[level] = (prior.nextWidth[level] || 0) + 1;
-          //node.lastWidth[level] = prior.nextWidth[level];
-
-          const nextNode = prior.nextList[level];
-          if ( nextNode !== undefined ) {
-            //nextNode.lastWidth[level] = (nextNode.lastWidth[level] || 0) + 1;
-            node.nextWidth[level] = nextNode.lastWidth[level];
-          }
-
+        updates.forEach(({node: prior, index}, level) => {
+          prior.nextWidth[level] = targetIndex - index;
+          prior.nextWidth[level] += 1;
         });
       } else {
         throw new TypeError(`Need to implement deterministic lifting.`);
@@ -199,6 +220,7 @@ export default class SkipList {
       let found = false;
       let level;
       let lastNode;
+      let index = 0;
 
       if ( node !== undefined ) {
         level = node.nextList.length - 1;
@@ -236,30 +258,32 @@ export default class SkipList {
           node = lastNode;
         }
 
-        updates[0] = node;
+        updates[0] = {node, index};
       }
 
-      return {node, has: found}
+      return {node, has: found, index}
 
       // helper closures
         function goDown() {
           // save this node for possible update on lifting
-          updates[level] = node;
+          updates[level] = {node, index};
           // go down
           level -= 1;
         }
 
         function goAcross(next) {
           // save this node for possible update on lifting
-          updates[level] = node;
+          updates[level] = {node, index};
           // save for possible insertion
           lastNode = node;
+          index += node.nextWidth[level];
           // go across
           node = next;
         }
     }
 
     #locateByIndex(index) {
+      index += 1;
       let sum = 0;
       let node = this.#root;
       let found = false;

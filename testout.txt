@@ -1,0 +1,928 @@
+
+Running tests for cs.js / (cs101@npm)...
+
+Skiplist iterator test. Opts: undefined
+SkipList iterator tests passed.
+[ 3, 2, 1 ]
+[ 1, 2, 3 ]
+[ 3, 2, 1 ]
+{
+  mainExport: [Object: null prototype] [Module] {
+    Heap: [Object: null prototype] [Module] {
+      Class: [class Heap],
+      create: [Function: create],
+      default: [class Heap]
+    },
+    PQ: [Object: null prototype] [Module] {
+      Class: [class PQ],
+      create: [Function: create],
+      default: [class PQ]
+    },
+    SOL: [Object: null prototype] [Module] {
+      Class: [class SOL],
+      create: [Function: create],
+      default: [class SOL]
+    },
+    SkipList: [Object: null prototype] [Module] {
+      Class: [class SkipList],
+      create: [Function: create],
+      default: [class SkipList]
+    },
+    Trie: [Object: null prototype] [Module] {
+      Class: [class Trie],
+      Start: Symbol(@Start),
+      TrieNode: [class TrieNode],
+      create: [Function: create],
+      default: [class Trie]
+    }
+  }
+}
+New heap
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: @Empty 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: @Empty 	
+
+
+Push 2
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 2 	
+
+Row: 1
+node: 1 	node: @Empty 	
+
+
+Push 4
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	
+
+
+Push 3
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: @Empty 	
+
+
+Push 0
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 4 }
+
+Pop
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 3 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 1 }
+
+Replace max with 5
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 5 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 5 }
+
+New heap
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: @Empty 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: @Empty 	
+
+
+Push 2
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 2 	
+
+Row: 1
+node: 1 	node: @Empty 	
+
+
+Push 4
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	
+
+
+Push 3
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: @Empty 	
+
+
+Push 0
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 4 }
+
+Pop
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 3 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 1 }
+
+Replace max with 5
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 5 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 5 }
+
+Scale test heap as tree...
+{ size: 10000, heapTop: 9998, actual: { min: 0, max: 9998 } }
+  Heap As Tree 10000 insertions: 3.023s
+Scale test heap as list...
+{ size: 10000000, heapTop: 9999999, actual: { min: 0, max: 9999999 } }
+  Heap As List 10000000 insertions: 1.319s
+
+
+Order test testing opts: {"max":true,"arity":2}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":4}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":8}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":5}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":2}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":4}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":8}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":5}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":2}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":4}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":8}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":5}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":2}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":4}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":8}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":5}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"max":true}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"max":false}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"max":true}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"max":false}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"asTree":true,"max":true}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"asTree":true,"max":false}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"asTree":true,"max":true}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"asTree":true,"max":false}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+Heap merge test
+  
+  Heap (as tree)
+  #store: Tree
+  
+  Row: 0
+node: 5 	  
+  
+  Row: 1
+node: 3 	node: 4 	  
+  
+  Row: 2
+node: 2 	node: 1 	  
+  
+  
+  
+  Heap (as list)
+  #store: Array
+  
+  Row: 0
+node: 9 	  
+  
+  Row: 1
+node: 8 	node: 7 	  
+  
+  Row: 2
+node: 5 	node: 6 	  
+  
+  
+  Test passed.
+
+
+Heap huge merge test
+  Size test: true
+  Test passed.
+
+
+Self-organizing list scale test. Opts: undefined
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 25.972ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 12.728ms
+  Expected size: 940. Actual size: 940
+  SOL first 5: [{"key":13,"value":"number 13"},{"key":30,"value":"number 30"},{"key":20,"value":"number 20"},{"key":45,"value":"number 45"},{"key":67,"value":"number 67"}]
+  SOL length: 940
+
+Self-organizing list iterator test. Opts: {}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 2.353ms
+  SOL first 5: [{"key":601,"value":"number 601"},{"key":550,"value":"number 550"},{"key":820,"value":"number 820"},{"key":714,"value":"number 714"},{"key":359,"value":"number 359"}]
+  SOL length: 1000
+
+Self-organizing list scale test. Opts: {"asLinkedList":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 135.598ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 188.225ms
+  Expected size: 907. Actual size: 907
+  SOL first 5: [{"thing":{"key":27,"value":"number 27"}},{"thing":{"key":20,"value":"number 20"}},{"thing":{"key":30,"value":"number 30"}},{"thing":{"key":23,"value":"number 23"}},{"thing":{"key":60,"value":"number 60"}}]
+
+Self-organizing list iterator test. Opts: {"asLinkedList":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 20.2ms
+  SOL first 5: [{"thing":{"key":734,"value":"number 734"}},{"thing":{"key":420,"value":"number 420"}},{"thing":{"key":154,"value":"number 154"}},{"thing":{"key":786,"value":"number 786"}},{"thing":{"key":204,"value":"number 204"}}]
+
+Self-organizing list scale test. Opts: {"_breakNoReorganize":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 24.706ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 14.322ms
+  Expected size: 912. Actual size: 912
+  SOL first 5: [{"key":25,"value":"number 25"},{"key":26,"value":"number 26"},{"key":11,"value":"number 11"},{"key":13,"value":"number 13"},{"key":55,"value":"number 55"}]
+  SOL length: 912
+
+Self-organizing list iterator test. Opts: {"_breakNoReorganize":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 1.428ms
+  SOL first 5: [{"key":536,"value":"number 536"},{"key":938,"value":"number 938"},{"key":317,"value":"number 317"},{"key":560,"value":"number 560"},{"key":146,"value":"number 146"}]
+  SOL length: 1000
+
+Self-organizing list scale test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 133.904ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 207.031ms
+  Expected size: 903. Actual size: 903
+  SOL first 5: [{"thing":{"key":12,"value":"number 12"}},{"thing":{"key":22,"value":"number 22"}},{"thing":{"key":23,"value":"number 23"}},{"thing":{"key":72,"value":"number 72"}},{"thing":{"key":19,"value":"number 19"}}]
+
+Self-organizing list iterator test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 17.084ms
+  SOL first 5: [{"thing":{"key":621,"value":"number 621"}},{"thing":{"key":56,"value":"number 56"}},{"thing":{"key":436,"value":"number 436"}},{"thing":{"key":257,"value":"number 257"}},{"thing":{"key":502,"value":"number 502"}}]
+
+
+
+PQ order test testing opts: ""
+  Run: 1
+  End Run: 1
+  Run: 2
+  End Run: 2
+  Run: 3
+  End Run: 3
+  Total 0 pq property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+PQ order test testing opts: {"max":false}
+  Run: 1
+  End Run: 1
+  Run: 2
+  End Run: 2
+  Run: 3
+  End Run: 3
+  Total 0 pq property violations across 3 runs.
+  Test passed.
+  
+  
+
+Basic trie test.
+  Empty trie:
+  
+  size: 0
+  
+  Trie. Size: 0
+  
+  	Row: 0
+node:  -> @Empty 	  
+  
+  
+  Trie after 3 insertions:
+  
+  size: 3
+  
+  Trie. Size: 3
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> 9 	  
+  	Row: 3
+node:  -> 123 	node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> 12 	  
+  
+  
+  Trie after 1 deletion:
+  
+  size: 2
+  
+  Trie. Size: 2
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> 123 	node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> 12 	  
+  
+  
+  Trie basic test passed.
+
+Subtrie deletion test.
+  
+  Trie. Size: 2
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 11
+node:  -> 999 	node:  -> @Empty 	  
+  	Row: 12
+node:  -> 888 	  
+  
+  
+  
+  Trie. Size: 1
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> @Empty 	  
+  	Row: 12
+node:  -> 888 	  
+  
+  
+  Subtrie deletion test passed.
+
+Trie scale test.
+  Trie scale test.: 190.825ms
+  Trie scale test passed.
+
+Trie scale delete and has test.
+  Trie scale test.: 224.779ms
+  Trie scale test passed.
+
+Trie key iterator test.
+  Trie key iterator short test passed.
+  Trie key iterator long test passed.
+
+Trie repeated idempotent test.
+  Trie repeated idempotent test.: 483.692ms
+  Trie repeated idempotent test passed.
+
+Trie iterator edgecase test.
+  Trie iterator edgecase test passed.
+Tests complete.
+
+

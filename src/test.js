@@ -22,7 +22,6 @@ export default {
 export function testAll(opts = {}) {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   testSkipList();
-  return;
   testSingList();
   testLinkedList();
   testHeap();
@@ -35,9 +34,10 @@ export function testAll(opts = {}) {
 
 // skiplist tests
   function testSkipList() {
-    skipListMapTest();
-    skipListIndexTest();
+    skipListIteratorTests();
     return;
+    skipListIndexTest();
+    skipListMapTest();
     skipListInsertTest();
     skipListInsertTest({max:true});
     skipListInsertTest({max:true, _breakLinearize: true});
@@ -55,21 +55,77 @@ export function testAll(opts = {}) {
     skipListDeleteTest({max:true});
   }
 
+  function skipListIteratorTests(opts) {
+    console.log(`Skiplist iterator test. Opts: ${JSON.stringify(opts)}`);
+    const MAX = 101;
+    const slist = CS.SkipList.create(opts);
+    let valid = true;
+
+    for( let i = MAX; i >= 0; i-- ) {
+      slist.insert(i, `number ${i}`);
+    }
+
+    const keys = [...slist.keys()];
+    const values = [...slist.values()];
+    const entries = [...slist.entries()];
+    const normal = [...slist];
+
+    for( let i = 0; i < MAX; i++ ) {
+      const keyi = keys[i];
+      const vali = values[i];
+      const entryi = entries[i];
+      const entryi2 = normal[i];
+
+      const test =  keyi === i && 
+                    vali === `number ${i}` && 
+                    entryi.join(',') === `${i},number ${i}` &&
+                    entryi2.join(',') === entryi.join(',');
+
+      if ( ! test ) {
+        console.error(`SkipList iterator test fails. Index: ${i} expects iterator values:
+          ${JSON.stringify({key:i, value:`number ${i}`, entry:[i, `number ${i}`]})} but received
+          ${JSON.stringify({keyi, vali, entryi, entryi2})}
+        `);
+      }
+
+      valid = valid && test;
+    }
+
+    if ( ! valid ) { 
+      console.error(`SkipList iterator tests failed.`);
+    } else {
+      console.log(`SkipList iterator tests passed.`);
+    }
+  }
+
   function skipListIndexTest(opts) {
     console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
+    const MAX = 101;
     const slist = CS.SkipList.create(opts);
+    let valid = true;
 
-    slist.insert(0);
-    slist.insert(1);
-    slist.insert(2);
-    slist.insert(3);
-    slist.insert(4);
-    slist.insert(5);
-    slist.insert(6);
+    for( let i = 0; i < MAX; i++ ) {
+      slist.insert(i);
+    }
 
-    CS.SkipList.Class.print(slist, true);
+    //CS.SkipList.Class.print(slist, true);
 
-    console.log(slist.getSlot(0), slist.getSlot(1), slist.getSlot(2));
+    for( let i = 0; i < MAX; i++ ) {
+      const node = slist.getSlot(i);
+      const test = node.thing === i;
+      if ( ! test ) {
+        console.error(`SkipList index test fails. Index: ${i} expects thing value: ${i}.
+          Received: ${node.thing}
+        `);
+      }
+      valid = valid && test;
+    }
+
+    if ( ! valid ) { 
+      console.error(`SkipList index test failed.`);
+    } else {
+      console.log(`SkipList index test passed.`);
+    }
   }
 
   function skipListMapTest(opts) {
