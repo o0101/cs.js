@@ -1,3 +1,7 @@
+// the sorts
+  - implement mergesort (iterative and recursive)
+  - implement quicksort (iterative and recursive)
+
 // skiplist
   - improve performance (index awareness has overhead, maybe increased 3x our times)
   - handle deletion better -- delete the levels if last node
