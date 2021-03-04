@@ -35,7 +35,6 @@ export function testAll(opts = {}) {
 // skiplist tests
   function testSkipList() {
     skipListIteratorTests();
-    return;
     skipListIndexTest();
     skipListMapTest();
     skipListInsertTest();
