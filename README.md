@@ -37,7 +37,18 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 \* - invention
 
+# To Do
+
+- Add docs, complexity, and time benchmarks for all APIs
+- Improve skiplist performance. After adding index-ability, performance got a bit worse. Still very good, but it's 3x worse than original implementation without index-ability. Still ~1 second now for adding 100,000 keys, but used to be 300 ms.
+
 # Notes
+
+## SkipList
+
+- My favorite so far. Such a cool data structure. So simple, and yet so effective.
+- O(lnn) for insert, delete, find, update, and maintains sorted key order, as well as can function as both a set and a map. Also, adding indexability is tricky at first, but is actually easy, and that this data structure can be extended to support random access is testament to how cool it is. SkipLists are great.
+- Supports random access, insert, set (key, value), min or max orders on creation, custom comparators for key order, iterators (JS standard, keys, values, entries and naked iterator ([...skiplist]) for entries)
 
 ## Heap
 
