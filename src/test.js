@@ -27,9 +27,6 @@ export function testAll(opts = {}) {
   
   testMergeSort();
   testQuickSort();
-
-  return;
-
   testSkipList();
   testSingList();
   testLinkedList();
