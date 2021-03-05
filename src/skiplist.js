@@ -130,9 +130,17 @@ export default class SkipList {
     delete(thing) {
       const updates = {nodes:[], indexes:[]};
       let deleted = false;
-      let {node, has} = this.#locate(thing, updates);
+      let {node, has, index: thingIndex} = this.#locate(thing, updates);
 
       if ( has ) {
+        for( let i = 0; i < updates.nodes.length; i++ ) {
+          const prior = updates.nodes[i];
+          if ( prior === undefined ) continue;
+          if ( prior === node.lastList[i] ) continue;
+          const index = updates.indexes[i];
+          prior.nextWidth[i] -= 1;
+        }
+
         for( let i = 0; i < Math.max(node.lastList.length, node.nextList.length); i++ ) {
           const next = node.nextList[i];
           const lastNode = node.lastList[i];
@@ -142,14 +150,6 @@ export default class SkipList {
               lastNode.nextWidth[i] = lastNode.nextWidth[i] + node.nextWidth[i] - 1;
             }
           }
-        }
-
-        for( let i = 0; i < updates.nodes.length; i++ ) {
-          const prior = updates.nodes[i];
-          if ( prior === undefined ) continue;
-          if ( prior === node.lastList[i] ) continue;
-          const index = updates.indexes[i];
-          prior.nextWidth[i] -= 1;
         }
 
         deleted = true;
