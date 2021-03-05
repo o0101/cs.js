@@ -10,7 +10,6 @@ import {Node} from './lib/linkedlist.js';
     _breakLinearize: false,   /* don't only use the lower level. This is a dev setting */
       // mainly used to compare time between linear vs higher level #locate 
     compare: undefined,       /* custom comparator function */
-    indexOptimization: false, /* don't try to speed up how we count indexes, true is try */
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -129,9 +128,9 @@ export default class SkipList {
     }
 
     delete(thing) {
+      const updates = {nodes:[], indexes:[]};
       let deleted = false;
-
-      let {node, has} = this.#locate(thing);
+      let {node, has} = this.#locate(thing, updates);
 
       if ( has ) {
         for( let i = 0; i < Math.max(node.lastList.length, node.nextList.length); i++ ) {
@@ -139,7 +138,18 @@ export default class SkipList {
           const lastNode = node.lastList[i];
           if ( lastNode ) {
             lastNode.setNext(i, next);
+            if ( i > 0 ) {
+              lastNode.nextWidth[i] = lastNode.nextWidth[i] + node.nextWidth[i] - 1;
+            }
           }
+        }
+
+        for( let i = 0; i < updates.nodes.length; i++ ) {
+          const prior = updates.nodes[i];
+          if ( prior === undefined ) continue;
+          if ( prior === node.lastList[i] ) continue;
+          const index = updates.indexes[i];
+          prior.nextWidth[i] -= 1;
         }
 
         deleted = true;
@@ -429,7 +439,6 @@ export function create(...args) {
       duplicatesOkay: 'boolean',
       _breakLinearize: 'boolean',
       compare: ['undefined', 'function'],
-      indexOptimization: 'boolean'
     };
 
     const errors = [];

@@ -3,8 +3,8 @@ import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
 // constants
-  const AS_TREE_SCALE_TEST_MAX = 10000;
-  const AS_LIST_SCALE_TEST_MAX = 10000000;
+  const AS_TREE_SCALE_TEST_MAX = 5000;
+  const AS_LIST_SCALE_TEST_MAX = 5000000;
   const ORDER_TEST_MAX = 10000;
   const ORDER_TEST_RUNS = 3;
   const LIST_SIZE = 1000;
@@ -26,11 +26,13 @@ export function testAll() {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
   testSkipList();
+  return;
+
+  testHeap();
   testMergeSort();
   testQuickSort();
   testSingList();
   testLinkedList();
-  testHeap();
   testSelfOrganizingList(); 
   testPQ();
   testTrie();
@@ -40,8 +42,11 @@ export function testAll() {
 
 // skiplist tests
   function testSkipList() {
-    skipListIndexTest();
-    skipListIndexTest({indexOptimization:true});
+    //skipListIndexTest();
+    skipListIndexTestWithDeletion();
+
+    return;
+
     skipListIteratorTests();
     skipListIndexTest();
     skipListMapTest();
@@ -106,8 +111,8 @@ export function testAll() {
   }
 
   function skipListIndexTest(opts) {
-    console.log(`Skiplist insert test. Opts: ${JSON.stringify(opts)}`);
-    const MAX = 101;
+    console.log(`Skiplist index test. Opts: ${JSON.stringify(opts)}`);
+    const MAX = 1001;
     const slist = CS.SkipList.create(opts);
     let valid = true;
 
@@ -118,8 +123,8 @@ export function testAll() {
     //CS.SkipList.Class.print(slist, true);
 
     for( let i = 0; i < MAX; i++ ) {
-      const node = slist.getSlot(i);
-      const test = node.thing === i;
+      const {thing} = slist.getSlot(i);
+      const test = thing === i;
       if ( ! test ) {
         console.error(`SkipList index test fails. Index: ${i} expects thing value: ${i}.
           Received: ${node.thing}
@@ -132,6 +137,47 @@ export function testAll() {
       console.error(`SkipList index test failed.`);
     } else {
       console.log(`SkipList index test passed.`);
+    }
+  }
+
+  function skipListIndexTestWithDeletion(opts) {
+    console.log(`Skiplist index test with deletion. Opts: ${JSON.stringify(opts)}`);
+    const MAX = 101;
+    const slist = CS.SkipList.create(opts);
+    const list = [];
+    let valid = true;
+
+    for( let i = 0; i < MAX; i++ ) {
+      slist.insert(i);
+      list.push(i);
+    }
+
+    for( let i = 0; i < MAX; i += 3 ) {
+      slist.delete(i);
+      const spliceIndex = list.indexOf(i);
+      list.splice(spliceIndex, 1 );
+    }
+
+    CS.SkipList.Class.print(slist, true);
+    console.log(list);
+
+    for( let i = 0; i < slist.size; i++) {
+      const val = list[i];
+      const {has, thing} = slist.getSlot(i);
+      const test = thing === val;
+      if ( ! test ) {
+        console.error(`SkipList index test with deletion fails. Index: ${
+            i
+          } expects thing value: ${val}. It was ${thing}
+        `);
+      }
+      valid = valid && test;
+    }
+
+    if ( ! valid ) { 
+      console.error(`SkipList index test with deletion failed.`);
+    } else {
+      console.log(`SkipList index test with deletion passed.`);
     }
   }
 
@@ -754,9 +800,10 @@ export function testAll() {
 // heap tests
   function testHeap() {
     console.log({mainExport:CS});
+    scaleTest();
+    return;
     testHeapAsTree();
     testHeapAsList();
-    scaleTest();
     orderTest({max:true, arity:2});
     orderTest({max:true, arity:4});
     orderTest({max:true, arity:8});
