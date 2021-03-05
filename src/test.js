@@ -3,6 +3,7 @@ import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
 // constants
+  const BS_SCALE_MAX = 2000000;
   const AS_TREE_SCALE_TEST_MAX = 5000;
   const AS_LIST_SCALE_TEST_MAX = 5000000;
   const ORDER_TEST_MAX = 10000;
@@ -27,6 +28,10 @@ export function testAll() {
 
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
+  testBinarySearch();
+
+  return;
+
   testSkipList();
   testHeap();
   testMergeSort();
@@ -39,6 +44,75 @@ export function testAll() {
 
   console.log('Tests complete.\n\n');
 }
+
+// binary search tests
+  function testBinarySearch() {
+    binarySearchScaleTest();
+  }
+
+  function binarySearchScaleTest() {
+    const len = BS_SCALE_MAX;
+    console.group(`Binary search scale test. ${len}`);
+
+    const sortedNumArray = randomSortedArray(len);  
+    const sortedWordArray = randomSortedArray(len, {asWords:true});  
+    let valid = true;
+
+    console.time(`Binary search find phase.`); 
+
+    const limit = len/10;
+    console.log(`Finding ${limit} numbers...`);
+
+    for(let i = 0; i < limit; i++) {
+      const randomIndex = Math.floor(Math.random()*len);
+      const randomNumber = sortedNumArray[randomIndex];
+
+      const {has, index} = CS.BinarySearch.find(sortedNumArray, randomNumber);
+      const test = has && index === randomIndex;
+
+      if ( ! test ) {
+        console.error(`Binary search find test failed. Thing ${randomNumber} was present at ${
+            randomIndex
+          }, but binary search returned ${JSON.stringify({has, index})}
+        `);
+      }
+
+      valid = valid && test;
+    }
+
+    console.log(`Done.`);
+
+    console.log(`Finding ${limit} words...`);
+
+    for(let i = 0; i < limit; i++) {
+      const randomIndex = Math.floor(Math.random()*len);
+      const randomWord = sortedNumArray[randomIndex];
+
+      const {has, index} = CS.BinarSearch.find(sortedWordArray, randomWord);
+      const test = has && index === randomIndex;
+
+      if ( ! test ) {
+        console.error(`Binary search find test failed. Thing ${randomWord} was present at ${
+            randomIndex
+          }, but binary search returned ${JSON.stringify({has, index})}
+        `);
+      }
+
+      valid = valid && test;
+    }
+
+    console.log(`Done.`);
+
+    console.timeEnd(`Binary search find phase.`); 
+
+    if ( ! valid ) {
+      console.error(`Binary search test failed.`);
+    } else {
+      console.log(`Binary search test passed.`);
+    }
+
+    console.groupEnd();
+  }
 
 // skiplist tests
   function testSkipList() {
@@ -1372,6 +1446,23 @@ export function testAll() {
 
   function randomWordList(len) {
     return randomNumberList(len).map(num => num.toString(36));
+  }
+
+  function randomSortedArray(len, {asWords: asWords = false} = {}) {
+    const list = new Array(len);
+    const base = Math.ceil(Math.log(len));
+    let n = base;
+
+    for( let i = 0; i < len; i++ ) {
+      n += randomNumber(base); 
+      if ( asWords ) {
+        list[i] = n.toString(36);
+      } else {
+        list[i] = n;
+      }
+    }
+
+    return list;
   }
 
   function randomNumberSkewedList(len, Skew = 0.75) {
