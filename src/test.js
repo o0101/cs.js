@@ -23,11 +23,11 @@ export default {
 };
 
 export function testAll() {
+  console.log({mainExport:CS});
+
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
   testSkipList();
-  return;
-
   testHeap();
   testMergeSort();
   testQuickSort();
@@ -42,11 +42,8 @@ export function testAll() {
 
 // skiplist tests
   function testSkipList() {
-    //skipListIndexTest();
+    skipListIndexTest();
     skipListIndexTestWithDeletion();
-
-    return;
-
     skipListIteratorTests();
     skipListIndexTest();
     skipListMapTest();
@@ -127,7 +124,7 @@ export function testAll() {
       const test = thing === i;
       if ( ! test ) {
         console.error(`SkipList index test fails. Index: ${i} expects thing value: ${i}.
-          Received: ${node.thing}
+          Received: ${thing}
         `);
       }
       valid = valid && test;
@@ -142,28 +139,34 @@ export function testAll() {
 
   function skipListIndexTestWithDeletion(opts) {
     console.log(`Skiplist index test with deletion. Opts: ${JSON.stringify(opts)}`);
-    const MAX = 10;
+    const MAX = 11111;
     const slist = CS.SkipList.create(opts);
     const list = [];
     let valid = true;
 
+    console.time(`Skiplist index test with deletion.`);
     for( let i = 0; i < MAX; i++ ) {
       slist.insert(i);
-      list.push(i);
     }
 
-    for( let i = 0; i < MAX; i += 3 ) {
-      slist.delete(i);
-      const spliceIndex = list.indexOf(i);
-      list.splice(spliceIndex, 1 );
+    //CS.SkipList.Class.print(slist, true);
+
+    for( let i = 0; i < MAX; i++ ) {
+      if ( i % 3 === 0 ) {
+        slist.delete(i);
+      } else {
+        list.push(i);
+      }
     }
 
-    CS.SkipList.Class.print(slist, true);
-    console.log(list);
+    console.timeEnd(`Skiplist index test with deletion.`);
+
+    //CS.SkipList.Class.print(slist, true);
+    //console.log(list);
 
     for( let i = 0; i < slist.size; i++) {
       const val = list[i];
-      const {has, thing} = slist.getSlot(i);
+      const {thing} = slist.getSlot(i);
       const test = thing === val;
       if ( ! test ) {
         console.error(`SkipList index test with deletion fails. Index: ${
@@ -799,9 +802,7 @@ export function testAll() {
 
 // heap tests
   function testHeap() {
-    console.log({mainExport:CS});
     scaleTest();
-    return;
     testHeapAsTree();
     testHeapAsList();
     orderTest({max:true, arity:2});
