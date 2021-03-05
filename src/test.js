@@ -22,12 +22,12 @@ export default {
   testAll
 };
 
-export function testAll(opts = {}) {
+export function testAll() {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
+  testSkipList();
   testMergeSort();
   testQuickSort();
-  testSkipList();
   testSingList();
   testLinkedList();
   testHeap();
@@ -38,108 +38,10 @@ export function testAll(opts = {}) {
   console.log('Tests complete.\n\n');
 }
 
-// mergesort tests
-  function testMergeSort() {
-    mergeSortOrderTest();
-    mergeSortOrderTest({invert:true});
-    mergeSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
-    mergeSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
-  }
-
-  function mergeSortOrderTest(opts = {}) {
-    console.group(`\nMergeSort test: ${JSON.stringify({opts})}. Length: ${MERGESORT_SCALE_MAX}`);
-
-    const list = randomNumberList(MERGESORT_SCALE_MAX);
-    const compare = opts.compare;
-    let valid = true;
-
-    console.time(`MergeSort test`);
-    const sortedList = CS.MergeSort.sort(list, opts);
-    console.timeEnd(`MergeSort test`);
-
-    let lastVal = CS.MergeSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
-
-    for( const val of sortedList ) {
-      const comparison = CS.MergeSort.signedCompare(lastVal, val, compare, opts.invert);
-      const test = comparison >= 0; // in order
-
-      valid = valid && test;
-
-      if ( ! test ) {
-        console.error(`
-          MergeSort test order violation. Value ${val} was not equal to or ${
-            opts.invert ? 'less than' : 'greater than'
-          } previous value ${lastVal}. It needs to be. ${comparison}
-        `);
-        break;
-      }
-
-      lastVal = val;
-    }
-
-    console.log({lastVal});
-
-    if ( ! valid ) {
-      console.error(`MergeSort test failed.`);
-    } else {
-      console.log(`MergeSort test passed.`);
-    }
-
-    console.groupEnd();
-  }
-
-// quicksort tests
-  function testQuickSort() {
-    quickSortOrderTest();
-    quickSortOrderTest({invert:true});
-    quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
-    quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
-  }
-
-  function quickSortOrderTest(opts = {}) {
-    console.group(`\nQuickSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
-
-    const list = randomNumberList(QUICKSORT_SCALE_MAX);
-    const compare = opts.compare;
-    let valid = true;
-
-    console.time(`QuickSort test`);
-    CS.QuickSort.sort(list, opts);
-    console.timeEnd(`QuickSort test`);
-
-    let lastVal = CS.QuickSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
-
-    for( const val of list ) {
-      const comparison = CS.QuickSort.signedCompare(lastVal, val, compare, opts.invert);
-      const test = comparison >= 0; // in order
-
-      valid = valid && test;
-
-      if ( ! test ) {
-        console.error(`
-          QuickSort test order violation. Value ${val} was not equal to or ${
-            opts.invert ? 'less than' : 'greater than'
-          } previous value ${lastVal}. It needs to be. ${comparison}
-        `);
-        break;
-      }
-
-      lastVal = val;
-    }
-
-    console.log({lastVal});
-
-    if ( ! valid ) {
-      console.error(`QuickSort test failed.`);
-    } else {
-      console.log(`QuickSort test passed.`);
-    }
-
-    console.groupEnd();
-  }
-
 // skiplist tests
   function testSkipList() {
+    skipListIndexTest();
+    skipListIndexTest({indexOptimization:true});
     skipListIteratorTests();
     skipListIndexTest();
     skipListMapTest();
@@ -380,6 +282,106 @@ export function testAll(opts = {}) {
     console.log(`Expected size: ${ISIZE - DSIZE}. Actual size: ${slist.size}`);
 
     console.log();
+  }
+
+// mergesort tests
+  function testMergeSort() {
+    mergeSortOrderTest();
+    mergeSortOrderTest({invert:true});
+    mergeSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    mergeSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function mergeSortOrderTest(opts = {}) {
+    console.group(`\nMergeSort test: ${JSON.stringify({opts})}. Length: ${MERGESORT_SCALE_MAX}`);
+
+    const list = randomNumberList(MERGESORT_SCALE_MAX);
+    const compare = opts.compare;
+    let valid = true;
+
+    console.time(`MergeSort test`);
+    const sortedList = CS.MergeSort.sort(list, opts);
+    console.timeEnd(`MergeSort test`);
+
+    let lastVal = CS.MergeSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.MergeSort.signedCompare(lastVal, val, compare, opts.invert);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          MergeSort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    if ( ! valid ) {
+      console.error(`MergeSort test failed.`);
+    } else {
+      console.log(`MergeSort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// quicksort tests
+  function testQuickSort() {
+    quickSortOrderTest();
+    quickSortOrderTest({invert:true});
+    quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function quickSortOrderTest(opts = {}) {
+    console.group(`\nQuickSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(QUICKSORT_SCALE_MAX);
+    const compare = opts.compare;
+    let valid = true;
+
+    console.time(`QuickSort test`);
+    CS.QuickSort.sort(list, opts);
+    console.timeEnd(`QuickSort test`);
+
+    let lastVal = CS.QuickSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+
+    for( const val of list ) {
+      const comparison = CS.QuickSort.signedCompare(lastVal, val, compare, opts.invert);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          QuickSort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    if ( ! valid ) {
+      console.error(`QuickSort test failed.`);
+    } else {
+      console.log(`QuickSort test passed.`);
+    }
+
+    console.groupEnd();
   }
 
 // linkedlist tests

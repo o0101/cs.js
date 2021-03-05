@@ -1,10 +1,12 @@
-// the sorts
-  - implement quickselect (and another O(n) selection algorithm)
-
 // skiplist
+  - count indexes on delete as well
   - improve performance (index awareness has overhead, maybe increased 3x our times)
   - handle deletion better -- delete the levels if last node
   - prevent levels growing up if there's only one node in level below
   - add other methods (like reverse? root and terminus and double linked)
+
+// the sorts
+  - implement quickselect (and another O(n) selection algorithm)
+
 
 

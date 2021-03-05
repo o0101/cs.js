@@ -86,7 +86,7 @@ class SingNode {
   }
 
   set next(node) {
-    return this.#next = node;
+    this.#next = node;
   }
 
   get thing() {
@@ -94,6 +94,6 @@ class SingNode {
   }
 
   set thing(thing) {
-    return this.#thing = thing;
+    this.#thing = thing;
   }
 }

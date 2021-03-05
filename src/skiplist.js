@@ -2,14 +2,15 @@ import {Node} from './lib/linkedlist.js';
 
 // constants
   const DEFAULT_OPTIONS = {
-    max: false,             /* increasing order, true gives decreasing order */
-    p: 1/2,                 /* probability node lifts to higher levels */
-    randomized: true,       /* if we base lifting on randomizedation   */
-      // false uses a deterministic lifting scheme
-    duplicatesOkay: false,  /* only insert each thing once, true allows dupes */
-    _breakLinearize: false, /* don't only use the lower level. This is a dev setting */
+    max: false,               /* increasing order, true gives decreasing order */
+    p: 1/2,                   /* probability node lifts to higher levels */
+    randomized: true,         /* if we base lifting on randomizedation   */
+      // false uses a determ  inistic lifting scheme
+    duplicatesOkay: false,    /* only insert each thing once, true allows dupes */
+    _breakLinearize: false,   /* don't only use the lower level. This is a dev setting */
       // mainly used to compare time between linear vs higher level #locate 
-    compare: undefined      /* custom comparator function */
+    compare: undefined,       /* custom comparator function */
+    indexOptimization: false, /* don't try to speed up how we count indexes, true is try */
   };
 
   const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
@@ -76,12 +77,12 @@ export default class SkipList {
     }
 
     get(thing) {
-      const {node, has} = this.#locate(thing);
+      const {node, has, index} = this.#locate(thing);
       let value;
       if ( has ) {
         ({value} = node);
       }
-      return {has, value};
+      return {has, value, index};
     }
 
     getSlot(index) {
@@ -100,7 +101,7 @@ export default class SkipList {
     }
 
     insert(thing, value = true) {
-      const liftUpdates = [];
+      const liftUpdates = {nodes:[], indexes:[]};
       let doInsert = false;
       
       let {node, has, index} = this.#locate(thing, liftUpdates);
@@ -192,11 +193,12 @@ export default class SkipList {
         while(true) {
           const val = Math.random(); 
           if ( level === 0 || val <= this.config.p ) {
-            let prior = updates[level];
+            let prior = updates.nodes[level];
             if ( prior === undefined ) {
-              updates[level] = {node: this.#root, index: 0};
+              updates.nodes[level] = this.#root;
+              updates.indexes[level] = 0;
             }
-            prior = updates[level].node;
+            prior = updates.nodes[level];
 
             node.setNext(level, prior.nextList[level]);
             prior.setNext(level, node);
@@ -205,22 +207,30 @@ export default class SkipList {
         }
         /* eslint-enable no-constant-condition */
 
-        updates.forEach(({node: prior, index}, level) => {
-          prior.nextWidth[level] = targetIndex - index;
-          prior.nextWidth[level] += 1;
-        });
+        for( let i = 0; i < updates.nodes.length; i++ ) {
+          const prior = updates.nodes[i];
+          if ( prior === undefined ) continue;
+          prior.nextWidth[i] = targetIndex - updates.indexes[i];
+          prior.nextWidth[i] += 1;
+        }
       } else {
         throw new TypeError(`Need to implement deterministic lifting.`);
       }
     }
 
-    // locate a thing, and save any update path 
-    #locate(thing, updates = []) {
+    // locate a thing, 
+      // if the thing is there, returns its node,
+      // otherwise return the node that would be before it, if it were there,
+      // also, return its index 
+      // and save any update path (the path we traverse to get there,
+      // and which needs to be updated on insert/delete)
+    // locate the thing
+    #locate(thing, updates = {nodes: [], indexes: []}) {
       let node = this.#root;
       let found = false;
+      let index = 0;
       let level;
       let lastNode;
-      let index = 0;
 
       if ( node !== undefined ) {
         level = node.nextList.length - 1;
@@ -258,7 +268,8 @@ export default class SkipList {
           node = lastNode;
         }
 
-        updates[0] = {node, index};
+        updates.nodes[0] = node
+        updates.indexes[0] = index;
       }
 
       return {node, has: found, index}
@@ -266,14 +277,16 @@ export default class SkipList {
       // helper closures
         function goDown() {
           // save this node for possible update on lifting
-          updates[level] = {node, index};
+          updates.nodes[level] = node;
+          updates.indexes[level] = index;
           // go down
           level -= 1;
         }
 
         function goAcross(next) {
           // save this node for possible update on lifting
-          updates[level] = {node, index};
+          updates.nodes[level] = node;
+          updates.indexes[level] = index;
           // save for possible insertion
           lastNode = node;
           index += node.nextWidth[level];
@@ -282,13 +295,17 @@ export default class SkipList {
         }
     }
 
+    // locate a thing by index
     #locateByIndex(index) {
-      index += 1;
+      // why do we add 1 here?
+        // actually our skiplist's regular nodes are 1-indexed
+        // with the inner root is at index 0
+        // which accounts for the 1 width links from root to head
+      index += 1;       
       let sum = 0;
       let node = this.#root;
       let found = false;
       let level;
-      let lastNode;
 
       if ( node !== undefined ) {
         level = node.nextList.length - 1;
@@ -316,11 +333,6 @@ export default class SkipList {
             }
           }
         }
-
-        if ( node == undefined ) {
-          // we reached the end of the bottom path
-          // without finding index
-        }
       }
 
       return {node, has: found}
@@ -336,8 +348,6 @@ export default class SkipList {
         function goAcross(next, linkWidth) {
           // save this node for possible update on lifting
           sum += linkWidth;
-          // save for possible insertion
-          lastNode = node;
           // go across
           node = next;
         }
@@ -398,7 +408,7 @@ export default class SkipList {
 
   // debug methods
     _debugShowWork(thing) {
-      const updates = [];
+      const updates = {nodes:[], indexes:[]};
       const {node, has} = this.#locate(thing, updates);
       console.log({node, has, nextList: node.nextList, lastList: node.lastList, updates});
       return has;
@@ -418,7 +428,8 @@ export function create(...args) {
       randomized: 'boolean',
       duplicatesOkay: 'boolean',
       _breakLinearize: 'boolean',
-      compare: ['undefined', 'function']
+      compare: ['undefined', 'function'],
+      indexOptimization: 'boolean'
     };
 
     const errors = [];
