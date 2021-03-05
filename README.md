@@ -13,6 +13,8 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [Self-organizing list](src/sol.js) 
 - [x] [Priority queue](src/pq.js)
 - [x] [Trie](src/trie.js)
+- [x] [QuickSort](src/quicksort.js)
+- [x] [MergeSort](src/mergesort.js)
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
   - [ ] Structures for count distinct, hyperloglog, streaming 
   - one reference for something related https://github.com/marmarelis/rolling-quantiles
