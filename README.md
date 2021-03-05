@@ -42,9 +42,6 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 # To Do
 
-- implement mergesort (iterative and recursive)
-- implement quicksort (iterative and recursive)
-- Improve skiplist performance. After adding index-ability, performance got a bit worse. Still very good, but it's 3x worse than original implementation without index-ability. Still ~1 second now for adding 100,000 keys, but used to be 300 ms.
 - Add docs, complexity, and time benchmarks for all APIs
 
 # Notes
