@@ -37,6 +37,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [ ] Conflict-free replicated list
 - [ ] conflict-free replicated map
 - [ ] Conflict-free replicated JSON?
+- [ ] Myers algorithm for diffs, longest common subsequence, sequence alignment, edit script, edit distance, and so on. :) ;P xx CHAKKA ;P ;) xxxX! WOo! OORAH !! OH YEAH :p :) xxx :p :) XXXX
 
 \* - invention
 
