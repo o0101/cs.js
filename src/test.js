@@ -142,7 +142,7 @@ export function testAll() {
 
   function skipListIndexTestWithDeletion(opts) {
     console.log(`Skiplist index test with deletion. Opts: ${JSON.stringify(opts)}`);
-    const MAX = 101;
+    const MAX = 10;
     const slist = CS.SkipList.create(opts);
     const list = [];
     let valid = true;
