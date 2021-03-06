@@ -27,11 +27,12 @@ export default {
 
 export function testAll() {
   console.log({mainExport:CS});
-
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
-
   testQuickSelect();
+
+  return;
+
   testQuickSort();
   //testBinarySearch();
   testMergeSort();
@@ -48,14 +49,15 @@ export function testAll() {
 
 // quick select
   function testQuickSelect() {
-    quickSelectTest();
-    quickSelectTest();
+    quickSelectTest({select:CS.QuickSelect.select});
+    quickSelectTest({select:CS.QuickSelect.select});
+    quickSelectTest({select:CS.QuickSelect.select, pivot: 'mom'});
   }
 
   function quickSelectTest(opts) {
     console.group(`QuickSelect test. List length: ${
         QUICKSELECT_SCALE_MAX
-      }. K-th order trials: ${QUICKSELECT_TRIALS}`);
+      }. K-th order trials: ${QUICKSELECT_TRIALS}. Opts: ${JSON.stringify(opts || {})}`);
     const list = randomNumberList(10);
     const sortedList = list.slice(0).sort();
     let valid = true;
@@ -65,7 +67,7 @@ export function testAll() {
     for( let i = 0; i < QUICKSELECT_TRIALS; i++ ) {
       const k = randomNumber(list.length) + 1;
       const kthOrder = sortedList[k-1];
-      const qsKthOrder = CS.QuickSelect.select(list, k, opts);
+      const qsKthOrder = opts.select(list, k, opts);
       const test = kthOrder === qsKthOrder;
       if ( ! test ) {
         console.error(`QuickSelect kth order test (trial ${i}) failed. For k ${k} k-th order statistic is

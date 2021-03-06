@@ -1,9 +1,8 @@
 const DEFAULT_OPTIONS = {
   invert: false,            /* invert order */
   compare: DEFAULT_COMPARE,
-  fastPartition: true,      /* standard textbook partition algorithm,
-                            /* false is a simple, easy to understand, but 3 - 6 times slower 
-                            /* partition algorithm */
+  pivot: undefined          /* standard random pivot. 'mom' uses median of medians algorithm */
+                            /* but throws if list[0] is not a number */
 };
 
 export default function QuickSort(data, opts) {
@@ -13,6 +12,11 @@ export default function QuickSort(data, opts) {
 
   opts = Object.assign({}, DEFAULT_OPTIONS, opts);
 
+  if ( opts.pivot === 'mom' ) {
+    if ( typeof list[0] !== 'number') {
+      throw new TypeError(`Median of medians pivot selection algorithm can only be used on lists of numbers. Received: ${list[0]} at list position 0`);
+    }
+  }
   recursiveQuickSort(data, 0, data.length - 1, opts);
 }
 
@@ -46,6 +50,41 @@ export function partition(list, low, high, opts, pivot) {
   swap(list, s, high);
 
   return s;
+}
+
+export function tripartition(list, n, low, high, opts, pivot) {
+  //return partition(list, low, high, opts, pivot);
+    let pivotValue = list[pivot]
+    swap(list, pivot, high)  // Move pivot to end
+    let storeIndex = low;
+
+  // Move all elements smaller than the pivot to the low of the pivot
+    for( let i = low; i < high; i++ ) { 
+      if ( list[i] < pivotValue ) {
+        swap(list, storeIndex, i);
+        storeIndex++;
+      }
+    }
+
+  // Move all elements equal to the pivot high after
+  // the smaller elements
+    let storeIndexEq = storeIndex;
+    for( let i = storeIndex; i < high; i++ ) { 
+      if( list[i] === pivotValue ) {
+        swap(list, storeIndexEq, i);
+        storeIndexEq++;
+      }
+    }
+
+  swap(list, high, storeIndexEq); // Move pivot to its final place
+
+  // Return location of pivot considering the desired location n
+  if( n < storeIndex ) {
+    return storeIndex;  // n is in the group of smaller elements
+  } else if ( n <= storeIndexEq ) {
+    return n;  // n is in the group equal to pivot
+  }
+  return storeIndexEq // n is in the group of larger elements
 }
 
 export function swap(list, i, j) {
