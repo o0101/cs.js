@@ -16,6 +16,8 @@ import * as CS from './index.js';
   const DELETE_P = 0.25;
   const QUICKSORT_SCALE_MAX = 10000;
   const MERGESORT_SCALE_MAX = 10000;
+  const QUICKSELECT_SCALE_MAX = 10000;
+  const QUICKSELECT_TRIALS = 1000;
 
 testAll();
 
@@ -28,6 +30,10 @@ export function testAll() {
 
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
+  testQuickSelect();
+
+  return;
+
   //testBinarySearch();
   testQuickSort();
   testMergeSort();
@@ -41,6 +47,45 @@ export function testAll() {
 
   console.log('Tests complete.\n\n');
 }
+
+// quick select
+  function testQuickSelect() {
+    quickSelectTest();
+    quickSelectTest();
+  }
+
+  function quickSelectTest(opts) {
+    console.group(`QuickSelect test. List length: ${
+        QUICKSELECT_SCALE_MAX
+      }. K-th order trials: ${QUICKSELECT_TRIALS}`);
+    const list = randomNumberList(QUICKSELECT_SCALE_MAX);
+    const sortedList = list.slice(0).sort();
+    let valid = true;
+
+    console.time(`QuickSelect ${QUICKSELECT_TRIALS} trials.`);
+
+    for( let i = 0; i < QUICKSELECT_TRIALS; i++ ) {
+      const k = randomNumber(list.length);
+      const kthOrder = sortedList[k];
+      const qsKthOrder = CS.QuickSelect.select(list, k, opts);
+      const test = kthOrder === qsKthOrder;
+      if ( ! test ) {
+        console.error(`QuickSelect kth order test failed. For k ${k} k-th order statistic is
+          ${kthOrder}, but received: ${qsKthOrder}`);
+      }
+      valid = valid && test;
+    }
+
+    console.timeEnd(`QuickSelect ${QUICKSELECT_TRIALS} trials.`);
+
+    if ( ! valid ) {
+      console.error(`QuickSelect test failed.`);
+    } else {
+      console.log(`QuickSelect test passed.`);
+    }
+
+    console.groupEnd();
+  }
 
 // binary search tests
   function testBinarySearch() {

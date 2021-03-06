@@ -6,6 +6,7 @@ export * as Trie from './trie.js';
 
 export * as QuickSort from './quicksort.js';
 export * as MergeSort from './mergesort.js';
+export * as QuickSelect from './quickselect.js';
 export * as BinarySearch from './binarysearch.js';
 
 
