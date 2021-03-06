@@ -4,17 +4,17 @@ import * as CS from './index.js';
 
 // constants
   const BS_SCALE_MAX = 200000;
-  const AS_TREE_SCALE_TEST_MAX = 5000;
-  const AS_LIST_SCALE_TEST_MAX = 5000000;
+  const AS_TREE_SCALE_TEST_MAX = 1000;
+  const AS_LIST_SCALE_TEST_MAX = 1000000;
   const ORDER_TEST_MAX = 10000;
   const ORDER_TEST_RUNS = 3;
   const LIST_SIZE = 1000;
-  const SLIST_SCALE_MAX = 100000;
+  const SLIST_SCALE_MAX = 10000;
   const SOL_SCALE_MAX = 10000;
-  const TRIE_SCALE_MAX = 100000;
+  const TRIE_SCALE_MAX = 10000;
   const TRIE_REPEAT_RUNS = 3;
   const DELETE_P = 0.25;
-  const QUICKSORT_SCALE_MAX = 100000;
+  const QUICKSORT_SCALE_MAX = 10000;
   const MERGESORT_SCALE_MAX = 10000;
   const QUICKSELECT_SCALE_MAX = 100000;
   const QUICKSELECT_TRIALS = 300;
@@ -31,7 +31,6 @@ export function testAll() {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
   testInsertionSort();
-  return;
   testBinarySearch();
   testQuickSelect();
   testQuickSort();

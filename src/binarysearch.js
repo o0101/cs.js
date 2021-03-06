@@ -40,8 +40,12 @@ function recursiveBinarySearch(data, item, low, high, opts) {
   } else {
     if ( comparison === 0 ) {
       return {has: true, index: foundIndex};
-    } else {
-      return {has: false, index: low};
+    } else if ( comparison > 0 ) {
+      //console.log({foundItem, item, comparison, low, high, foundIndex, low1: low+1});
+      return {has: false, index: foundIndex+1};
+    } else if ( comparison < 0 ) {
+      //console.log({foundItem, item, comparison, low, high, foundIndex});
+      return {has: false, index: foundIndex};
     }
   }
 }
@@ -72,8 +76,10 @@ function iterativeBinarySearch(data, item, opts ) {
 
   if ( comparison === 0 ) {
     return {has: true, index: foundIndex};
-  } else {
-    return {has: false, index: low};
+  } else if ( comparison > 0 ) {
+    return {has: false, index: foundIndex+1};
+  } else if ( comparison < 0 ) {
+    return {has: false, index: foundIndex};
   }
 }
 

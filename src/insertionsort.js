@@ -27,16 +27,23 @@ export default function InsertionSort(data, opts) {
     const tail = data.slice(1);
     let sortedMaxVal = data[0];
 
-    for( const val of tail ) {
+    //console.log({data,sortedList,tail,sortedMaxVal});
+
+    while(tail.length) {
+      //console.log();
+      const val = tail.pop();
       const comparison = signedCompare(sortedMaxVal, val, opts);  
       if ( comparison >= 0 ) {
         // do nothing, already in order
         sortedList.push(val);
       } else {
         const insertIndex = BinarySearch(sortedList, val, opts).index;
+        //console.log({insertIndex});
         sortedList.splice(insertIndex, 0, val);
       }
       sortedMaxVal = sortedList[sortedList.length-1];
+      //console.log({sortedMaxVal, val, comparison});
+      //console.log({sortedList, tail});
     }
 
     return sortedList;
