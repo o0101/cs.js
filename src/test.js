@@ -15,7 +15,7 @@ import * as CS from './index.js';
   const TRIE_REPEAT_RUNS = 3;
   const DELETE_P = 0.25;
   const QUICKSORT_SCALE_MAX = 10000;
-  const MERGESORT_SCALE_MAX = 100000;
+  const MERGESORT_SCALE_MAX = 10000;
 
 testAll();
 
@@ -28,14 +28,11 @@ export function testAll() {
 
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
-  testBinarySearch();
-
-  return;
-
+  //testBinarySearch();
+  testQuickSort();
+  testMergeSort();
   testSkipList();
   testHeap();
-  testMergeSort();
-  testQuickSort();
   testSingList();
   testLinkedList();
   testSelfOrganizingList(); 
@@ -409,6 +406,7 @@ export function testAll() {
 
 // mergesort tests
   function testMergeSort() {
+    console.log();
     mergeSortOrderTest();
     mergeSortOrderTest({invert:true});
     mergeSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
@@ -419,17 +417,16 @@ export function testAll() {
     console.group(`\nMergeSort test: ${JSON.stringify({opts})}. Length: ${MERGESORT_SCALE_MAX}`);
 
     const list = randomNumberList(MERGESORT_SCALE_MAX);
-    const compare = opts.compare;
     let valid = true;
 
     console.time(`MergeSort test`);
     const sortedList = CS.MergeSort.sort(list, opts);
     console.timeEnd(`MergeSort test`);
 
-    let lastVal = CS.MergeSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+    let lastVal = CS.MergeSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
 
     for( const val of sortedList ) {
-      const comparison = CS.MergeSort.signedCompare(lastVal, val, compare, opts.invert);
+      const comparison = CS.MergeSort.signedCompare(lastVal, val, opts);
       const test = comparison >= 0; // in order
 
       valid = valid && test;
@@ -459,10 +456,12 @@ export function testAll() {
 
 // quicksort tests
   function testQuickSort() {
+    console.log();
     quickSortOrderTest();
     quickSortOrderTest({invert:true});
     quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
     quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+    quickSortOrderTest({fastPartition:false});
   }
 
   function quickSortOrderTest(opts = {}) {
@@ -476,10 +475,10 @@ export function testAll() {
     CS.QuickSort.sort(list, opts);
     console.timeEnd(`QuickSort test`);
 
-    let lastVal = CS.QuickSort.signedCompare(-1, 1, compare, opts.invert) < 0 ? Infinity : -Infinity;
+    let lastVal = CS.QuickSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
 
     for( const val of list ) {
-      const comparison = CS.QuickSort.signedCompare(lastVal, val, compare, opts.invert);
+      const comparison = CS.QuickSort.signedCompare(lastVal, val, opts);
       const test = comparison >= 0; // in order
 
       valid = valid && test;

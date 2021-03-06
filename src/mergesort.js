@@ -10,29 +10,29 @@ export default function MergeSort(data, opts) {
 
   opts = Object.assign({}, DEFAULT_OPTIONS, opts);
 
-  return recursiveMergeSort(data, opts.compare, opts.invert);
+  return recursiveMergeSort(data, opts);
 }
 
 export const sort = MergeSort;
 
-function recursiveMergeSort(list, compare, invert) {
+function recursiveMergeSort(list, opts) {
   if ( list.length <= 1 ) {
     return list;
   } else {
     const half = list.length>>1;
-    const sortedLeft = recursiveMergeSort(list.slice(0,half), compare, invert);
-    const sortedRight = recursiveMergeSort(list.slice(half), compare, invert);
-    return merge(sortedLeft, sortedRight, compare, invert);
+    const sortedLeft = recursiveMergeSort(list.slice(0,half), opts);
+    const sortedRight = recursiveMergeSort(list.slice(half), opts);
+    return merge(sortedLeft, sortedRight, opts);
   }
 }
 
-function merge(a, b, compare, invert) {
+function merge(a, b, opts) {
   const sorted = [];
   let ai = 0;
   let bi = 0;
 
   while(ai < a.length && bi < b.length) {
-    const comparison = signedCompare(a[ai], b[bi], compare, invert);
+    const comparison = signedCompare(a[ai], b[bi], opts);
     const head = comparison >= 0 ? a[ai++] : b[bi++];
     sorted.push(head); 
   }
@@ -49,7 +49,7 @@ function merge(a, b, compare, invert) {
 }
 
 
-export function signedCompare(a, b, compare = DEFAULT_COMPARE, invert = false) {
+export function signedCompare(a, b, {compare: compare = DEFAULT_COMPARE, invert: invert = false} = {}) {
   const comparison = compare(a, b);
   if ( invert ) {
     return -comparison;
