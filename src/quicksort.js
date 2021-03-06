@@ -33,10 +33,12 @@ function recursiveQuickSort(list, low, high, opts) {
 }
 // simple pivot using O(n) extra space
 // so we can easily choose any item as pivot
-function simplePartition(list, low, high, opts) {
+export function simplePartition(list, low, high, opts, pivotIndex) {
   const listLength = high - low + 1;
   const pivotedList = new Array(listLength);
-  const pivotIndex = Math.floor(Math.random()*listLength) + low;
+  if ( pivotIndex === undefined ) {
+    pivotIndex = Math.floor(Math.random()*listLength) + low;
+  }
   const pivotItem = list[pivotIndex];
   let pivot;
   let i = low;
@@ -67,10 +69,11 @@ function simplePartition(list, low, high, opts) {
 }
 
 // sophisticated partition 
-function sophisticatedPartition(list, low, high, opts) {
-  const pivotIndex = high;
-  //Math.floor(Math.random()*list.length) + low;
-  const pivotItem = list[pivotIndex];
+export function sophisticatedPartition(list, low, high, opts, pivot) {
+  if ( pivot !== undefined ) {
+    swap(list, pivot, high);
+  }
+  const pivotItem = list[high];
 
   let i = low;
 
@@ -82,12 +85,12 @@ function sophisticatedPartition(list, low, high, opts) {
     }
   }
 
-  swap(list, i, pivotIndex);
+  swap(list, high, i);
 
   return i;
 }
 
-function swap(list, i, j) {
+export function swap(list, i, j) {
   const temp = list[i];
   list[i] = list[j];
   list[j] = temp;
@@ -101,7 +104,7 @@ export function signedCompare(a, b, {compare: compare = DEFAULT_COMPARE, invert:
   return comparison;
 }
 
-function DEFAULT_COMPARE(a, b) {
+export function DEFAULT_COMPARE(a, b) {
   if ( a > b ) {
     return -1;
   } else if ( a < b ) {

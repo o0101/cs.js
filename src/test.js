@@ -58,7 +58,7 @@ export function testAll() {
     console.group(`QuickSelect test. List length: ${
         QUICKSELECT_SCALE_MAX
       }. K-th order trials: ${QUICKSELECT_TRIALS}`);
-    const list = randomNumberList(QUICKSELECT_SCALE_MAX);
+    const list = randomNumberList(10);
     const sortedList = list.slice(0).sort();
     let valid = true;
 
@@ -70,7 +70,7 @@ export function testAll() {
       const qsKthOrder = CS.QuickSelect.select(list, k, opts);
       const test = kthOrder === qsKthOrder;
       if ( ! test ) {
-        console.error(`QuickSelect kth order test failed. For k ${k} k-th order statistic is
+        console.error(`QuickSelect kth order test (trial ${i}) failed. For k ${k} k-th order statistic is
           ${kthOrder}, but received: ${qsKthOrder}`);
       }
       valid = valid && test;
