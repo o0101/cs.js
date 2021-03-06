@@ -1,6 +1,3 @@
-// the sorts
-  - implement quickselect (and another O(n) selection algorithm)
-
 // skiplist
   - handle deletion better -- delete the levels if last node
   - prevent levels growing up if there's only one node in level below (keep a max height on the skiplist and only allow grow by 1 level at a time)

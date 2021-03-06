@@ -15,6 +15,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [Trie](src/trie.js)
 - [x] [QuickSort](src/quicksort.js)
 - [x] [MergeSort](src/mergesort.js)
+- [x] [QuickSelect](src/quickselect.js)
 - [ ] [BinarySearch](src/binarysearch.js)
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
   - [ ] Structures for count distinct, hyperloglog, streaming 

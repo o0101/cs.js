@@ -13,12 +13,6 @@ export default function QuickSort(data, opts) {
 
   opts = Object.assign({}, DEFAULT_OPTIONS, opts);
 
-  if ( opts.fastPartition ) {
-    opts.partition = sophisticatedPartition;
-  } else {
-    opts.partition = simplePartition;
-  }
-
   recursiveQuickSort(data, 0, data.length - 1, opts);
 }
 
@@ -26,68 +20,32 @@ export const sort = QuickSort;
 
 function recursiveQuickSort(list, low, high, opts) {
   if ( low < high ) {
-    const p = opts.partition(list, low, high, opts);
+    const p = partition(list, low, high, opts);
     recursiveQuickSort(list, low, p - 1, opts);
     recursiveQuickSort(list, p + 1, high, opts);
   }
 }
 // simple pivot using O(n) extra space
-// so we can easily choose any item as pivot
-export function simplePartition(list, low, high, opts, pivotIndex) {
-  const listLength = high - low + 1;
-  const pivotedList = new Array(listLength);
-  if ( pivotIndex === undefined ) {
-    pivotIndex = Math.floor(Math.random()*listLength) + low;
-  }
-  const pivotItem = list[pivotIndex];
-  let pivot;
-  let i = low;
-  let j = high;
-  let u = low;
-
-  while( i < j ) {
-    const unpivotedItem = list[u];
-    const comparison = signedCompare(unpivotedItem, pivotItem, opts);
-    if ( comparison >= 0 ) {           // 'normal compare order'
-      pivotedList[i] = unpivotedItem;
-      i++;
-    } else if ( comparison === -1 ) {   // 'normal compare out of order'
-      pivotedList[j] = unpivotedItem;
-      j--;
-    }
-    u++;
-  }
-
-  pivot = i;
-  pivotedList[pivot] = pivotItem;
-
-  for( i = low; i <= high; i++ ) {
-    list[i] = pivotedList[i];
-  }
-  
-  return pivot;
-}
-
 // sophisticated partition 
-export function sophisticatedPartition(list, low, high, opts, pivot) {
+export function partition(list, low, high, opts, pivot) {
   if ( pivot !== undefined ) {
     swap(list, pivot, high);
   }
   const pivotItem = list[high];
 
-  let i = low;
+  let s = low;
 
-  for( let j = low; j < high; j++ ) {
-    const comparison = signedCompare(list[j], pivotItem, opts);
+  for( let i = low; i < high; i++ ) {
+    const comparison = signedCompare(list[i], pivotItem, opts);
     if ( comparison >= 0 ) {
-      swap(list, i, j);
-      i++;
+      swap(list, s, i);
+      s++;
     }
   }
 
-  swap(list, high, i);
+  swap(list, s, high);
 
-  return i;
+  return s;
 }
 
 export function swap(list, i, j) {

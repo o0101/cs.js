@@ -17,7 +17,7 @@ import * as CS from './index.js';
   const QUICKSORT_SCALE_MAX = 10000;
   const MERGESORT_SCALE_MAX = 10000;
   const QUICKSELECT_SCALE_MAX = 10000;
-  const QUICKSELECT_TRIALS = 1000;
+  const QUICKSELECT_TRIALS = 300;
 
 testAll();
 
@@ -30,12 +30,10 @@ export function testAll() {
 
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
+
   testQuickSelect();
-
-  return;
-
-  //testBinarySearch();
   testQuickSort();
+  //testBinarySearch();
   testMergeSort();
   testSkipList();
   testHeap();
@@ -65,8 +63,8 @@ export function testAll() {
     console.time(`QuickSelect ${QUICKSELECT_TRIALS} trials.`);
 
     for( let i = 0; i < QUICKSELECT_TRIALS; i++ ) {
-      const k = randomNumber(list.length);
-      const kthOrder = sortedList[k];
+      const k = randomNumber(list.length) + 1;
+      const kthOrder = sortedList[k-1];
       const qsKthOrder = CS.QuickSelect.select(list, k, opts);
       const test = kthOrder === qsKthOrder;
       if ( ! test ) {
