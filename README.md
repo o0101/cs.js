@@ -14,7 +14,8 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 - [x] [QuickSort](src/quicksort.js)
 - [x] [MergeSort](src/mergesort.js)
 - [x] [QuickSelect](src/quickselect.js)
-- [ ] [BinarySearch](src/binarysearch.js)
+- [x] [InsertionSort](src/insertionsort.js)
+- [x] [BinarySearch](src/binarysearch.js)
 
 ## Disclaimer
 

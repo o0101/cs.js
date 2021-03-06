@@ -3,7 +3,7 @@ import {LinkedList} from './lib/linkedlist.js';
 import * as CS from './index.js';
 
 // constants
-  const BS_SCALE_MAX = 2000000;
+  const BS_SCALE_MAX = 200000;
   const AS_TREE_SCALE_TEST_MAX = 5000;
   const AS_LIST_SCALE_TEST_MAX = 5000000;
   const ORDER_TEST_MAX = 10000;
@@ -14,10 +14,11 @@ import * as CS from './index.js';
   const TRIE_SCALE_MAX = 100000;
   const TRIE_REPEAT_RUNS = 3;
   const DELETE_P = 0.25;
-  const QUICKSORT_SCALE_MAX = 10000;
+  const QUICKSORT_SCALE_MAX = 100000;
   const MERGESORT_SCALE_MAX = 10000;
-  const QUICKSELECT_SCALE_MAX = 10000;
+  const QUICKSELECT_SCALE_MAX = 100000;
   const QUICKSELECT_TRIALS = 300;
+  const INSERTIONSORT_SCALE_MAX = 1000;
 
 testAll();
 
@@ -29,9 +30,10 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
+  testInsertionSort();
+  testBinarySearch();
   testQuickSelect();
   testQuickSort();
-  //testBinarySearch();
   testMergeSort();
   testSkipList();
   testHeap();
@@ -44,7 +46,66 @@ export function testAll() {
   console.log('Tests complete.\n\n');
 }
 
-// quick select
+// insertion sort tests 
+  function testInsertionSort() {
+    insertionSortOrderTest();
+    insertionSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    insertionSortOrderTest({invert:true});
+    insertionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function insertionSortOrderTest(opts = {}) {
+    console.group(`\nInsertion Sort test: ${JSON.stringify({opts})}. Length: ${INSERTIONSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(INSERTIONSORT_SCALE_MAX);
+    let valid = true;
+
+    console.time(`Insertion Sort test`);
+    const sortedList = CS.InsertionSort.sort(list, opts);
+    console.timeEnd(`Insertion Sort test`);
+
+    let lastVal = CS.InsertionSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.InsertionSort.signedCompare(lastVal, val, opts);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          Insertion Sort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    const lengthTest = sortedList.length === list.length;
+
+    if ( ! lengthTest ) {
+      console.error(`Insertion Sort length test failed. Sorted list is expected to be 
+        the same length as the original list (${list.length}), 
+        but its length was ${sortedList.length}`);
+    }
+
+    valid = valid && lengthTest;
+
+    if ( ! valid ) {
+      console.error(`Insertion Sort test failed.`);
+    } else {
+      console.log(`Insertion Sort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// quick select test
   function testQuickSelect() {
     quickSelectTest({select:CS.QuickSelect.select});
     quickSelectTest({select:CS.QuickSelect.select, recursive: true});
@@ -87,12 +148,13 @@ export function testAll() {
 
 // binary search tests
   function testBinarySearch() {
+    binarySearchScaleTest({recursive:true});
     binarySearchScaleTest();
   }
 
-  function binarySearchScaleTest() {
+  function binarySearchScaleTest(opts) {
     const len = BS_SCALE_MAX;
-    console.group(`Binary search scale test. ${len}`);
+    console.group(`Binary search scale test. ${len}. Opts: ${JSON.stringify(opts || {})}`);
 
     const sortedNumArray = randomSortedArray(len);  
     const sortedWordArray = randomSortedArray(len, {asWords:true});  
@@ -107,8 +169,8 @@ export function testAll() {
       const randomIndex = Math.floor(Math.random()*len);
       const randomNumber = sortedNumArray[randomIndex];
 
-      const {has, index} = CS.BinarySearch.find(sortedNumArray, randomNumber);
-      const test = has && index === randomIndex;
+      const {has, index} = CS.BinarySearch.find(sortedNumArray, randomNumber, opts);
+      const test = has && ((index === randomIndex) || (sortedNumArray[index] === randomNumber));
 
       if ( ! test ) {
         console.error(`Binary search find test failed. Thing ${randomNumber} was present at ${
@@ -126,10 +188,10 @@ export function testAll() {
 
     for(let i = 0; i < limit; i++) {
       const randomIndex = Math.floor(Math.random()*len);
-      const randomWord = sortedNumArray[randomIndex];
+      const randomWord = sortedWordArray[randomIndex];
 
-      const {has, index} = CS.BinarSearch.find(sortedWordArray, randomWord);
-      const test = has && index === randomIndex;
+      const {has, index} = CS.BinarySearch.find(sortedWordArray, randomWord, opts);
+      const test = has && ((index === randomIndex) || (sortedWordArray[index] === randomWord));
 
       if ( ! test ) {
         console.error(`Binary search find test failed. Thing ${randomWord} was present at ${
@@ -1504,6 +1566,11 @@ export function testAll() {
       }
     }
 
+    if ( asWords ) {
+      list.sort();
+    } else {
+      list.sort((a,b) => a-b);
+    }
     return list;
   }
 
