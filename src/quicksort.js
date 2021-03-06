@@ -13,8 +13,8 @@ export default function QuickSort(data, opts) {
   opts = Object.assign({}, DEFAULT_OPTIONS, opts);
 
   if ( opts.pivot === 'mom' ) {
-    if ( typeof list[0] !== 'number') {
-      throw new TypeError(`Median of medians pivot selection algorithm can only be used on lists of numbers. Received: ${list[0]} at list position 0`);
+    if ( typeof data[0] !== 'number') {
+      throw new TypeError(`Median of medians pivot selection algorithm can only be used on lists of numbers. Received: ${data[0]} at list position 0`);
     }
   }
   recursiveQuickSort(data, 0, data.length - 1, opts);

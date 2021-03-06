@@ -30,10 +30,10 @@ export function testAll() {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
   testQuickSelect();
+  testQuickSort();
 
   return;
 
-  testQuickSort();
   //testBinarySearch();
   testMergeSort();
   testSkipList();
@@ -50,8 +50,9 @@ export function testAll() {
 // quick select
   function testQuickSelect() {
     quickSelectTest({select:CS.QuickSelect.select});
-    quickSelectTest({select:CS.QuickSelect.select});
+    quickSelectTest({select:CS.QuickSelect.select, recursive: true});
     quickSelectTest({select:CS.QuickSelect.select, pivot: 'mom'});
+    quickSelectTest({select:CS.QuickSelect.select, pivot: 'mom', recursive:true});
   }
 
   function quickSelectTest(opts) {
@@ -506,7 +507,7 @@ export function testAll() {
     quickSortOrderTest({invert:true});
     quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
     quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
-    quickSortOrderTest({fastPartition:false});
+    quickSortOrderTest({pivot: 'mom'});
   }
 
   function quickSortOrderTest(opts = {}) {
