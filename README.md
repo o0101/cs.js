@@ -15,7 +15,7 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 ## Tree Structures
 
 - [x] [Heap](src/heap.js) - **O(1)** (find top) **O(log n)** (insert, delete, update), **O(n)** (heapify), **O(n)** space partially ordered stack of things, good for leaderboard
-- [x] [Priority queue](src/pq.js) - **O(1) (find top) **O(log n)** (insert, delete, update), **O(n)** (heapify), **O(n)** space stack of thing, priority pairs partially ordered by their priorities, good for job scheduling
+- [x] [Priority queue](src/pq.js) - **O(1)** (find top) **O(log n)** (insert, delete, update), **O(n)** (heapify), **O(n)** space stack of thing, priority pairs partially ordered by their priorities, good for job scheduling
 - [x] [Trie](src/trie.js) - **O(k)** (insert, delete, update) **O(n)** trie-ify **O(n)** space tree of a list of sequences (commonly strings), good for full-text search
 
 ## Hybrid Tree/List Structures
@@ -29,9 +29,9 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 ## Sorting Algorithms 
 
-- [x] [InsertionSort](src/insertionsort.js) - **O(n**2)** (no binary search), **O(n log n)** (with binary search), **O(n)** (already sorted)
+- [x] [InsertionSort](src/insertionsort.js) - **O(n\*\*2)** (no binary search), **O(n log n)** (with binary search), **O(n)** (already sorted)
 - [x] [MergeSort](src/mergesort.js) - **O(n log n)** (every case) **O(n) space** stable sort, divide and conquer, merging
-- [x] [QuickSort](src/quicksort.js) - **O(n**2)** (worst case of bad pivots) **O(n log n)** **O(1) space** non-stable in-place sort, divide and conquer, partitioning on pivot, *bad pivots can lead to quadratic performance.*
+- [x] [QuickSort](src/quicksort.js) - **O(n\*\*2)** (worst case of bad pivots) **O(n log n)** **O(1) space** non-stable in-place sort, divide and conquer, partitioning on pivot, *bad pivots can lead to quadratic performance.*
 
 ## Disclaimer
 
