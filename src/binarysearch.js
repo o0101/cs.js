@@ -14,16 +14,18 @@ export default function BinarySearch(data, item, opts) {
 
   opts = Object.assign({}, DEFAULT_OPTIONS, opts);
 
+  opts = Object.freeze(opts);
+
   if ( opts.recursive ) {
     return recursiveBinarySearch(data, item, 0, data.length - 1, opts);
   } else {
-    return iterativeBinarySearch(data, item, opts);
+    return iterativeBinarySearch(data, item, 0, data.length - 1, opts);
   }
 }
 
 export const find = BinarySearch;
 
-function recursiveBinarySearch(data, item, low, high, opts) {
+export function recursiveBinarySearch(data, item, low, high, opts) {
   const foundIndex = Math.floor((low + high)/2);
   const foundItem = data[foundIndex];
   const comparison = signedCompare(foundItem, item, opts);
@@ -32,7 +34,10 @@ function recursiveBinarySearch(data, item, low, high, opts) {
     if ( comparison > 0 ) {
       low = foundIndex + 1;
     } else if ( comparison < 0 ) {
-      high = foundIndex - 1;
+      high = foundIndex;
+      if ( high > 0 ) {
+        high--;
+      }
     } else {
       return {has: true, index: foundIndex};
     }
@@ -50,12 +55,14 @@ function recursiveBinarySearch(data, item, low, high, opts) {
   }
 }
 
-function iterativeBinarySearch(data, item, opts ) {
-  let low = 0;
-  let high = data.length - 1;
+export function iterativeBinarySearch(data, item, low, high, opts ) {
   let foundIndex;
   let foundItem;
   let comparison;
+
+  if ( data.length === 0 ) {
+    throw new TypeError(`OK`);
+  }
 
   do {
     foundIndex = Math.floor((low + high)/2);
@@ -64,7 +71,10 @@ function iterativeBinarySearch(data, item, opts ) {
     if ( comparison > 0 ) {
       low = foundIndex + 1;
     } else if ( comparison < 0 ) {
-      high = foundIndex - 1;
+      high = foundIndex;
+      if ( high > 0 ) {
+        high--;
+      }
     } else {
       break;
     }
@@ -74,6 +84,11 @@ function iterativeBinarySearch(data, item, opts ) {
   foundItem = data[foundIndex];
   comparison = signedCompare(foundItem, item, opts);
 
+  /**
+  if ( foundIndex < 0 ) {
+    console.log({low,high});
+  }
+  **/
   if ( comparison === 0 ) {
     return {has: true, index: foundIndex};
   } else if ( comparison > 0 ) {

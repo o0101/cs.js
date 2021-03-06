@@ -18,7 +18,7 @@ import * as CS from './index.js';
   const MERGESORT_SCALE_MAX = 10000;
   const QUICKSELECT_SCALE_MAX = 100000;
   const QUICKSELECT_TRIALS = 300;
-  const INSERTIONSORT_SCALE_MAX = 1000;
+  const INSERTIONSORT_SCALE_MAX = 2500;
 
 testAll();
 
@@ -30,18 +30,40 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
-  testInsertionSort();
-  testBinarySearch();
-  testQuickSelect();
-  testQuickSort();
-  testMergeSort();
-  testSkipList();
-  testHeap();
-  testSingList();
-  testLinkedList();
-  testSelfOrganizingList(); 
-  testPQ();
-  testTrie();
+
+  // list structures
+    testSingList();
+
+    testLinkedList();
+
+    testSelfOrganizingList(); 
+
+
+  // tree structures
+    testHeap();
+
+    testPQ();
+
+    testTrie();
+
+
+  // hybrid list/tree structures
+    testSkipList();
+
+
+  // seeking algorithms
+    testBinarySearch();
+
+    testQuickSelect();
+
+
+  // sorting algorithms
+    testInsertionSort();
+
+    testMergeSort();
+
+    testQuickSort();
+
 
   console.log('Tests complete.\n\n');
 }
@@ -52,7 +74,11 @@ export function testAll() {
     insertionSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
     insertionSortOrderTest({invert:true});
     insertionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
-    insertionSortOrderTest({inplace:false});
+
+    insertionSortOrderTest({inplace:true});
+    insertionSortOrderTest({inplace:true, nosplice: true});
+    insertionSortOrderTest({inplace:true, nobs: true});
+    insertionSortOrderTest({nobs:true});
   }
 
   function insertionSortOrderTest(opts = {}) {
