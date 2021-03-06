@@ -31,9 +31,6 @@ export function testAll() {
   
   testQuickSelect();
   testQuickSort();
-
-  return;
-
   //testBinarySearch();
   testMergeSort();
   testSkipList();
