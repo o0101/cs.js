@@ -31,6 +31,7 @@ export function testAll() {
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
   testInsertionSort();
+  return;
   testBinarySearch();
   testQuickSelect();
   testQuickSort();
@@ -52,6 +53,7 @@ export function testAll() {
     insertionSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
     insertionSortOrderTest({invert:true});
     insertionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+    insertionSortOrderTest({inplace:false});
   }
 
   function insertionSortOrderTest(opts = {}) {
@@ -78,6 +80,7 @@ export function testAll() {
             opts.invert ? 'less than' : 'greater than'
           } previous value ${lastVal}. It needs to be. ${comparison}
         `);
+        console.log({sortedList});
         break;
       }
 

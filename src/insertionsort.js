@@ -23,7 +23,7 @@ export default function InsertionSort(data, opts) {
     }
     return data;
   } else {
-    const sortedList = Array(data.length);
+    const sortedList = [data[0]];
     const tail = data.slice(1);
     let sortedMaxVal = data[0];
 
@@ -31,10 +31,12 @@ export default function InsertionSort(data, opts) {
       const comparison = signedCompare(sortedMaxVal, val, opts);  
       if ( comparison >= 0 ) {
         // do nothing, already in order
+        sortedList.push(val);
       } else {
         const insertIndex = BinarySearch(sortedList, val, opts).index;
         sortedList.splice(insertIndex, 0, val);
       }
+      sortedMaxVal = sortedList[sortedList.length-1];
     }
 
     return sortedList;
