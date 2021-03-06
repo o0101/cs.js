@@ -1,0 +1,37 @@
+
+# Notes
+
+## SkipList
+
+- My favorite so far. Such a cool data structure. So simple, and yet so effective.
+- O(lnn) for insert, delete, find, update, and maintains sorted key order, as well as can function as both a set and a map. Also, adding indexability is tricky at first, but is actually easy, and that this data structure can be extended to support random access is testament to how cool it is. SkipLists are great.
+- Supports random access, insert, set (key, value), min or max orders on creation, custom comparators for key order, iterators (JS standard, keys, values, entries and naked iterator ([...skiplist]) for entries)
+
+## Heap
+
+- Implemented are variable arity (binary, ternary, n-ary) heaps using either a tree or a list as the storage.
+- Interesting that the list implementation is around 500 times faster than the tree implementation.
+- Heap as list can drop 10 million numbers in ~ 1 second on Intel(R) Xeon(R) CPU @ 2.00GHz
+- Heap as tree can drop 1000 numbers in ~ 50 milliseconds on Intel(R) Xeon(R) CPU @ 2.00GHz
+- Both implementations appear correct as they give the correct, independently verified max and min values, regardless of arity.
+- There are some improvements I know about that can be made (in TODO) and also probably many improvements that I don't know about right now that can also be made. 
+- I have a feeling that in some edge cases these results may be incorrect, but I have no idea what might produce that, and it's just a hunch.
+
+## Sorted linked array
+
+- Motivation: avoid the insertion cost of sorted arrays, and avoid the lack of random access and fast search for linked lists
+- Similar work: skiplists solve this.
+- The idea is you have a linked list layer that is the API for insertion and deletion, and then you have an index layer that is the API for binary search and random access
+- The trick is how to keep these two layers in sync efficiently.
+- the problems are that:
+  - even you index a evenly distributed samply of the list at some point, after insertions and deletions, that sampling might be more accurate in some areas and less accurate in others, in that the gaps between adjacent samples may be shorter or longer than optimal
+  - so the binary search on the sample list, can take you to the linked list nodes that bound the interval where you should find / insert / delete your element of interest
+  - from there you still need to linear search that linked list interval
+- but can we do better if we then recursively provide another layer of sampling?
+- this is basically what skip lists do (the sampling means we skip over the elements we don't include in the representative sampling)
+- a sampling is really just a snapshot of (or a snapshot of pointers to) an interval of linked list nodes at some point
+- I think this is basically indexed skip lists. So in some sense I think skip lists are basically asymptotically optimal, since which every way you think of trying to solve this problem, you end up getting to skip list type structures. They're another fundamental, really, like trees, graphs, lista, and so on. Pretty fucking cool!
+
+## Self organizing list
+
+- move-to-front (2nd place) on double access, otherwise swap toward front
