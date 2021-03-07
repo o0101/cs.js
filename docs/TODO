@@ -2,6 +2,8 @@
   - handle deletion better -- delete the levels if last node
   - prevent levels growing up if there's only one node in level below (keep a max height on the skiplist and only allow grow by 1 level at a time)
   - add other methods (like reverse? root and terminus and double linked)
+  - add a get method for dupes, like get(thing) returns all values of thing, or
+  getAll or getFirst, or getLast or getNth for thing if duplicatesOkay is true
 
 // heap 
   - iterator

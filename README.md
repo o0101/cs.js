@@ -51,6 +51,8 @@ Or [jump straight to the API documentation](#api-documentation).
   - [Self-organizing list](#self-organizing-list)
   - [Heap](#heap)
   - [Priority queue](#priority-queue)
+  - [Trie](#trie)
+  - [Skiplist](#skiplist)
 
 ------------
 
@@ -543,6 +545,78 @@ Or [jump straight to the API documentation](#api-documentation).
   ```
 
 ### Skiplist
+
+  Importing directly:
+  ```js
+  import SkipList from './src/skiplist.js';
+  ```
+
+  Importing from package:
+  ```js
+  import * as CS from 'cs101';
+  const SkipList = CS.SkipList.Class;
+  ```
+
+  Creating:
+  ```js
+  const data = [1,2,3,4,5]; // data can also be empty or undefined is OK
+
+  // default options shown below
+  const skiplist = new SkipList({
+    max: false,               /* increasing order, true gives decreasing order */
+    p: 1/2,                   /* probability node lifts to higher levels */
+    randomized: true,         /* if we base lifting on randomizedation   */
+      // false uses a determ  inistic lifting scheme
+    duplicatesOkay: false,    /* only insert each thing once, true allows dupes */
+    compare: undefined,       /* custom comparator function */
+  }, data); // O(n log(1/p) n)
+  ```
+
+  Get size:
+  ```js
+  skiplist.size;  // 3
+  ```
+
+  Set thing:
+  ```js
+  skiplist.insert(84, '1984'); //
+  skiplist.set(84, '1984'); // alias of insert
+  skiplist.size; // 6 (would be 7 if dupesOK: true)
+  ```
+
+  Get thing:
+  ```js
+  skiplist.get(84); // {has: true, value: '1984', index: 5}
+  ```
+
+  Get thing by index:
+  ```js
+  skiplist.getSlot(5); // {has: true, thing: 84, value: '1984'}
+  skiplist.getSlot(0); // {has: true, thing: 1, value: true}
+  ```
+
+  Delete thing:
+  ```js
+  skiplist.delete(2); // true
+  skiplist.delete('foo'); // false
+  skiplist.size; // 5
+  skiplist.getSlot(5); // {has: false, thing: undefined, value: undefined}
+  skiplist.getSlot(4); // {has: true, thing: 84, value: '1984'}
+  ```
+
+  Membership:
+
+  ```js
+  skiplist.has(84); // true;
+  skiplist.has('bar'); // false;
+  ```
+
+  Iteration (keys, values, entries):
+  ```js
+  [...skiplist.keys()]; // 1, 3, 4, 5, 84
+  [...skiplist.values()]; // true, true, true, true, '1984'
+  [...skiplist.entries()]; // [1, true], [3, true], [4, true], [5, true], [84, '1984']
+  ```
 
 ### Binary search
 
