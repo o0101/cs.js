@@ -8,6 +8,8 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 Click links below to go *straight to the code* :sparkles: for each structure or algorithm;
 
+Or [jump straight to the API documentation](#api-documentation).
+
 ## List Structures
 
 - [x] [Singly-linked list](src/lib/singlist.js) - **O(1)** (access first or last) **O(n)** (insert, delete, update, find), **O(n)** space list
