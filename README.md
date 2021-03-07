@@ -40,6 +40,13 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 ## API Documentation
 
+### Contents
+
+  - [Singly-linked list](#singly-linked-list)
+  - [Doubly-linked list](#doubly-linked-list)
+
+------------
+
 ### Singly-linked list
 
 Direct import:
@@ -171,7 +178,7 @@ const list = new LinkedList(['beginning', 'middle', 'end']);
 
 const thing = list.tail.thing;
 
-console.assert(thing === 'beginning');
+console.assert(thing === 'end');
 ```
 
 Removing tail:
@@ -198,7 +205,7 @@ Iterating:
 ```js
 const list = new LinkedList([1,2,3,4,5]);
 
-const things = [...list];
+const things = [...list].map(node => node.thing);
 
 console.assert(things.join(',') === '1,2,3,4,5'); // true
 ```
