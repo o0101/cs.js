@@ -3,6 +3,9 @@
   - prevent levels growing up if there's only one node in level below (keep a max height on the skiplist and only allow grow by 1 level at a time)
   - add other methods (like reverse? root and terminus and double linked)
 
+// heap 
+  - iterator
+
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
   - [ ] Structures for count distinct, hyperloglog, streaming 
   - one reference for something related https://github.com/marmarelis/rolling-quantiles

@@ -48,282 +48,414 @@ Or [jump straight to the API documentation](#api-documentation).
 
   - [Singly-linked list](#singly-linked-list)
   - [Doubly-linked list](#doubly-linked-list)
+  - [Self-organizing list](#self-organizing-list)
+  - [Heap](#heap)
 
 ------------
 
 ### Singly-linked list
 
-*Note: there is no cycle checking, and it's possible to create cycles by adding nodes to head that are already present in the list.*
+  *Note: there is no cycle checking, and it's possible to create cycles by adding nodes to head that are already present in the list.*
 
-Direct import:
+  Direct import:
 
-```js
-import SingList from './src/lib/singlist.js';
-```
+  ```js
+  import SingList from './src/lib/singlist.js';
+  ```
 
-Package import:
-```js
-import * as CS from 'cs101';
-const SingList = CS.SingList.Class
-```
+  Package import:
+  ```js
+  import * as CS from 'cs101';
+  const SingList = CS.SingList.Class
+  ```
 
-Creation:
-```js
-// empty singlist
-const list = new SingList();
+  Creation:
+  ```js
+  // empty singlist
+  const list = new SingList();
 
-// filled singlist
-const dataList = new SingList([1,2,3,4,5]);
-```
+  // filled singlist
+  const dataList = new SingList([1,2,3,4,5]);
+  ```
 
-Getting head:
-```js
-const list = new SingList(['beginning', 'middle', 'end']);
+  Getting head:
+  ```js
+  const list = new SingList(['beginning', 'middle', 'end']);
 
-const thing = list.head.thing;
+  const thing = list.head.thing;
 
-console.assert(thing === 'beginning');
-```
+  console.assert(thing === 'beginning');
+  ```
 
-Inserting at head:
-```js
-const list = new SingList(['x','y','z']);
+  Inserting at head:
+  ```js
+  const list = new SingList(['x','y','z']);
 
-list.head = new SingList.Node('w');
+  list.head = new SingList.Node('w');
 
-[...list]; // 'w', 'x', 'y', 'z'
-```
+  [...list]; // 'w', 'x', 'y', 'z'
+  ```
 
-Iterating:
-```js
-const list = new SingList([1,2,3,4,5]);
+  Iterating:
+  ```js
+  const list = new SingList([1,2,3,4,5]);
 
-const things = [...list];
+  const things = [...list];
 
-console.assert(things.join(',') === '1,2,3,4,5'); // true
-```
+  console.assert(things.join(',') === '1,2,3,4,5'); // true
+  ```
 
-Reversing:
-```js
-const list = new SingList([1,2,3,4,5]);
+  Reversing:
+  ```js
+  const list = new SingList([1,2,3,4,5]);
 
-list.reverse();
+  list.reverse();
 
-const reversedThings = [...list];
-console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
-```
+  const reversedThings = [...list];
+  console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
+  ```
 
 ### Doubly-linked list
 
-*Note: there is no cycle checking, and it's possible to create cycles by adding nodes that are already present in the list.*
+  *Note: there is no cycle checking, and it's possible to create cycles by adding nodes that are already present in the list.*
 
-Direct import:
+  Direct import:
 
-```js
-import LinkedList from './src/lib/linkedlist.js';
-```
+  ```js
+  import LinkedList from './src/lib/linkedlist.js';
+  ```
 
-Direct import including Node class:
+  Direct import including Node class:
 
-```js
-import {Class as LinkedList, Node} from './src/lib/linkedlist.js';
-```
+  ```js
+  import {Class as LinkedList, Node} from './src/lib/linkedlist.js';
+  ```
 
-Direct import including Node class alternative style:
+  Direct import including Node class alternative style:
 
-```js
-import LinkedList from './src/lib/linkedlist.js';
-const Node = LinkedList.Node;
-```
+  ```js
+  import LinkedList from './src/lib/linkedlist.js';
+  const Node = LinkedList.Node;
+  ```
 
-Package import:
-```js
-import * as CS from 'cs101';
-const LinkedList = CS.LinkedList.Class
-```
+  Package import:
+  ```js
+  import * as CS from 'cs101';
+  const LinkedList = CS.LinkedList.Class
+  ```
 
-Creation:
-```js
-// empty linked list
-const list = new LinkedList();
+  Creation:
+  ```js
+  // empty linked list
+  const list = new LinkedList();
 
-// filled linked list
-const dataList = new LinkedList([1,2,3,4,5]);
-```
+  // filled linked list
+  const dataList = new LinkedList([1,2,3,4,5]);
+  ```
 
-Getting head:
-```js
-const list = new LinkedList(['beginning', 'middle', 'end']);
+  Getting head:
+  ```js
+  const list = new LinkedList(['beginning', 'middle', 'end']);
 
-const thing = list.head.thing;
+  const thing = list.head.thing;
 
-console.assert(thing === 'beginning');
-```
+  console.assert(thing === 'beginning');
+  ```
 
-Removing head:
-```js
-const headThing = list.shift();
-```
+  Removing head:
+  ```js
+  const headThing = list.shift();
+  ```
 
-Inserting at head (item only):
+  Inserting at head (item only):
 
-```js
-list.unshift('i am a thing');
-```
+  ```js
+  list.unshift('i am a thing');
+  ```
 
-Inserting at head (using a Node):
-```js
-const list = new LinkedList(['x','y','z']);
+  Inserting at head (using a Node):
+  ```js
+  const list = new LinkedList(['x','y','z']);
 
-list.head = new LinkedList.Node('w');
+  list.head = new LinkedList.Node('w');
 
-[...list]; // 'w', 'x', 'y', 'z'
-```
+  [...list]; // 'w', 'x', 'y', 'z'
+  ```
 
-Getting tail:
-```js
-const list = new LinkedList(['beginning', 'middle', 'end']);
+  Getting tail:
+  ```js
+  const list = new LinkedList(['beginning', 'middle', 'end']);
 
-const thing = list.tail.thing;
+  const thing = list.tail.thing;
 
-console.assert(thing === 'end');
-```
+  console.assert(thing === 'end');
+  ```
 
-Removing tail:
-```js
-const tailThing = list.pop();
-```
+  Removing tail:
+  ```js
+  const tailThing = list.pop();
+  ```
 
-Inserting at tail (item only):
+  Inserting at tail (item only):
 
-```js
-list.push('i am a thing');
-```
+  ```js
+  list.push('i am a thing');
+  ```
 
-Inserting at tail (using a Node):
-```js
-const list = new LinkedList(['x','y','z']);
+  Inserting at tail (using a Node):
+  ```js
+  const list = new LinkedList(['x','y','z']);
 
-list.tail = new LinkedList.Node('w');
+  list.tail = new LinkedList.Node('w');
 
-[...list]; // 'w', 'x', 'y', 'z'
-```
+  [...list]; // 'w', 'x', 'y', 'z'
+  ```
 
-Iterating:
-```js
-const list = new LinkedList([1,2,3,4,5]);
+  Iterating:
+  ```js
+  const list = new LinkedList([1,2,3,4,5]);
 
-const things = [...list].map(node => node.thing);
+  const things = [...list].map(node => node.thing);
 
-console.assert(things.join(',') === '1,2,3,4,5'); // true
-```
+  console.assert(things.join(',') === '1,2,3,4,5'); // true
+  ```
 
-Deleting a node:
-```js
-const list = new LinkedList([1,2,3,4,5]);
+  Deleting a node:
+  ```js
+  const list = new LinkedList([1,2,3,4,5]);
 
-const node3 = [...list][2];
+  const node3 = [...list][2];
 
-list.delete(node3);
+  list.delete(node3);
 
-const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
-```
+  const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
+  ```
 
-Deleting a node alternate style:
-```js
-const list = new LinkedList([1,2,3,4,5]);
+  Deleting a node alternate style:
+  ```js
+  const list = new LinkedList([1,2,3,4,5]);
 
-const node3 = list.head.nextList(0).nextList(0);
+  const node3 = list.head.nextList(0).nextList(0);
 
-list.delete(node3);
+  list.delete(node3);
 
-const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
-```
+  const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
+  ```
 
-Move a node toward head:
-```js
-const newTail = new LinkedList.Node('in the back');
-list.tail = newTail;
-list.advance(newTail);
+  Move a node toward head:
+  ```js
+  const newTail = new LinkedList.Node('in the back');
+  list.tail = newTail;
+  list.advance(newTail);
 
-console.assert([...list][list.length - 2] === newTail);
-```
+  console.assert([...list][list.length - 2] === newTail);
+  ```
 
-Reversing:
-```js
-const list = new LinkedList([1,2,3,4,5]);
+  Reversing:
+  ```js
+  const list = new LinkedList([1,2,3,4,5]);
 
-list.reverse(); // O(1) operation
+  list.reverse(); // O(1) operation
 
-const reversedThings = [...list].map(({thing}) => thing);
-console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
-```
+  const reversedThings = [...list].map(({thing}) => thing);
+  console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
+  ```
 
-Get length:
-```js
-list.length; // 5
-```
+  Get length:
+  ```js
+  list.length; // 5
+  ```
 
 ### Self-organizing list
 
+  Importing directly:
+  ```js
+    import SOL from './src/sol.js';
+  ```
+
+  Importing from package:
+  ```js
+    import * as CS from 'cs101';
+    const SOL = CS.SOL.Class;
+  ```
+
+  Creating:
+  ```js
+    const sol = new SOL({
+      asLinkedList: false,        /* underlying store is linked list, false is array */
+      moveToFront: 0.8,           /* MTF reorganize scheme probability */
+      swap: 0.2,                  /* swap reorganize scheme probability */
+      dupesOK: false,             /* duplicate keys are not OK, true they are */
+    });
+  ```
+
+  Setting a key, value pair:
+  ```js
+  sol.set('taco', {awesome:true});
+  ```
+
+  Testing membership:
+  ```js
+  sol.has('taco'); // true
+  ```
+
+  Getting a value from a key:
+  ```js
+  sol.get('taco'); // {index: 0, copy: {key: 'taco', value: {awesome:true}}} 
+  ```
+
+  Deleting a key:
+  ```js
+  sol.delete('taco'); // :'(
+  sol.get('taco'); // {index: undefined, copy: undefined}
+  ```
+
+  Iterating:
+  ```js
+  sol.set('taco', {trulyAwesome:[true, true]}); // XD
+  [...sol]; // [ {key: 'taco', value: {trulyAwesome: [true, true]}} ]
+  ```
+
+  Get length:
+  ```js
+  sol.length; // 1
+  ```
+
+### Heap
+
 Importing directly:
 ```js
-  import SOL from './src/sol.js';
+import Heap from './src/heap.js';
 ```
 
 Importing from package:
 ```js
-  import * as CS from 'cs101';
-  const SOL = CS.SOL.Class;
+import * as CS from 'cs101';
+const Heap = CS.Heap.Class;
 ```
 
 Creating:
 ```js
-  const sol = new SOL({
-    asLinkedList: false,        /* underlying store is linked list, false is array */
-    moveToFront: 0.8,           /* MTF reorganize scheme probability */
-    swap: 0.2,                  /* swap reorganize scheme probability */
-    dupesOK: false,             /* duplicate keys are not OK, true they are */
-  });
+const data = [0,10,8,7,2,1];
+const heap = new Heap({
+  asTree: false,          /* underlying implementation as tree, false is list implementation */
+  max: true,              /* max heap, false is min heap */
+  arity: 2,               /* binary, then 3 is ternary, etc. */
+  compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#parameters 
+    // with comparison directed by the heap property
+    // so compare(bigger, smaller) is > 0 for max heap
+    // while compare(smaller, bigger) is > 0 for min heap
+    // and vice versa
+    // in essence, it's 
+    // compare(top, bottom) > 0 and compare(bottom, top) < 0
+    // DEFAULT comparison is simply this applied to Numbers
+}, data); // O(n) (uses Floyd's heapify)
 ```
 
-Setting a key, value pair:
+Getting size:
 ```js
-sol.set('taco', {awesome:true});
+heap.size; // 6
 ```
 
-Testing membership:
+Getting top:
 ```js
-sol.has('taco'); // true
+heap.peek(); // 10 O(1)
 ```
 
-Getting a value from a key:
+Replacing top:
 ```js
-sol.get('taco'); // {index: 0, copy: {key: 'taco', value: {awesome:true}}} 
+heap.replace(22); // 10 O(log n)
+heap.size; // 6
 ```
 
-Deleting a key:
+Removing top:
 ```js
-sol.delete('taco'); // :'(
-sol.get('taco'); // {index: undefined, copy: undefined}
+heap.pop(); // 22 O(log n)
+heap.size; // 5
+heap.peek(); // 8
 ```
 
-Iterating:
+Pushing something on:
 ```js
-sol.set('taco', {trulyAwesome:[true, true]}); // XD
-[...sol]; // [ {key: 'taco', value: {trulyAwesome: [true, true]}} ]
+heap.push(-5); 
+heap.peek(); // 8
+heap.push(9);
+heap.peek(); // 9
 ```
-
-Get length:
-```js
-sol.length; // 1
-```
-
-
-
-### Heap
 
 ### Priority Queue
+
+  Importing directly:
+  ```js
+  import PQ from './src/pq.js';
+  ```
+
+  Importing from package:
+  ```js
+  import * as CS from 'cs101';
+  const PQ = CS.PQ.Class;
+  ```
+
+  Creating:
+  ```js
+  // data should have priority
+  const data = [
+    {
+      priority: 8,
+      stuff: 'ooo',
+      moreStuff: {ok: true}
+    },
+    { 
+      priority: 2,
+      hello: 1
+    },
+    {
+      priority: 9,
+      text: 'yes'
+    }
+  ];
+
+  // default options shown below
+  const pq = new PQ({
+    max: true,
+    compare: function (A, B) {
+      const {priority:pA = Empty} = A;
+      const {priority:pB = Empty} = B;
+
+      if ( pB == Empty ) {
+        return 1;
+      } else if ( pA == Empty ) {
+        return -1;
+      }
+
+      if ( pA > pB ) {
+        return this.config.max ? 1 : -1;
+      } else if ( pA == pB ) {
+        return 0;
+      } else {
+        return !this.config.max ? 1 : -1;
+      }
+    }
+  }, data); // O(n) (uses Floyd's heapify)
+  ```
+
+  Get size:
+  ```js
+  pq.size;  // 3
+  ```
+
+  Get top priority:
+  ```js
+  pq.top(); // {priority: 9, text: 'yes'}
+  ```
+
+  Remove top priority:
+  ```js
+  pq.pull(); // {priority: 9, text: 'yes'}
+  pq.top(); // {priority: 8, stuff: 'ooo', moreStuff: {ok: true}}
+  pq.size; // 2
+  ```
 
 ### Trie
 
