@@ -108,7 +108,7 @@ const list = new SingList([1,2,3,4,5]);
 list.reverse();
 
 const reversedThings = [...list];
-console.assert([...list].join(',') === '5,4,3,2,1'); // true
+console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
 ```
 
 ### Doubly-linked list
@@ -251,8 +251,8 @@ const list = new LinkedList([1,2,3,4,5]);
 
 list.reverse(); // O(1) operation
 
-const reversedThings = [...list];
-console.assert([...list].join(',') === '5,4,3,2,1'); // true
+const reversedThings = [...list].map(({thing}) => thing);
+console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
 ```
 
 
