@@ -72,6 +72,12 @@ export default class SingList {
   }
 }
 
+export const Class = SingList;
+
+export function create(...args) {
+  return new SingList(...args);
+}
+
 class SingNode {
   #next
   #thing
