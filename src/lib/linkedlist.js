@@ -1,4 +1,4 @@
-export class LinkedList {
+export default class LinkedList {
   // private fields
     // the root and terminus
     #root
@@ -14,7 +14,7 @@ export class LinkedList {
       #setLast
   
   // API
-    constructor() {
+    constructor(data) {
       this.#root = new Node();
       this.#terminus = new Node();
 
@@ -27,6 +27,12 @@ export class LinkedList {
       this.#lastList = 'lastList';
       this.#setNext = 'setNext';
       this.#setLast = 'setLast';
+
+      if ( data !== undefined ) {
+        for( const thing of data ) {
+          this.push(thing);
+        }
+      }
     }
 
     get [Symbol.iterator]() {
@@ -47,7 +53,7 @@ export class LinkedList {
       this.tail = node;
     }
 
-    shift(thing) {
+    unshift(thing) {
       const node = new Node({thing});
       this.head = node;
     }
@@ -58,7 +64,7 @@ export class LinkedList {
       return tail.thing;
     }
 
-    unshift() {
+    shift() {
       const head = this.head;
       this.delete(this.head);
       return head.thing;
@@ -153,6 +159,16 @@ export class LinkedList {
 
       this.#sign *= -1;
     }
+
+    static get Node() {
+      return Node;
+    }
+}
+
+export const Class = LinkedList;
+
+export function create(...args) {
+  return new LinkedList(...args);
 }
 
 export class Node {

@@ -1,4 +1,4 @@
-import {LinkedList, Node} from './lib/linkedlist.js';
+import LinkedList from './lib/linkedlist.js';
 
 // constants
   const UNITY_THRESH = 1e-5;
@@ -46,7 +46,7 @@ export default class SOL {
         }
       } else {
         if ( this.config.asLinkedList ) {
-          this.#store.tail = new Node({thing:{key,value}});
+          this.#store.tail = new LinkedList.Node({thing:{key,value}});
         } else {
           this.#store.push({key, value});
         }

@@ -1,5 +1,5 @@
 import SingList from './lib/singlist.js';
-import {LinkedList} from './lib/linkedlist.js';
+import LinkedList from './lib/linkedlist.js';
 import * as CS from './index.js';
 
 // constants
@@ -35,6 +35,8 @@ export function testAll() {
     testSingList();
 
     testLinkedList();
+
+    return;
 
     testSelfOrganizingList(); 
 

@@ -66,31 +66,183 @@ const dataList = new SingList([1,2,3,4,5]);
 Getting head:
 ```js
 const list = new SingList(['beginning', 'middle', 'end']);
+
 const thing = list.head.thing;
+
 console.assert(thing === 'beginning');
 ```
 
-Setting head:
+Inserting at head:
 ```js
 const list = new SingList(['x','y','z']);
+
 list.head = new SingList.Node('w');
+
+[...list]; // 'w', 'x', 'y', 'z'
 ```
 
 Iterating:
 ```js
 const list = new SingList([1,2,3,4,5]);
+
 const things = [...list];
-console.assert(things.join(',') === '1,2,3,4,5]'); // true
+
+console.assert(things.join(',') === '1,2,3,4,5'); // true
 ```
 
 Reversing:
 ```js
 const list = new SingList([1,2,3,4,5]);
-const reversedThings = [...list.reverse()]
+
+list.reverse();
+
+const reversedThings = [...list];
 console.assert([...list].join(',') === '5,4,3,2,1'); // true
 ```
 
-### Double-linked list
+### Doubly-linked list
+
+Direct import:
+
+```js
+import LinkedList from './src/lib/linkedlist.js';
+```
+
+Direct import including Node class:
+
+```js
+import {Class as LinkedList, Node} from './src/lib/linkedlist.js';
+```
+
+Direct import including Node class alternative style:
+
+```js
+import LinkedList from './src/lib/linkedlist.js';
+const Node = LinkedList.Node;
+```
+
+Package import:
+```js
+import CS from 'cs101';
+const LinkedList = CS.LinkedList.Class
+```
+
+Creation:
+```js
+// empty linked list
+const list = new LinkedList();
+
+// filled linked list
+const dataList = new LinkedList([1,2,3,4,5]);
+```
+
+Getting head:
+```js
+const list = new LinkedList(['beginning', 'middle', 'end']);
+
+const thing = list.head.thing;
+
+console.assert(thing === 'beginning');
+```
+
+Removing head:
+```js
+const headThing = list.shift();
+```
+
+Inserting at head (item only):
+
+```js
+list.unshift('i am a thing');
+```
+
+Inserting at head (using a Node):
+```js
+const list = new LinkedList(['x','y','z']);
+
+list.head = new LinkedList.Node('w');
+
+[...list]; // 'w', 'x', 'y', 'z'
+```
+
+Getting tail:
+```js
+const list = new LinkedList(['beginning', 'middle', 'end']);
+
+const thing = list.tail.thing;
+
+console.assert(thing === 'beginning');
+```
+
+Removing tail:
+```js
+const tailThing = list.pop();
+```
+
+Inserting at tail (item only):
+
+```js
+list.push('i am a thing');
+```
+
+Inserting at tail (using a Node):
+```js
+const list = new LinkedList(['x','y','z']);
+
+list.tail = new LinkedList.Node('w');
+
+[...list]; // 'w', 'x', 'y', 'z'
+```
+
+Iterating:
+```js
+const list = new LinkedList([1,2,3,4,5]);
+
+const things = [...list];
+
+console.assert(things.join(',') === '1,2,3,4,5'); // true
+```
+
+Deleting a node:
+```js
+const list = new LinkedList([1,2,3,4,5]);
+
+const node3 = [...list][2];
+
+list.delete(node3);
+
+const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
+```
+
+Deleting a node alternate style:
+```js
+const list = new LinkedList([1,2,3,4,5]);
+
+const node3 = list.head.nextList(0).nextList(0);
+
+list.delete(node3);
+
+const nodes = [...list].map(node => node.thing); // 1, 2, 4, 5
+```
+
+Move a node toward head:
+```js
+const newTail = new LinkedList.Node('in the back');
+list.tail = newTail;
+list.advance(newTail);
+
+console.assert([...list][list.length - 2] === newTail);
+```
+
+Reversing:
+```js
+const list = new LinkedList([1,2,3,4,5]);
+
+list.reverse(); // O(1) operation
+
+const reversedThings = [...list];
+console.assert([...list].join(',') === '5,4,3,2,1'); // true
+```
 
 
 ### Self-organizing list
