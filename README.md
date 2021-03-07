@@ -53,6 +53,8 @@ Or [jump straight to the API documentation](#api-documentation).
 
 ### Singly-linked list
 
+*Note: there is no cycle checking, and it's possible to create cycles by adding nodes to head that are already present in the list.*
+
 Direct import:
 
 ```js
@@ -112,6 +114,8 @@ console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
 ```
 
 ### Doubly-linked list
+
+*Note: there is no cycle checking, and it's possible to create cycles by adding nodes that are already present in the list.*
 
 Direct import:
 
@@ -255,8 +259,67 @@ const reversedThings = [...list].map(({thing}) => thing);
 console.assert(reversedThings.join(',') === '5,4,3,2,1'); // true
 ```
 
+Get length:
+```js
+list.length; // 5
+```
 
 ### Self-organizing list
+
+Importing directly:
+```js
+  import SOL from './src/sol.js';
+```
+
+Importing from package:
+```js
+  import * as CS from 'cs101';
+  const SOL = CS.SOL.Class;
+```
+
+Creating:
+```js
+  const sol = new SOL({
+    asLinkedList: false,        /* underlying store is linked list, false is array */
+    moveToFront: 0.8,           /* MTF reorganize scheme probability */
+    swap: 0.2,                  /* swap reorganize scheme probability */
+    dupesOK: false,             /* duplicate keys are not OK, true they are */
+  });
+```
+
+Setting a key, value pair:
+```js
+sol.set('taco', {awesome:true});
+```
+
+Testing membership:
+```js
+sol.has('taco'); // true
+```
+
+Getting a value from a key:
+```js
+sol.get('taco'); // {index: 0, copy: {key: 'taco', value: {awesome:true}}} 
+```
+
+Deleting a key:
+```js
+sol.delete('taco'); // :'(
+sol.get('taco'); // {index: undefined, copy: undefined}
+```
+
+Iterating:
+```js
+sol.set('taco', {trulyAwesome:[true, true]}); // XD
+[...sol]; // [ {key: 'taco', value: {trulyAwesome: [true, true]}} ]
+```
+
+Get length:
+```js
+sol.length; // 1
+```
+
+
 
 ### Heap
 

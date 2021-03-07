@@ -100,6 +100,10 @@ export default class LinkedList {
       const nodeBefore = node[this.#lastList][0];
       const nodeAfter = node[this.#nextList][0];
       if ( nodeBefore ) {
+        // if nodeBefore exists we assume it is in this list
+        // again this is not foolproof, we could check with a node
+        // list self-reference, like
+        // node.list = this;
         nodeBefore[this.#setNext](0, nodeAfter);
         this.#length -= 1;
       }

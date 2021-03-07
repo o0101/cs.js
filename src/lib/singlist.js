@@ -25,8 +25,18 @@ export default class SingList {
 
     set head(node) {
       const oldHead = this.#root.next;
-      this.#root.next = node;
-      node.next = oldHead;
+      if ( node !== oldHead ) {
+        this.#root.next = node;
+        // if it's not the head already, and it doesn't have a next, 
+        // we assume it is not in the list so add 1 to length
+        // but this doesn't prevent cycles forming.
+        // could add that with a list self reference inside each node
+        // node.list = this; and check first
+        if ( node.next === undefined ) {
+          this.#length += 1;
+        }
+        node.next = oldHead;
+      }
     }
 
     reverse() {
@@ -74,6 +84,10 @@ export default class SingList {
           yield node.thing;
         }
       }
+    }
+
+    get length() {
+      return this.#length;
     }
 
     static get Node() {
