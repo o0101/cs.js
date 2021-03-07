@@ -61,7 +61,7 @@ import SingList from './src/lib/singlist.js';
 
 Package import:
 ```js
-import CS from 'cs101';
+import * as CS from 'cs101';
 const SingList = CS.SingList.Class
 ```
 
@@ -134,7 +134,7 @@ const Node = LinkedList.Node;
 
 Package import:
 ```js
-import CS from 'cs101';
+import * as CS from 'cs101';
 const LinkedList = CS.LinkedList.Class
 ```
 
