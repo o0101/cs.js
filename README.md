@@ -53,6 +53,7 @@ Or [jump straight to the API documentation](#api-documentation).
   - [Priority queue](#priority-queue)
   - [Trie](#trie)
   - [Skiplist](#skiplist)
+  - [Binary search](#binary-search)
 
 ------------
 
@@ -619,6 +620,56 @@ Or [jump straight to the API documentation](#api-documentation).
   ```
 
 ### Binary search
+
+  Import direct:
+  ```js
+    import BinarySearch from './src/binarysearch.js';
+    // equivalent
+    import {find} from './src/binarysearch.js';
+    // lower-level alternatives
+    import {iterativeBinarySearch} from './src/binarysearch.js';
+    import {recursiveBinarySearch} from './src/binarysearch.js';
+  ```
+
+  Import from package:
+  ```js
+    import * as CS from 'cs101';
+    const BinarySearch = CS.BinarySearch.find;
+  ```
+
+  Finding an item:
+  ```js
+  const list = ['92', 'abc', 'delta', 'twenty1'];
+  const {has, index} = BinarySearch(list, 'abc'); // {has: true, index: 1}
+  ```
+
+  Finding where to insert an item:
+  ```js
+  // index gives where to insert before (so insert at 3, moves existing list[3] to list[4])
+  const {has, index} = BinarySearch(list, 'really'); // {has: false, index: 3}
+  list.splice(index, 0, 'really');
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [{a:1,b:'hi'}, {a:2,b:'9'},{a:4,b:'12321'}];
+  const {has, index} = BinarySearch(list, {a:2}, {
+    compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2),
+    recursive: true               /* false is iterative, the default */
+  }); // {has: true, index: 1}
+  ```
+
+  Using iterative and recursive directly:
+  ```js
+  import {iterativeBinarySearch} from './src/binarysearch.js';
+  import {recursiveBinarySearch} from './src/binarysearch.js';
+
+  const list = [1,2,3,4,5,8, 7,4,3,2,1];
+  // args are -> (data, item, low, high, opts)
+  iterativeBinarySearch(list, 4, 0, 6, {compare:(a,b) => Math.sign(a-b)}); // {has: true, index: 3}
+  recursiveBinarySearch(list, 4, 0, 6, {compare:(a,b) => Math.sign(a-b)}); // {has: true, index: 3}
+  ```
 
 ### Quick select
 
