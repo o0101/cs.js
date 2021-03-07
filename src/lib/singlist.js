@@ -11,6 +11,8 @@ export default class SingList {
       this.#root = new SingNode();
 
       if ( Array.isArray(data) ) {
+        data = data.slice(0);
+        data.reverse();
         for( const thing of data ) {
           this.head = new SingNode(thing);
         }

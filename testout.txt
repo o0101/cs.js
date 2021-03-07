@@ -1,0 +1,1171 @@
+{
+  mainExport: [Object: null prototype] [Module] {
+    BinarySearch: [Object: null prototype] [Module] {
+      default: [Function: BinarySearch],
+      find: [Function: BinarySearch],
+      iterativeBinarySearch: [Function: iterativeBinarySearch],
+      recursiveBinarySearch: [Function: recursiveBinarySearch]
+    },
+    Heap: [Object: null prototype] [Module] {
+      Class: [class Heap],
+      create: [Function: create],
+      default: [class Heap]
+    },
+    InsertionSort: [Object: null prototype] [Module] {
+      default: [Function: InsertionSort],
+      signedCompare: [Function: signedCompare],
+      sort: [Function: InsertionSort]
+    },
+    LinkedList: [Object: null prototype] [Module] {
+      Class: [class LinkedList],
+      Node: [class Node],
+      create: [Function: create],
+      default: [class LinkedList]
+    },
+    MergeSort: [Object: null prototype] [Module] {
+      default: [Function: MergeSort],
+      signedCompare: [Function: signedCompare],
+      sort: [Function: MergeSort]
+    },
+    PQ: [Object: null prototype] [Module] {
+      Class: [class PQ],
+      create: [Function: create],
+      default: [class PQ]
+    },
+    QuickSelect: [Object: null prototype] [Module] {
+      default: [Function: QuickSelect],
+      select: [Function: QuickSelect]
+    },
+    QuickSort: [Object: null prototype] [Module] {
+      DEFAULT_COMPARE: [Function: DEFAULT_COMPARE],
+      default: [Function: QuickSort],
+      partition: [Function: partition],
+      signedCompare: [Function: signedCompare],
+      sort: [Function: QuickSort],
+      swap: [Function: swap],
+      tripartition: [Function: tripartition]
+    },
+    SOL: [Object: null prototype] [Module] {
+      Class: [class SOL],
+      create: [Function: create],
+      default: [class SOL]
+    },
+    SingList: [Object: null prototype] [Module] {
+      Class: [class SingList],
+      create: [Function: create],
+      default: [class SingList]
+    },
+    SkipList: [Object: null prototype] [Module] {
+      Class: [class SkipList],
+      create: [Function: create],
+      default: [class SkipList]
+    },
+    Trie: [Object: null prototype] [Module] {
+      Class: [class Trie],
+      Start: Symbol(@Start),
+      TrieNode: [class TrieNode],
+      create: [Function: create],
+      default: [class Trie]
+    }
+  }
+}
+
+Running tests for cs.js / (cs101@npm)...
+
+[ 1, 2, 3 ]
+[ 3, 2, 1 ]
+[ 1, 2, 3 ]
+Singly linked list test passed.
+LinkedList test passed.
+Self-organizing list scale test. Opts: undefined
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 35.593ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 10.672ms
+  Expected size: 906. Actual size: 906
+  SOL first 5: [{"key":27,"value":"number 27"},{"key":28,"value":"number 28"},{"key":69,"value":"number 69"},{"key":32,"value":"number 32"},{"key":53,"value":"number 53"}]
+  SOL length: 906
+
+Self-organizing list iterator test. Opts: {}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 2.076ms
+  SOL first 5: [{"key":768,"value":"number 768"},{"key":94,"value":"number 94"},{"key":77,"value":"number 77"},{"key":148,"value":"number 148"},{"key":971,"value":"number 971"}]
+  SOL length: 1000
+
+Self-organizing list scale test. Opts: {"asLinkedList":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 168.675ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 247.6ms
+  Expected size: 944. Actual size: 944
+  SOL first 5: [{"thing":{"key":15,"value":"number 15"}},{"thing":{"key":17,"value":"number 17"}},{"thing":{"key":42,"value":"number 42"}},{"thing":{"key":41,"value":"number 41"}},{"thing":{"key":55,"value":"number 55"}}]
+
+Self-organizing list iterator test. Opts: {"asLinkedList":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 20.772ms
+  SOL first 5: [{"thing":{"key":568,"value":"number 568"}},{"thing":{"key":559,"value":"number 559"}},{"thing":{"key":245,"value":"number 245"}},{"thing":{"key":972,"value":"number 972"}},{"thing":{"key":235,"value":"number 235"}}]
+
+Self-organizing list scale test. Opts: {"_breakNoReorganize":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 43.14ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 15.831ms
+  Expected size: 939. Actual size: 939
+  SOL first 5: [{"key":12,"value":"number 12"},{"key":28,"value":"number 28"},{"key":17,"value":"number 17"},{"key":33,"value":"number 33"},{"key":53,"value":"number 53"}]
+  SOL length: 939
+
+Self-organizing list iterator test. Opts: {"_breakNoReorganize":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 1.831ms
+  SOL first 5: [{"key":69,"value":"number 69"},{"key":823,"value":"number 823"},{"key":432,"value":"number 432"},{"key":607,"value":"number 607"},{"key":962,"value":"number 962"}]
+  SOL length: 1000
+
+Self-organizing list scale test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
+  Scale Has Test passed.
+  Self-organizing list scale test. Insert phase: 182.791ms
+  Scale Delete Test passed.
+  Self-organizing list scale test. Delete phase: 238.36ms
+  Expected size: 921. Actual size: 921
+  SOL first 5: [{"thing":{"key":14,"value":"number 14"}},{"thing":{"key":35,"value":"number 35"}},{"thing":{"key":71,"value":"number 71"}},{"thing":{"key":21,"value":"number 21"}},{"thing":{"key":79,"value":"number 79"}}]
+
+Self-organizing list iterator test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
+  Iterator Test passed.
+  Self-organizing list iterator test.: 22.263ms
+  SOL first 5: [{"thing":{"key":789,"value":"number 789"}},{"thing":{"key":169,"value":"number 169"}},{"thing":{"key":287,"value":"number 287"}},{"thing":{"key":804,"value":"number 804"}},{"thing":{"key":1,"value":"number 1"}}]
+
+Scale test heap as tree...
+{ size: 1000, heapTop: 999, actual: { min: 0, max: 999 } }
+  Heap As Tree 1000 insertions: 61.087ms
+Scale test heap as list...
+{ size: 1000000, heapTop: 999999, actual: { min: 0, max: 999999 } }
+  Heap As List 1000000 insertions: 148.125ms
+New heap
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: @Empty 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: @Empty 	
+
+
+Push 2
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 2 	
+
+Row: 1
+node: 1 	node: @Empty 	
+
+
+Push 4
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	
+
+
+Push 3
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: @Empty 	
+
+
+Push 0
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 4 }
+
+Pop
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 3 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 1 }
+
+Replace max with 5
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 5 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 5 }
+
+New heap
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: @Empty 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: @Empty 	
+
+
+Push 2
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 2 	
+
+Row: 1
+node: 1 	node: @Empty 	
+
+
+Push 4
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	
+
+
+Push 3
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: @Empty 	
+
+
+Push 0
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 4 	
+
+Row: 1
+node: 3 	node: 2 	
+
+Row: 2
+node: 1 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 4 }
+
+Pop
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 3 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	
+
+
+Push 1
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 1 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 1 }
+
+Replace max with 5
+
+Heap (as list)
+#store: Array
+
+Row: 0
+node: 5 	
+
+Row: 1
+node: 1 	node: 2 	
+
+Row: 2
+node: @Empty 	node: 0 	node: @Empty 	
+
+
+findMax
+{ max: 5 }
+
+
+
+Order test testing opts: {"max":true,"arity":2}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":4}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":8}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":true,"arity":5}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":2}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":4}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":8}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"max":false,"arity":5}
+  Run: 1
+  Post push size: 10000
+  End Run: 1
+  Run: 2
+  Post push size: 10000
+  End Run: 2
+  Run: 3
+  Post push size: 10000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":2}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":4}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":8}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":true,"arity":5}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":2}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":4}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":8}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Order test testing opts: {"asTree":true,"max":false,"arity":5}
+  Run: 1
+  Post push size: 1000
+  End Run: 1
+  Run: 2
+  Post push size: 1000
+  End Run: 2
+  Run: 3
+  Post push size: 1000
+  End Run: 3
+  Total 0 heap property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"max":true}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"max":false}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"max":true}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"max":false}
+  Post heapify size: 10000
+  Size valid? true. Expected 10000 was 10000
+  Total 0 heap property violations.
+  Total pops: 10000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"asTree":true,"max":true}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"asTree":true,"max":false}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"asTree":true,"max":true}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+
+
+Heapify test testing opts: {"arity":4,"asTree":true,"max":false}
+  Post heapify size: 1000
+  Size valid? true. Expected 1000 was 1000
+  Total 0 heap property violations.
+  Total pops: 1000
+  Test passed.
+  
+  
+Heap merge test
+  
+  Heap (as tree)
+  #store: Tree
+  
+  Row: 0
+node: 5 	  
+  
+  Row: 1
+node: 3 	node: 4 	  
+  
+  Row: 2
+node: 2 	node: 1 	  
+  
+  
+  
+  Heap (as list)
+  #store: Array
+  
+  Row: 0
+node: 9 	  
+  
+  Row: 1
+node: 8 	node: 7 	  
+  
+  Row: 2
+node: 5 	node: 6 	  
+  
+  
+  Test passed.
+
+
+Heap huge merge test
+  Size test: true
+  Test passed.
+
+
+
+
+PQ order test testing opts: ""
+  Run: 1
+  End Run: 1
+  Run: 2
+  End Run: 2
+  Run: 3
+  End Run: 3
+  Total 0 pq property violations across 3 runs.
+  Test passed.
+  
+  
+
+
+PQ order test testing opts: {"max":false}
+  Run: 1
+  End Run: 1
+  Run: 2
+  End Run: 2
+  Run: 3
+  End Run: 3
+  Total 0 pq property violations across 3 runs.
+  Test passed.
+  
+  
+
+Basic trie test.
+  Empty trie:
+  
+  size: 0
+  
+  Trie. Size: 0
+  
+  	Row: 0
+node:  -> @Empty 	  
+  
+  
+  Trie after 3 insertions:
+  
+  size: 3
+  
+  Trie. Size: 3
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> 9 	  
+  	Row: 3
+node:  -> 123 	node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> 12 	  
+  
+  
+  Trie after 1 deletion:
+  
+  size: 2
+  
+  Trie. Size: 2
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> 123 	node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> 12 	  
+  
+  
+  Trie basic test passed.
+
+Subtrie deletion test.
+  
+  Trie. Size: 2
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	node:  -> @Empty 	  
+  	Row: 11
+node:  -> 999 	node:  -> @Empty 	  
+  	Row: 12
+node:  -> 888 	  
+  
+  
+  
+  Trie. Size: 1
+  
+  	Row: 0
+node:  -> @Empty 	  
+  	Row: 1
+node:  -> @Empty 	  
+  	Row: 2
+node:  -> @Empty 	  
+  	Row: 3
+node:  -> @Empty 	  
+  	Row: 4
+node:  -> @Empty 	  
+  	Row: 5
+node:  -> @Empty 	  
+  	Row: 6
+node:  -> @Empty 	  
+  	Row: 7
+node:  -> @Empty 	  
+  	Row: 8
+node:  -> @Empty 	  
+  	Row: 9
+node:  -> @Empty 	  
+  	Row: 10
+node:  -> @Empty 	  
+  	Row: 11
+node:  -> @Empty 	  
+  	Row: 12
+node:  -> 888 	  
+  
+  
+  Subtrie deletion test passed.
+
+Trie scale test.
+  Trie scale test.: 19.008ms
+  Trie scale test passed.
+
+Trie scale delete and has test.
+  Trie scale test.: 20.504ms
+  Trie scale test passed.
+
+Trie key iterator test.
+  Trie key iterator short test passed.
+  Trie key iterator long test passed.
+
+Trie repeated idempotent test.
+  Trie repeated idempotent test.: 41.224ms
+  Trie repeated idempotent test passed.
+
+Trie iterator edgecase test.
+  Trie iterator edgecase test passed.
+Skiplist index test. Opts: undefined
+SkipList index test passed.
+Skiplist index test with deletion. Opts: undefined
+Skiplist index test with deletion.: 77.57ms
+SkipList index test with deletion passed.
+Skiplist iterator test. Opts: undefined
+SkipList iterator tests passed.
+Skiplist index test. Opts: undefined
+SkipList index test passed.
+Skiplist insert test. Opts: undefined
+Row: 9:  8 308
+Row: 8:  8 184 308 335
+Row: 7:  8 66 122 184 308 335 338 957
+Row: 6:  8 45 66 122 153 184 229 272 308 313 335 338 412 629 650 730 744 766 957
+Row: 5:  8 45 50 66 122 153 154 174 184 229 258 272 308 313 335 338 380 412 414 429 434 622 629 634 650 666 715 730 744 762 766 772 788 802 859 875 883 957 960 968 989 992 996
+Row: 4:  8 45 50 66 102 122 134 153 154 174 184 191 229 258 272 277 305 308 313 329 335 338 344 354 380 381 412 414 429 434 449 451 474 481 499 500 532 567 588 599 621 622 629 633 634 650 652 666 682 715 719 724 730 731 744 762 766 772 780 787 788 802 805 837 859 861 875 878 883 957 960 964 968 976 989 992 996
+Row: 3:  8 9 22 25 39 45 50 66 72 73 85 90 94 102 111 122 134 150 152 153 154 174 184 188 191 205 212 214 229 232 248 258 265 272 275 277 290 298 305 308 312 313 316 322 329 333 335 338 344 354 358 376 379 380 381 387 399 404 412 414 429 434 438 449 451 473 474 481 499 500 502 527 532 534 567 578 588 599 600 621 622 629 633 634 643 650 652 666 682 688 715 719 724 730 731 744 762 766 772 780 787 788 795 802 805 806 837 859 861 874 875 878 879 883 957 960 964 968 970 976 982 989 992 996
+Row: 2:  8 9 14 18 19 22 25 33 39 45 50 59 64 66 69 72 73 76 77 78 85 90 94 97 102 111 122 124 134 137 140 142 148 150 152 153 154 159 164 174 178 184 188 189 190 191 193 195 196 205 212 214 216 220 222 225 229 230 232 242 244 247 248 253 258 265 270 272 275 277 278 290 293 298 303 305 306 308 310 312 313 314 316 322 329 330 333 335 337 338 341 344 346 348 349 350 354 358 359 361 365 367 370 376 379 380 381 383 384 385 387 395 398 399 403 404 405 409 410 411 412 414 415 416 417 423 426 429 434 438 442 449 451 456 457 470 473 474 480 481 482 499 500 502 506 509 511 514 525 527 532 534 539 546 547 548 556 560 561 567 577 578 586 588 590 593 599 600 611 621 622 627 629 633 634 635 641 643 646 650 652 653 659 663 665 666 672 681 682 688 695 699 702 714 715 719 724 730 731 737 744 746 747 749 750 762 763 766 772 775 779 780 787 788 789 794 795 797 802 805 806 826 833 837 843 845 846 856 859 861 874 875 878 879 881 883 884 885 887 895 896 918 919 929 936 937 940 945 957 960 964 968 970 972 975 976 982 989 992 996
+Row: 1:  4 5 8 9 11 12 14 18 19 22 25 28 29 32 33 35 39 44 45 50 51 53 59 61 64 65 66 69 70 72 73 76 77 78 85 88 89 90 91 92 94 95 97 101 102 104 107 108 109 110 111 114 122 124 128 129 133 134 137 140 142 146 148 149 150 152 153 154 156 158 159 164 166 167 169 170 172 174 175 178 179 181 182 183 184 188 189 190 191 193 195 196 203 205 212 213 214 216 220 221 222 224 225 229 230 232 235 236 237 238 242 244 247 248 253 254 258 260 265 266 270 271 272 273 274 275 277 278 290 291 293 294 297 298 299 302 303 305 306 307 308 310 312 313 314 316 318 321 322 324 328 329 330 333 335 336 337 338 340 341 344 345 346 347 348 349 350 354 358 359 361 362 365 367 369 370 373 375 376 379 380 381 383 384 385 387 391 395 398 399 400 402 403 404 405 407 409 410 411 412 414 415 416 417 420 421 423 425 426 429 430 432 433 434 436 437 438 441 442 444 445 448 449 451 453 454 456 457 459 461 463 466 467 470 471 473 474 476 480 481 482 484 487 488 489 492 495 497 499 500 502 504 506 507 508 509 511 512 513 514 518 520 524 525 527 532 534 535 539 541 544 545 546 547 548 550 551 555 556 560 561 562 563 564 565 567 571 572 574 577 578 579 586 587 588 590 592 593 596 598 599 600 607 611 614 615 616 617 621 622 625 627 629 632 633 634 635 636 637 641 643 645 646 647 650 652 653 659 662 663 664 665 666 669 670 671 672 673 675 677 678 679 681 682 683 684 685 686 688 689 690 695 699 702 704 710 713 714 715 719 723 724 726 727 729 730 731 735 736 737 739 740 741 742 743 744 746 747 748 749 750 752 753 757 759 762 763 766 767 769 771 772 775 776 779 780 784 785 786 787 788 789 794 795 796 797 798 801 802 803 805 806 817 824 826 829 831 832 833 834 837 839 840 841 843 845 846 847 848 856 859 861 863 868 869 870 871 873 874 875 878 879 881 883 884 885 887 892 894 895 896 897 899 901 903 909 912 914 917 918 919 928 929 934 935 936 937 940 941 945 946 949 957 960 964 965 968 970 972 973 974 975 976 981 982 984 985 989 991 992 993 994 996 998
+Row: 0:  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 350 351 352 353 354 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385 386 387 388 389 390 391 392 393 394 395 396 397 398 399 400 401 402 403 404 405 406 407 408 409 410 411 412 413 414 415 416 417 418 419 420 421 422 423 424 425 426 427 428 429 430 431 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449 450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 540 541 542 543 544 545 546 547 548 549 550 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 566 567 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 622 623 624 625 626 627 628 629 630 631 632 633 634 635 636 637 638 639 640 641 642 643 644 645 646 647 648 649 650 651 652 653 654 655 656 657 658 659 660 661 662 663 664 665 666 667 668 669 670 671 672 673 674 675 676 677 678 679 680 681 682 683 684 685 686 687 688 689 690 691 692 693 694 695 696 697 698 699 700 701 702 703 704 705 706 707 708 709 710 711 712 713 714 715 716 717 718 719 720 721 722 723 724 725 726 727 728 729 730 731 732 733 734 735 736 737 738 739 740 741 742 743 744 745 746 747 748 749 750 751 752 753 754 755 756 757 758 759 760 761 762 763 764 765 766 767 768 769 770 771 772 773 774 775 776 777 778 779 780 781 782 783 784 785 786 787 788 789 790 791 792 793 794 795 796 797 798 799 800 801 802 803 804 805 806 807 808 809 810 811 812 813 814 815 816 817 818 819 820 821 822 823 824 825 826 827 828 829 830 831 832 833 834 835 836 837 838 839 840 841 842 843 844 845 846 847 848 849 850 851 852 853 854 855 856 857 858 859 860 861 862 863 864 865 866 867 868 869 870 871 872 873 874 875 876 877 878 879 880 881 882 883 884 885 886 887 888 889 890 891 892 893 894 895 896 897 898 899 900 901 902 903 904 905 906 907 908 909 910 911 912 913 914 915 916 917 918 919 920 921 922 923 924 925 926 927 928 929 930 931 932 933 934 935 936 937 938 939 940 941 942 943 944 945 946 947 948 949 950 951 952 953 954 955 956 957 958 959 960 961 962 963 964 965 966 967 968 969 970 971 972 973 974 975 976 977 978 979 980 981 982 983 984 985 986 987 988 989 990 991 992 993 994 995 996 997 998 999
+Size: 1000
+
+
+
+SkipList Map test passed.
+Skiplist insert test. Opts: undefined
+Row: 4:  2
+Row: 3:  2
+Row: 2:  1 2 4
+Row: 1:  -1 1 2 3 4 5 6
+Row: 0:  -1 0 1 2 3 4 5 6
+Size: 8
+
+
+
+
+Skiplist insert test. Opts: {"max":true}
+Row: 2:  0
+Row: 1:  5 2 0 -1
+Row: 0:  6 5 4 3 2 1 0 -1
+Size: 8
+
+
+
+
+Skiplist insert test. Opts: {"max":true,"_breakLinearize":true}
+Row: 6:  0
+Row: 5:  0
+Row: 4:  0
+Row: 3:  0
+Row: 2:  0
+Row: 1:  5 4 3 0
+Row: 0:  6 5 4 3 2 1 0 -1
+Size: 8
+
+
+
+
+Skiplist has test. Opts: undefined
+Test passed. All inserted numbers tested as present in skiplist.
+
+Skiplist has test. Opts: {"max":true}
+Test passed. All inserted numbers tested as present in skiplist.
+
+Skiplist has test. Opts: {"duplicatesOkay":true}
+Test passed. All inserted numbers tested as present in skiplist.
+
+Skiplist scale test. Opts: undefined
+  Skiplist scale test. Insert phase: 36.979ms
+  Scale Has Test passed.
+  Skiplist scale test. Has phase: 28.918ms
+
+Skiplist scale test. Opts: {"max":true}
+  Skiplist scale test. Insert phase: 38.517ms
+  Scale Has Test passed.
+  Skiplist scale test. Has phase: 28.473ms
+
+Skiplist scale test. Opts: {"p":0.25}
+  Skiplist scale test. Insert phase: 52.03ms
+  Scale Has Test passed.
+  Skiplist scale test. Has phase: 14.851ms
+
+Skiplist delete test. Opts: undefined
+Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.
+Expected size: 278. Actual size: 278
+
+Skiplist delete test. Opts: {"max":true}
+Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.
+Expected size: 305. Actual size: 305
+
+Binary search scale test. 200000. Opts: {"recursive":true}
+  Finding 20000 numbers...
+  Done.
+  Finding 20000 words...
+  Done.
+  Binary search find phase.: 189.378ms
+  Binary search test passed.
+Binary search scale test. 200000. Opts: {}
+  Finding 20000 numbers...
+  Done.
+  Finding 20000 words...
+  Done.
+  Binary search find phase.: 156.082ms
+  Binary search test passed.
+QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {}
+  QuickSelect 300 trials.: 3.277ms
+  QuickSelect test passed.
+QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"recursive":true}
+  QuickSelect 300 trials.: 2.673ms
+  QuickSelect test passed.
+QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"pivot":"mom"}
+  QuickSelect 300 trials.: 3.968ms
+  QuickSelect test passed.
+QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"pivot":"mom","recursive":true}
+  QuickSelect 300 trials.: 3.565ms
+  QuickSelect test passed.
+
+Insertion Sort test: {"opts":{}}. Length: 2500
+  Insertion Sort test: 10.461ms
+{ lastVal: 2443 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{}}. Length: 2500
+  Insertion Sort test: 11.137ms
+{ lastVal: 2441 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"invert":true}}. Length: 2500
+  Insertion Sort test: 10.47ms
+{ lastVal: 0 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"invert":true}}. Length: 2500
+  Insertion Sort test: 6.55ms
+{ lastVal: 0 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"inplace":true}}. Length: 2500
+  Insertion Sort test: 6.32ms
+{ lastVal: 2470 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"inplace":true,"nosplice":true}}. Length: 2500
+  Insertion Sort test: 17.278ms
+{ lastVal: 2411 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"inplace":true,"nobs":true}}. Length: 2500
+  Insertion Sort test: 124.347ms
+{ lastVal: 2422 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"nobs":true}}. Length: 2500
+  Insertion Sort test: 157.242ms
+{ lastVal: 2456 }
+  Insertion Sort test passed.
+
+
+MergeSort test: {"opts":{}}. Length: 10000
+  MergeSort test: 12.381ms
+{ lastVal: 9908 }
+  MergeSort test passed.
+
+MergeSort test: {"opts":{"invert":true}}. Length: 10000
+  MergeSort test: 12.363ms
+{ lastVal: 0 }
+  MergeSort test passed.
+
+MergeSort test: {"opts":{}}. Length: 10000
+  MergeSort test: 13.096ms
+{ lastVal: 9753 }
+  MergeSort test passed.
+
+MergeSort test: {"opts":{"invert":true}}. Length: 10000
+  MergeSort test: 7.286ms
+{ lastVal: 0 }
+  MergeSort test passed.
+
+
+QuickSort test: {"opts":{}}. Length: 10000
+  QuickSort test: 16.398ms
+{ lastVal: 9722 }
+  QuickSort test passed.
+
+QuickSort test: {"opts":{"invert":true}}. Length: 10000
+  QuickSort test: 56.708ms
+{ lastVal: 0 }
+  QuickSort test passed.
+
+QuickSort test: {"opts":{}}. Length: 10000
+  QuickSort test: 8.186ms
+{ lastVal: 9847 }
+  QuickSort test passed.
+
+QuickSort test: {"opts":{"invert":true}}. Length: 10000
+  QuickSort test: 45.838ms
+{ lastVal: 0 }
+  QuickSort test passed.
+
+QuickSort test: {"opts":{"pivot":"mom"}}. Length: 10000
+  QuickSort test: 6.608ms
+{ lastVal: 9758 }
+  QuickSort test passed.
+Tests complete.
+
+

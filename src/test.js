@@ -36,8 +36,6 @@ export function testAll() {
 
     testLinkedList();
 
-    return;
-
     testSelfOrganizingList(); 
 
 
@@ -643,38 +641,48 @@ export function testAll() {
 
 // linkedlist tests
   function testSingList() {
-    const sl = new SingList([1,2,3]);
-    console.log([...sl]);
-    sl.reverse();
-    console.log([...sl]);
-    sl.recursiveReverse(null, sl.head);
-    console.log([...sl]);
+    try {
+      const sl = new SingList([1,2,3]);
+      console.log([...sl]);
+      console.assert([...sl].join(',') === '1,2,3', 'singlist reverse failed');
+      sl.reverse();
+      console.log([...sl]);
+      console.assert([...sl].join(',') === '3,2,1', 'singlist reverse failed');
+      sl.recursiveReverse(null, sl.head);
+      console.log([...sl]);
+      console.assert([...sl].join(',') === '1,2,3', 'singlist reverse failed');
+      console.log(`Singly linked list test passed.`);
+    } catch(e) {
+      console.error(`Singly linked list test failed.`);
+    } 
   }
 
   function testLinkedList() {
-    const ll = new LinkedList();
-      
     const big = randomNumberList(1000);
-    big.sort();
+    big.sort((a,b) => a - b);
+    const ll = new LinkedList(big);
 
-    for( const num of big ) {
-      ll.push(num);
-    }
-
-    //console.log(big);
+    let valid = true;
 
     ll.reverse();
     big.reverse();
 
     for( const num of big ) {
-      const head = ll.unshift();
+      const head = ll.shift();
       //const head = ll.pop();
       //console.log(head);
-      if ( head === num ) continue;
-      else {
+      const test = head === num;
+      valid = valid && test;
+      if ( ! test ) {
         console.error(`LinkedList reverse failed. Head ${head} !== ${num}`);
         break;
       }
+    }
+
+    if ( ! valid ) {
+      console.error(`LinkedList test failed.`);
+    } else {
+      console.log(`LinkedList test passed.`);
     }
   }
 
