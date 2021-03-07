@@ -50,6 +50,7 @@ Or [jump straight to the API documentation](#api-documentation).
   - [Doubly-linked list](#doubly-linked-list)
   - [Self-organizing list](#self-organizing-list)
   - [Heap](#heap)
+  - [Priority queue](#priority-queue)
 
 ------------
 
