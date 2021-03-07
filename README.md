@@ -323,66 +323,66 @@ Or [jump straight to the API documentation](#api-documentation).
 
 ### Heap
 
-Importing directly:
-```js
-import Heap from './src/heap.js';
-```
+  Importing directly:
+  ```js
+  import Heap from './src/heap.js';
+  ```
 
-Importing from package:
-```js
-import * as CS from 'cs101';
-const Heap = CS.Heap.Class;
-```
+  Importing from package:
+  ```js
+  import * as CS from 'cs101';
+  const Heap = CS.Heap.Class;
+  ```
 
-Creating:
-```js
-const data = [0,10,8,7,2,1];
-const heap = new Heap({
-  asTree: false,          /* underlying implementation as tree, false is list implementation */
-  max: true,              /* max heap, false is min heap */
-  arity: 2,               /* binary, then 3 is ternary, etc. */
-  compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#parameters 
-    // with comparison directed by the heap property
-    // so compare(bigger, smaller) is > 0 for max heap
-    // while compare(smaller, bigger) is > 0 for min heap
-    // and vice versa
-    // in essence, it's 
-    // compare(top, bottom) > 0 and compare(bottom, top) < 0
-    // DEFAULT comparison is simply this applied to Numbers
-}, data); // O(n) (uses Floyd's heapify)
-```
+  Creating:
+  ```js
+  const data = [0,10,8,7,2,1];
+  const heap = new Heap({
+    asTree: false,          /* underlying implementation as tree, false is list implementation */
+    max: true,              /* max heap, false is min heap */
+    arity: 2,               /* binary, then 3 is ternary, etc. */
+    compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#parameters 
+      // with comparison directed by the heap property
+      // so compare(bigger, smaller) is > 0 for max heap
+      // while compare(smaller, bigger) is > 0 for min heap
+      // and vice versa
+      // in essence, it's 
+      // compare(top, bottom) > 0 and compare(bottom, top) < 0
+      // DEFAULT comparison is simply this applied to Numbers
+  }, data); // O(n) (uses Floyd's heapify)
+  ```
 
-Getting size:
-```js
-heap.size; // 6
-```
+  Getting size:
+  ```js
+  heap.size; // 6
+  ```
 
-Getting top:
-```js
-heap.peek(); // 10 O(1)
-```
+  Getting top:
+  ```js
+  heap.peek(); // 10 O(1)
+  ```
 
-Replacing top:
-```js
-heap.replace(22); // 10 O(log n)
-heap.size; // 6
-```
+  Replacing top:
+  ```js
+  heap.replace(22); // 10 O(log n)
+  heap.size; // 6
+  ```
 
-Removing top:
-```js
-heap.pop(); // 22 O(log n)
-heap.size; // 5
-heap.peek(); // 8
-```
+  Removing top:
+  ```js
+  heap.pop(); // 22 O(log n)
+  heap.size; // 5
+  heap.peek(); // 8
+  ```
 
-Pushing something on:
-```js
-heap.push(-5); 
-heap.peek(); // 8
-heap.push(9);
-heap.peek(); // 9
-```
+  Pushing something on:
+  ```js
+  heap.push(-5); 
+  heap.peek(); // 8
+  heap.push(9);
+  heap.peek(); // 9
+  ```
 
 ### Priority Queue
 
@@ -458,6 +458,88 @@ heap.peek(); // 9
   ```
 
 ### Trie
+
+  Importing directly:
+  ```js
+  import Trie from './src/trie.js';
+  ```
+
+  Importing from package:
+  ```js
+  import * as CS from 'cs101';
+  const Trie = CS.Trie.Class;
+  ```
+
+  Creating (strings only, Map or object):
+  ```js
+  const data1 = ['abc', 'def'];
+  const trie1 = new Trie({
+    asTree: false,          /* underlying implementation as tree, false is list implementation */
+    max: true,              /* max heap, false is min heap */
+    arity: 2,               /* binary, then 3 is ternary, etc. */
+    compare: undefined      /* a custom comparator per JS Array.sort compareFunction interface */
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#parameters 
+      // with comparison directed by the heap property
+      // so compare(bigger, smaller) is > 0 for max heap
+      // while compare(smaller, bigger) is > 0 for min heap
+      // and vice versa
+      // in essence, it's 
+      // compare(top, bottom) > 0 and compare(bottom, top) < 0
+      // DEFAULT comparison is simply this applied to Numbers
+  }, data); // O(n) (uses Floyd's heapify)
+
+  const data2 = new Map([
+    ['abc', {movie: 'ok'}],
+    ['def', {time: 'yes'}]
+  ]);
+  const trie2 = new Trie(null, data);
+
+  const data3 = {
+    abc: {movie: 'ok'},
+    def: {time: 'yes'},
+  }
+  const trie3 = new Trie(null, data);
+  ```
+
+  Getting size:
+  ```js
+  trie1.size; // 2
+  trie2.size; // 2
+  trie3.size; // 2
+  ```
+
+  Membership:
+  ```js
+  trie1.has('ab'); // no
+  trie1.has('abc'); // yes
+  trie1.has('xyz'); // no
+  ```
+
+  Setting / updating:
+  ```js
+  trie1.set('xyz', {everybody: 'else'});
+  trie1.set('zzz', {accounting: true});
+  trie1.size; // 3
+  ```
+
+  Getting:
+  ```js
+  trie1.get('zzz'); // {found: true, value: {accounting: true}}
+  trie1.get('---'); // {found: false, value: undefined}
+  ```
+
+  Deleting:
+  ```js
+  trie1.delete('def');
+  trie1.size; // 2
+  ```
+
+  Iterating (keys, values, entries):
+  ```js
+    [...trie1.keys()]; // 'abc', 'zzz', 
+    [...trie1.values()]; // true, {accounting: true}
+    [...trie1.entries()]; // ['abc', true], ['zzz', {accounting:true}
+  ```
 
 ### Skiplist
 

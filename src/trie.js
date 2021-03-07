@@ -90,6 +90,12 @@ export default class Trie {
       }
     }
 
+    *entries() {
+      for( const {string, value} of this ) {
+        yield [string, value];
+      }
+    }
+
   // API alias
     insert(key, value) {
       return this.set(key, value);
@@ -208,7 +214,30 @@ export default class Trie {
     }
 
     static trieify(trie, data) {
-      console.log({trie,data});
+      if ( Array.isArray(data) ) {
+        for( const str of data ) {
+          if ( typeof str !== 'string' ) {
+            throw new TypeError(`If data is an array, it must contain only strings. Received: ${str}`);
+          }
+          trie.set(str);
+        }
+      } else if ( data instanceof Map ) {
+        for( const [key, value] of data.entries() ) {
+          if ( typeof key !== 'string' ) {
+            throw new TypeError(`If data is a Map, its keys must only be strings. Received: ${key}`);
+          }
+          trie.set(key, value);
+        }
+      } else if ( typeof data === 'object' ) {
+        for( const [key, value] of Object.entries(data) ) {
+          if ( typeof key !== 'string' ) {
+            throw new TypeError(
+              `If data is an Object, its keys must only be strings. Received: ${key}`
+            );
+          }
+          trie.set(key, value);
+        }
+      }
     }
 
     // static test methods
