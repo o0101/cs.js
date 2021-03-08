@@ -2,6 +2,7 @@ export * as SingList from './lib/singlist.js';
 export * as LinkedList from './lib/linkedlist';
 export * as SOL from './sol.js';
 
+export * as Tree from './lib/tree.js';
 export * as Heap from './heap.js';
 export * as PQ from './pq.js';
 export * as Trie from './trie.js';

@@ -175,6 +175,10 @@ export class Tree {
     }
   }
 
+  static get Node() {
+    return Node;
+  }
+
   // private methods
     *#bfsIterator() {
       const root = this.getRoot();
@@ -204,6 +208,10 @@ export class Tree {
       }
     }
 }
+
+const Class = Tree;
+export default Class;
+
 
 export class Node {
   // private fields

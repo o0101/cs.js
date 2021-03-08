@@ -49,6 +49,7 @@ Or [jump straight to the API documentation](#api-documentation).
   - [Singly-linked list](#singly-linked-list)
   - [Doubly-linked list](#doubly-linked-list)
   - [Self-organizing list](#self-organizing-list)
+  - [N-ary Tree](#n-ary-tree)
   - [Heap](#heap)
   - [Priority queue](#priority-queue)
   - [Trie](#trie)
@@ -327,6 +328,79 @@ Or [jump straight to the API documentation](#api-documentation).
   Get length:
   ```js
   sol.length; // 1
+  ```
+
+### N-Ary Tree
+
+  Importing directly:
+  ```js
+  import Tree from './src/lib/tree.js';
+  // equivalent with Node
+  import {Tree, Node} from './src/lib/tree.js';
+  ```
+
+  Importing from package:
+  ```js
+  import * as CS from 'cs101';
+  const Tree = CS.Tree.Class;
+  const Node = Tree.Node; // CS.Tree.Node equivalent
+  ```
+
+  Creating:
+  ```js
+    const tree = new Tree({arity: 5}); // arity: 2 is binary tree
+  ``
+
+  Creating Nodes:
+  ```js
+  const newRoot = new Node({thing: 'i am a node value'});
+  ```
+
+  Getting / setting the root:
+  ```js
+  tree.setRoot(newRoot);
+  tree.getRoot(); // Node {thing: 'i am a Node value'}
+  ```
+
+  Adding child nodes:
+  ```js
+  tree.getRoot().addChild(new Node({thing: 'i am under the first thing'}));
+  tree.getRoot().addChild(new Node({thing: 'me too. i am also under the first thing'}));
+  tree.getRoot().addChild(new Node({thing: 'me three. i too am under the first thing'}));
+  ```
+
+  Getting / Deleting child nodes:
+  ```js
+  const meTooNode = tree.getRoot().children[1];
+  tree.getRoot().deleteSubtree(meTooNode);
+  tree.getRoot().degree; // 2
+  ```
+  
+  Iterating:
+  ```js
+  // depth-first
+  for( const {node, depth} of tree.dfs() ) {
+    console.log({node, depth});
+  }
+
+
+  // breath-first
+  for( const {node, depth} of tree.bfs() ) {
+    console.log({node, depth});
+  }
+  ```
+
+  Updating Node value:
+  ```js
+  import {Empty} from './src/lib/tree.js';
+  const meThreeNode = tree.getRoot().children[1];
+  meThreeNode.thing = Empty; // Empty is a special symbol value
+  ```
+
+  Finding the first empty leaf:
+  ```js
+  const emptyLeaf = tree.firstEmptyLeaf(); 
+  console.assert(emptyLeaf === meThreeNode); // true
   ```
 
 ### Heap
