@@ -38,7 +38,7 @@ export const findKth = QuickSelect;
 // for illustration only as often exceeds stack size
 function recursiveQuickSelect(list, k, low, high, opts) {
   let pivotIndex = getPivot(list, low, high, opts);
-  if ( low === high ) {
+  if ( low >= high ) {
     return list[low];
   } else {
     if ( opts.pivot === 'mom' ) {
@@ -83,7 +83,7 @@ function getPivot(list, low, high, opts) {
     return low + Math.floor(Math.random()*(high-low));
   } else {
     // for 5 or less elements just get median
-    if ((high - low) < 5) {
+    if ((high - low) <= 5) {
       return partition5(list, low, high);
     }
 

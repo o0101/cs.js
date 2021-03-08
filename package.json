@@ -4,6 +4,7 @@
   "description": "Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in simple, clean, reusable code",
   "main": "src/index.js",
   "scripts": {
+    "browser-test": "serve -p 8080",
     "test": "nodemon -r esm src/test.js",
     "lint": "npx eslint src/*"
   },

@@ -1,4 +1,3 @@
-import {Empty} from './lib/tree.js';
 import {DEFAULT_COMPARE, signedCompare} from './quicksort.js';
 
 const DEFAULT_OPTIONS = {

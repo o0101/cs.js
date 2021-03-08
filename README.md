@@ -4,7 +4,48 @@ Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in
 
 [cs101](https://npmjs.com/package/cs101) on NPM.
 
-# Contents
+Contains Heap, Trie, SkipList, QuickSelect, various sorts and more.
+
+## Getting and testing
+
+Get for use:
+
+```shell
+$ npm i --save cs101
+```
+
+Get to run tests and modify:
+
+1. Fork and repo, clone your copy 
+2. Change to directory, and install dependencies:
+  ```shell
+  $ cd cs.js
+  $ npm i 
+  ```
+3. Run tests in Node
+  ```shell
+  $ npm test
+  ```
+4. Run tests in browser:
+  ```shell
+  $ npm run browser-test 
+  ```
+
+  Then open that machine's port 8080 in a browser and view the developer console to see test output.
+
+Linting:
+
+```shell
+$ npm run lint
+```
+
+Push test output to a file:
+
+```shell
+$ node -r esm src/test.js > testout.txt
+```
+
+## Contents
 
 Click links below to go *straight to the code* :sparkles: for each structure or algorithm;
 

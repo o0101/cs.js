@@ -30,7 +30,6 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
   
-
   // list structures
     testSingList();
 
@@ -601,7 +600,6 @@ export function testAll() {
     console.group(`\nQuickSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
 
     const list = randomNumberList(QUICKSORT_SCALE_MAX);
-    const compare = opts.compare;
     let valid = true;
 
     console.time(`QuickSort test`);

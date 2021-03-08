@@ -384,6 +384,7 @@ export default class Heap {
       console.log(`\nHeap (${heap.config.asTree ? 'as tree' : 'as list'})`);
       console.log(`#store: ${heap.#store.constructor.name}`);
       console.log(`\nRow: ${row}`);
+      const Row = [];
 
       if ( heap.config.asTree ) {
         for( const stuff of heap.#store.bfs() ) {
@@ -391,15 +392,17 @@ export default class Heap {
           if ( depth > row ) {
             row = depth;
             console.log(`\n\nRow: ${row}`);
+            console.log(Row.join(''));
+            Row.length = 0;
           }
           if ( typeof node.thing !== 'symbol' ) {
             if ( typeof node.thing === "object" ) {
-              process.stdout.write(`node: ${JSON.stringify(node.thing)} \t`);
+              Row.push(`node: ${JSON.stringify(node.thing)} \t`);
             } else {
-              process.stdout.write(`node: ${node.thing} \t`);
+              Row.push(`node: ${node.thing} \t`);
             }
           } else {
-            process.stdout.write(`node: ${Symbol.keyFor(node.thing)} \t`);
+            Row.push(`node: ${Symbol.keyFor(node.thing)} \t`);
           }
         }
       } else {
@@ -409,6 +412,8 @@ export default class Heap {
           if ( depth > row ) {
             row = depth;
             console.log(`\n\nRow: ${row}`);
+            console.log(Row.join(''));
+            Row.length = 0;
           }
           if ( typeof thing !== 'symbol' ) {
             let out = thing;
@@ -416,12 +421,12 @@ export default class Heap {
               out = transform(out); 
             }
             if ( typeof out === "object" ) {
-              process.stdout.write(`node: ${JSON.stringify(out)} \t`);
+              Row.push(`node: ${JSON.stringify(out)} \t`);
             } else {
-              process.stdout.write(`node: ${out} \t`);
+              Row.push(`node: ${out} \t`);
             }
           } else {
-            process.stdout.write(`node: ${Symbol.keyFor(thing)} \t`);
+            Row.push(`node: ${Symbol.keyFor(thing)} \t`);
           }
         }
       }

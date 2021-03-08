@@ -1,5 +1,5 @@
 export * as SingList from './lib/singlist.js';
-export * as LinkedList from './lib/linkedlist';
+export * as LinkedList from './lib/linkedlist.js';
 export * as SOL from './sol.js';
 
 export * as Tree from './lib/tree.js';

@@ -189,20 +189,24 @@ export default class Trie {
 
       console.log(`\n\tRow: ${row}`);
 
+      const Row = [];
+
       for( const stuff of trie.#nodeBfs() ) {
         const {node,depth} = stuff;
         if ( depth > row ) {
           row = depth;
           console.log(`\n\tRow: ${row}`);
+          console.log(Row.join(''));
+          Row.length = 0;
         }
         if ( typeof node.value !== 'symbol' ) {
           if ( typeof node.value === "object" ) {
-            process.stdout.write(`node: ${node.char || ''} -> ${JSON.stringify(node.value)} \t`);
+            Row.push(`node: ${node.char || ''} -> ${JSON.stringify(node.value)} \t`);
           } else {
-            process.stdout.write(`node: ${node.char || ''} -> ${node.value} \t`);
+            Row.push(`node: ${node.char || ''} -> ${node.value} \t`);
           }
         } else {
-          process.stdout.write(`node: ${node.char || ''} -> ${Symbol.keyFor(node.value)} \t`);
+          Row.push(`node: ${node.char || ''} -> ${Symbol.keyFor(node.value)} \t`);
         }
       }
 
