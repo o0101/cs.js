@@ -4,6 +4,8 @@ import {
 } from './quicksort.js';
 
 const DEFAULT_OPTIONS = {
+  pivot: undefined,         /* use simple random pivot, */
+      /* 'mom' uses median of medians but currently requires list be numbers */
   invert: false,            /* invert order */
   compare: DEFAULT_COMPARE,
   recursive: false,         /* use iterative version, true is use recursive version */
@@ -23,12 +25,15 @@ export default function QuickSelect(list, k, opts) {
       throw new TypeError(`Median of medians pivot selection algorithm can only be used on lists of numbers. Received: ${list[0]} at list position 0`);
     }
   }
+
   if ( opts.recursive ) {
     return recursiveQuickSelect(list, k, 0, list.length - 1, opts);
   } else {
     return iterativeQuickSelect(list, k, 0, list.length - 1, opts);
   }
 }
+
+export const findKth = QuickSelect;
 
 // for illustration only as often exceeds stack size
 function recursiveQuickSelect(list, k, low, high, opts) {

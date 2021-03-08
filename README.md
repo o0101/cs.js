@@ -54,6 +54,10 @@ Or [jump straight to the API documentation](#api-documentation).
   - [Trie](#trie)
   - [Skiplist](#skiplist)
   - [Binary search](#binary-search)
+  - [Quick Select](#quick-select)
+  - [Insertion sort](#insertion-sort)
+  - [Merge sort](#merge-sort)
+  - [Quick sort](#quick-sort)
 
 ------------
 
@@ -274,13 +278,13 @@ Or [jump straight to the API documentation](#api-documentation).
 
   Importing directly:
   ```js
-    import SOL from './src/sol.js';
+  import SOL from './src/sol.js';
   ```
 
   Importing from package:
   ```js
-    import * as CS from 'cs101';
-    const SOL = CS.SOL.Class;
+  import * as CS from 'cs101';
+  const SOL = CS.SOL.Class;
   ```
 
   Creating:
@@ -623,18 +627,18 @@ Or [jump straight to the API documentation](#api-documentation).
 
   Import direct:
   ```js
-    import BinarySearch from './src/binarysearch.js';
-    // equivalent
-    import {find} from './src/binarysearch.js';
-    // lower-level alternatives
-    import {iterativeBinarySearch} from './src/binarysearch.js';
-    import {recursiveBinarySearch} from './src/binarysearch.js';
+  import BinarySearch from './src/binarysearch.js';
+  // equivalent
+  import {find} from './src/binarysearch.js';
+  // lower-level alternatives
+  import {iterativeBinarySearch} from './src/binarysearch.js';
+  import {recursiveBinarySearch} from './src/binarysearch.js';
   ```
 
   Import from package:
   ```js
-    import * as CS from 'cs101';
-    const BinarySearch = CS.BinarySearch.find;
+  import * as CS from 'cs101';
+  const BinarySearch = CS.BinarySearch.find;
   ```
 
   Finding an item:
@@ -653,7 +657,7 @@ Or [jump straight to the API documentation](#api-documentation).
   Using more options:
 
   ```js
-  const list = [{a:1,b:'hi'}, {a:2,b:'9'},{a:4,b:'12321'}];
+  const list = [{a:1,b:'hi'}, {a:2,b:'9'}, {a:4,b:'12321'}];
   const {has, index} = BinarySearch(list, {a:2}, {
     compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2),
     recursive: true               /* false is iterative, the default */
@@ -673,10 +677,139 @@ Or [jump straight to the API documentation](#api-documentation).
 
 ### Quick select
 
+  Import direct:
+  ```js
+  import QuickSelect from './src/selectquick.js';
+  // equivalent
+  import {findKth} from './src/selectquick.js';
+  ```
+
+  Import from package:
+  ```js
+    import * as CS from 'cs101';
+    const QuickSelect = CS.QuickSelect.findKth;
+  ```
+
+  Finding an the kth item in an unordered list:
+  ```js
+  const list = ['delta', '92', 'twenty1', 'abc'];
+  const kth = QuickSelect(list, 1); // 'abc' is the 1st item, O(n)
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [{a:1,b:'hi'}, {a:4,b:'12321'}, {a:2,b:'9'}];
+  const kth = QuickSelect(list, 3, {
+    pivot: undefined,             /* use simple random pivot, */
+        /* 'mom' uses median of medians but currently requires list be numbers */
+    compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2), 
+          /* undefined uses DEFAULT_COMPARE, or you can use a custom comparison */
+    recursive: true,              /* false is iterative, the default */
+    invert: false,                /* invert order */
+  }); // {a:4, b:'12321'} is the 3rd item
+  ```
+
 ### Insertion sort
+
+  Import direct:
+  ```js
+  import InsertionSort from './src/insertionsort.js';
+  // equivalent
+  import {sort} from './src/insertionsort.js';
+  ```
+
+  Import from package:
+  ```js
+  import * as CS from 'cs101';
+  const InsertionSort = CS.InsertionSort.sort;
+  ```
+
+  Sorting a list
+  ```js
+  const list = [5,9,2,4,1,3,0,8];
+  const sorted = InsertionSort(list); // [0,1,2,3,4,5,8,9]
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [{a:4,b:'12321'}, {a:1,b:'hi'}, {a:2,b:'9'}];
+  const sorted = InsertionSort(list, {
+    invert: false,      /* inverts the order */
+    compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2), 
+          /* undefined uses DEFAULT_COMPARE, but can be a custom comparison */
+    inplace: false,     /* sort is in place, 
+                        /* false is create a new array without changing original */
+    nobs: false,        /* false gives an O(N log N) sort */
+                        /* true will not use binary search (just linear search) to */
+                        /* find insert index in sorted part of list, reduces to O(N**2) */
+    nosplice: false,    /* don't use array splice operations on inplace array instead use swaps */
+  }); // [{a:1,b:'hi'}, {a:2,b:'9'}, {a:4,b:'12321'}]
+  ```
 
 ### Merge sort
 
+  Import direct:
+  ```js
+  import MergeSort from './src/mergesort.js';
+  // equivalent
+  import {sort} from './src/mergesort.js';
+  ```
+
+  Import from package:
+  ```js
+  import * as CS from 'cs101';
+  const MergeSort = CS.MergeSort.sort;
+  ```
+
+  Sorting a list
+  ```js
+  const list = [5,9,2,4,1,3,0,8];
+  const sorted = MergeSort(list); // [0,1,2,3,4,5,8,9]
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [{a:4,b:'12321'}, {a:1,b:'hi'}, {a:2,b:'9'}];
+  const sorted = MergeSort(list, {
+    invert: false,      /* inverts the order */
+    compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2), 
+          /* undefined uses DEFAULT_COMPARE, but can be a custom comparison */
+  }); // [{a:1,b:'hi'}, {a:2,b:'9'}, {a:4,b:'12321'}]
+  ```
+
 ### Quick sort
 
+  Import direct:
+  ```js
+  import QuickSort from './src/quicksort.js';
+  // equivalent
+  import {sort} from './src/quicksort.js';
+  ```
 
+  Import from package:
+  ```js
+  import * as CS from 'cs101';
+  const QuickSort = CS.QuickSort.sort;
+  ```
+
+  Sorting a list
+  ```js
+  const list = [5,9,2,4,1,3,0,8];
+  const sorted = QuickSort(list); // [0,1,2,3,4,5,8,9]
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [5,9,2,4,1,3,0,8];
+  const sorted = QuickSort(list, {
+    invert: false,            /* invert order */
+    compare: DEFAULT_COMPARE,
+    pivot: undefined          /* standard random pivot. 'mom' uses median of medians algorithm */
+                              /* but throws if list[0] is not a number */
+                              /* 'mom' currently does not work with list items that are not numbers */
+  }); // [0,1,2,3,4,5,8,9]
+  ```

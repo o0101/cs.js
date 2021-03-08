@@ -3,6 +3,7 @@ import BinarySearch from './binarysearch.js';
 import {iterativeBinarySearch} from './binarysearch.js'; 
 
 const DEFAULT_OPTS = {
+  compare: undefined, /* uses DEFAULT_COMPARE, but can be a custom comparison */
   inplace: false,     /* sort is in place, 
                       /* false is create a new array without changing original */
   nobs: false,        /* don't use binary search (just linear search) to find */
