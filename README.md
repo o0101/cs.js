@@ -6,6 +6,10 @@ Contains Heap, Trie, SkipList, QuickSelect, various sorts and more.
 
 [cs101](https://npmjs.com/package/cs101) on NPM.
 
+## Other cool and notable implementations
+
+- [Heap in minimal, tidy, clean and cool C](https://hyrious.me/p/heap.html)
+
 
 ## Contents
 
