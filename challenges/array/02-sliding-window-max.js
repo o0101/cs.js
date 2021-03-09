@@ -1,3 +1,6 @@
+// Challenge: there is an array, and a window, we need to find the max 
+// for each left-full (right termination is OK) window as it slides over the input
+
 // try 1 - O(nw) 
 let findMaxSlidingWindow1 = function(arr, window_size) {
 	const result = [];
