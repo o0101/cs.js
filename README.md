@@ -15,7 +15,7 @@ Or [jump straight to the API documentation](#api-documentation).
 
 ## List Structures
 
-- [x] [Singly-linked list](src/lib/singlist.js) - **O(1)** (access first or last) **O(n)** (insert, delete, update, find), **O(n)** space list
+- [x] [Singly-linked list](src/lib/singlist.js) - **O(1)** (access first) **O(n)** (insert, delete, update, find), **O(n)** space list
 - [x] [Doubly-linked list](src/lib/linkedlist.js) - **O(1)** (reversal, access first or last) **O(n)** (insert, delete, update, find), **O(n)** space, traversable in forward or reverse list
 - [x] [Self-organizing list](src/sol.js) **O(weird)** access-adapting (move to front or advance) list for faster access, good for cache and easy Least-Recently-Used eviction (pop off end)
 
