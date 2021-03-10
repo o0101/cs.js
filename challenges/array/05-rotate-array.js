@@ -1,0 +1,3 @@
+// My solution to this was not taking into account (as I hadn't read that far into the challenge), nor thinking about, the running time (but I did consider space and achieved an O(1) space solution, that was nevertheless O(nk) where k is the rotate radius.
+// My initial solution was, perform swaps along length of array. If you swap adjacently, and start from left, it's like you rotated array to the left. If you do same from right, it's like you rotated from right. But the issue is, these rotations are only 1 place. You can probably scale this up to do a sequence of k-width swaps, to end up with rotation by k (I just thought of that now) but there's a simpler solution that also uses O(1) space. 
+
