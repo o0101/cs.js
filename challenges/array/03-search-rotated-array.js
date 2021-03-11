@@ -4,13 +4,12 @@
 // AWESOME! I got it in 1. Got it first time. After thinking about it first.
 // Came up with this solution ON MY OWN without reading ahead. Yeah! :P ;) xx
 
+const rangeOrdered = (left, right) => left <= right;
 const notInOrderedRange = (key, left, right) => key < left || key > right;
 const notInRotatedRange = (key, left, right) => key < left && key > right;
-const rangeOrdered = (left, right) => left <= right;
 const notInRange = (key, left, right) => rangeOrdered(left, right) ? 
   notInOrderedRange(key, left, right) :
   notInRotatedRange(key, left, right);
-
 
 let binarySearchRotated = function(arr, key) {
 	let low = 0;

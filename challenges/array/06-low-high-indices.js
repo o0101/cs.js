@@ -12,3 +12,33 @@
 // seek phase, where we find the min segment that contains the whole key sequence
 // high > key, low < key
 // and resolve phase, where we resolve the end points of that key sequence
+
+let binarySearch = function(a, key, wedge) {
+  let low = 0;
+  let high = a.length;
+  // Note on the condition:
+    // <= is important as < 	
+    // will only handle down to cases where subarray a[low..high] is length 2
+    // but subarray of length 1 can only be handled by <=
+  while( low <= high ) {
+    const mid = (low+high)>>1;
+    const midKey = a[mid];
+    if ( midKey < key ) {
+      low = mid + 1;
+    } else if ( midKey > key ) {
+      high = mid - 1;
+    } else {
+      return mid;
+    }
+  }
+  return -1;
+};
+
+let findLowIndex = function(arr, key) {
+  return binarySearch(a, key, (start, end) => start <= key && end === key);
+};
+
+let findHighIndex = function(arr, key) {
+  return binarySearch(a, key, (start, end) => start === key && end >= key);
+};
+
