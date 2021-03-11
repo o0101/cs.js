@@ -13,32 +13,74 @@
 // high > key, low < key
 // and resolve phase, where we resolve the end points of that key sequence
 
-let binarySearch = function(a, key, wedge) {
+// My solution was to handle the cases as I saw it
+// I think it's possible I missed a few cases here.
+// One slip up I made in implementing was I missed a break at the end of a case statement (twice actually!) and
+// 2 of 3 of my tests were failing until I put that in. After I put that in, all tests passed!
+
+let binarySearch = function(arr, key, isLow = true) {
   let low = 0;
-  let high = a.length;
+  let high = arr.length - 1;
   // Note on the condition:
-    // <= is important as < 	
+    // <= is important as <
     // will only handle down to cases where subarray a[low..high] is length 2
     // but subarray of length 1 can only be handled by <=
   while( low <= high ) {
-    const mid = (low+high)>>1;
-    const midKey = a[mid];
-    if ( midKey < key ) {
-      low = mid + 1;
-    } else if ( midKey > key ) {
-      high = mid - 1;
-    } else {
-      return mid;
+    const mid = (high+low)>>1;
+    const midV = arr[mid];
+    const lowV = arr[low];
+    const highV = arr[high];
+    switch(true) {
+      case lowV < key && key < highV:
+        // in wedge
+        if ( midV < key ) {
+          low = mid + 1;
+        } else if ( midV > key ) {
+          high = mid - 1;
+        } else {
+          if ( isLow ) {
+            high = mid;
+          } else {
+            low = mid;
+          }
+        }
+        break;
+      case isLow && lowV < key && highV === key:
+        // lowV in wedge
+        if ( midV < key ) {
+          low = mid + 1;
+        } else {
+          high = mid;
+        }
+        break;
+      case !isLow && lowV === key && key < highV:
+        // highV in wedge
+        if ( midV > key ) {
+          high = mid - 1;
+        } else {
+          low = mid;
+        }
+        break;
+      case lowV === key && highV === key:
+        // lowV is lowVIndex
+        // highV is highVIndex
+        if ( isLow ) {
+          return low;
+        } else {
+          return high;
+        }
+        break;
+      case key < lowV || highV < key:
+        return -1;
     }
   }
   return -1;
 };
 
 let findLowIndex = function(arr, key) {
-  return binarySearch(a, key, (start, end) => start <= key && end === key);
+  return binarySearch(arr, key, true);
 };
 
 let findHighIndex = function(arr, key) {
-  return binarySearch(a, key, (start, end) => start === key && end >= key);
+  return binarySearch(arr, key, false);
 };
-
