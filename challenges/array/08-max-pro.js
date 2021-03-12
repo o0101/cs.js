@@ -87,7 +87,6 @@ let findBuySellStockPrices = function(price) {
           DEBUG && console.log({case3:{lessert}});
         }
     }
-
   }
 
   return [buy, sell]; 
