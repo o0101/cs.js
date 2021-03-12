@@ -29,6 +29,11 @@ export default {
 export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+
+    testHeapSort();
+
+    return;
+
   
   // list structures
     testSingList();
@@ -57,6 +62,8 @@ export function testAll() {
 
 
   // sorting algorithms
+    testHeapSort();
+
     testInsertionSort();
 
     testMergeSort();
@@ -632,6 +639,56 @@ export function testAll() {
       console.error(`QuickSort test failed.`);
     } else {
       console.log(`QuickSort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// heapsort tests
+  function testHeapSort() {
+    console.log();
+    heapSortOrderTest();
+    heapSortOrderTest({invert:true});
+    heapSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+  }
+
+  function heapSortOrderTest(opts = {}) {
+    console.group(`\nHeapSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(QUICKSORT_SCALE_MAX);
+    let valid = true;
+
+    console.time(`HeapSort test`);
+    const sortedList = CS.HeapSort.sort(list, opts);
+    console.timeEnd(`HeapSort test`);
+
+    let lastVal = CS.HeapSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.HeapSort.signedCompare(lastVal, val, opts);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          HeapSort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    if ( ! valid ) {
+      console.error(`HeapSort test failed.`);
+    } else {
+      console.log(`HeapSort test passed.`);
     }
 
     console.groupEnd();

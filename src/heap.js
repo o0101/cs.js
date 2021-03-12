@@ -8,6 +8,7 @@ import {Tree, Node, Empty} from './lib/tree.js';
 
 // constants
   const DEFAULT_OPTIONS = {
+    invert: false,          /* invert order of compare */
     asTree: false,          /* underlying implementation as tree, false is list implementation */
     max: true,              /* max heap, false is min heap */
     arity: 2,               /* binary, then 3 is ternary, etc. */
@@ -21,8 +22,6 @@ import {Tree, Node, Empty} from './lib/tree.js';
       // compare(top, bottom) > 0 and compare(bottom, top) < 0
       // DEFAULT comparison is simply this applied to Numbers
   };
-
-  const OptionKeys = new Set(Object.keys(DEFAULT_OPTIONS));
 
   // helper constants
 
@@ -39,6 +38,7 @@ export default class Heap {
       }
       options = Object.assign({}, DEFAULT_OPTIONS, options);
 
+      console.log(options);
       guardValidOptions(options);
 
       this.config = Object.freeze(options);
@@ -287,24 +287,25 @@ export default class Heap {
     }
 
     #compare(aThing, bThing) {
+      const sign = this.config.invert ? -1 : 1;
       if ( this.config.compare ) {
-        return this.config.compare.call(this, aThing, bThing);
+        return sign*this.config.compare.call(this, aThing, bThing);
       } else {
         // Empty is always lower in heap 
         // regardless of min or max
         if ( bThing == Empty ) {
-          return 1;
+          return sign*1;
         } else if ( aThing == Empty ) {
-          return -1;
+          return sign*-1;
         }
 
         // heap-property comparison
         if ( aThing > bThing ) {
-          return this.config.max ? 1 : -1;
+          return sign*(this.config.max ? 1 : -1);
         } else if ( aThing == bThing ) {
           return 0;
         } else {
-          return !this.config.max ? 1 : -1;
+          return sign*(!this.config.max ? 1 : -1);
         }
       }
     }
@@ -509,11 +510,14 @@ export function create(...args) {
 // helper methods
   function guardValidOptions(opts) {
     const OptionTypes = {
+      invert: 'boolean',
       asTree: 'boolean',         
       max: 'boolean',              
       arity: 'number',              
       compare: ['undefined', 'function']
     };
+    const OptionKeys = new Set(Object.keys(OptionTypes));
+
 
     const errors = [];
     const typesValid = Object

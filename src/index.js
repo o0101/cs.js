@@ -13,6 +13,7 @@ export * as QuickSelect from './selectquick.js';
 export * as BinarySearch from './binarysearch.js';
 
 export * as InsertionSort from './insertionsort.js';
+export * as HeapSort from './sortheap.js';
 export * as QuickSort from './quicksort.js';
 export * as MergeSort from './mergesort.js';
 
