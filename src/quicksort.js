@@ -52,6 +52,12 @@ export function partition(list, low, high, opts, pivot) {
   return s;
 }
 
+export function swap(list, i, j) {
+  const temp = list[i];
+  list[i] = list[j];
+  list[j] = temp;
+}
+
 export function tripartition(list, n, low, high, opts, pivot) {
   //return partition(list, low, high, opts, pivot);
     let pivotValue = list[pivot]
@@ -87,11 +93,6 @@ export function tripartition(list, n, low, high, opts, pivot) {
   return storeIndexEq // n is in the group of larger elements
 }
 
-export function swap(list, i, j) {
-  const temp = list[i];
-  list[i] = list[j];
-  list[j] = temp;
-}
 
 export function signedCompare(a, b, {compare: compare = DEFAULT_COMPARE, invert: invert = false} = {}) {
   const comparison = compare(a, b);
