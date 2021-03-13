@@ -10,9 +10,6 @@
   - add a get method for dupes, like get(thing) returns all values of thing, or
   getAll or getFirst, or getLast or getNth for thing if duplicatesOkay is true
 
-// heap 
-  - iterator (what would be the order?)
-
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)
   - [ ] Structures for count distinct, hyperloglog, streaming 
   - one reference for something related https://github.com/marmarelis/rolling-quantiles
