@@ -19,6 +19,7 @@ import * as CS from './index.js';
   const QUICKSELECT_SCALE_MAX = 100000;
   const QUICKSELECT_TRIALS = 300;
   const INSERTIONSORT_SCALE_MAX = 2500;
+  const HEAPSORT_SCALE_MAX = 100;
 
 testAll();
 
@@ -29,6 +30,10 @@ export default {
 export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+
+  testHeapSort();
+
+  return;
 
   // list structures
     testSingList();
@@ -644,7 +649,7 @@ export function testAll() {
   function testHeapSort() {
     console.log();
     heapSortOrderTest();
-    heapSortOrderTest({max:false});
+    heapSortOrderTest({max:true});
     heapSortOrderTest({invert:true});
     heapSortOrderTest({compare:(a,b) => {
       try {
@@ -660,7 +665,7 @@ export function testAll() {
   function heapSortOrderTest(opts = {}) {
     console.group(`\nHeapSort test: ${JSON.stringify({opts})}. Length: ${QUICKSORT_SCALE_MAX}`);
 
-    const list = randomNumberList(QUICKSORT_SCALE_MAX);
+    const list = randomNumberList(HEAPSORT_SCALE_MAX);
     let valid = true;
 
     console.time(`HeapSort test`);

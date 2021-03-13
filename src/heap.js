@@ -303,7 +303,7 @@ export default class Heap {
         // heap-property comparison
         if ( aThing > bThing ) {
           return sign*(this.config.max ? 1 : -1);
-        } else if ( aThing == bThing ) {
+        } else if ( aThing === bThing ) {
           return 0;
         } else {
           return sign*(!this.config.max ? 1 : -1);

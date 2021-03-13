@@ -19,21 +19,11 @@ export default function HeapSort(data, opts) {
     delete heapOptions.inplace;
   }
 
-  if ( opts.invert ) {
-    heapOptions.max = true;
-  } else {
-    heapOptions.max = false;
-  }
-
-  if ( opts.compare === undefined ) {
-    heapOptions.invert = false;
-  } 
+  heapOptions.max = opts.max ? true : false;
 
   const heap = new Heap(heapOptions, data);
 
-  if ( opts.compare ) {
-    Heap.print(heap);
-  }
+  Heap.print(heap);
 
   if ( opts.inplace ) {
     throw new TypeError(`Implement in place heap sort.`);
@@ -48,44 +38,13 @@ export default function HeapSort(data, opts) {
 
 export const sort = HeapSort;
 
-function recursiveHeapSort(list, opts) {
-  if ( list.length <= 1 ) {
-    return list;
-  } else {
-    const half = list.length>>1;
-    const sortedLeft = recursiveHeapSort(list.slice(0,half), opts);
-    const sortedRight = recursiveHeapSort(list.slice(half), opts);
-    return merge(sortedLeft, sortedRight, opts);
-  }
-}
-
-function merge(a, b, opts) {
-  const sorted = [];
-  let ai = 0;
-  let bi = 0;
-
-  while(ai < a.length && bi < b.length) {
-    const comparison = signedCompare(a[ai], b[bi], opts);
-    const head = comparison >= 0 ? a[ai++] : b[bi++];
-    sorted.push(head); 
-  }
-
-  while(ai < a.length) {
-    sorted.push(a[ai++]);
-  }
-
-  while(bi < b.length) {
-    sorted.push(b[bi++]);
-  }
-
-  return sorted;
-}
-
-
-export function signedCompare(a, b, {compare: compare = DEFAULT_COMPARE, invert: invert = false} = {}) {
-  const comparison = compare(a, b);
+export function signedCompare(a, b, {compare: compare = DEFAULT_COMPARE, invert: invert = false, max: max = false} = {}) {
+  let comparison = compare(a, b);
   if ( invert ) {
-    return -comparison;
+    comparison *= -1;
+  }
+  if ( max ) {
+    comparison *= -1;
   }
   return comparison;
 }
