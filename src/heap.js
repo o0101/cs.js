@@ -21,6 +21,7 @@ import {Tree, Node, Empty} from './lib/tree.js';
       // in essence, it's 
       // compare(top, bottom) > 0 and compare(bottom, top) < 0
       // DEFAULT comparison is simply this applied to Numbers
+      // But you need to handle Symbol as well
   };
 
   // helper constants
@@ -288,17 +289,17 @@ export default class Heap {
 
     #compare(aThing, bThing) {
       const sign = this.config.invert ? -1 : 1;
+      // Empty is always lower in heap 
+      // regardless of min or max
+      if ( bThing == Empty ) {
+        return sign*1;
+      } else if ( aThing == Empty ) {
+        return sign*-1;
+      }
+
       if ( this.config.compare ) {
         return sign*this.config.compare.call(this, aThing, bThing);
       } else {
-        // Empty is always lower in heap 
-        // regardless of min or max
-        if ( bThing == Empty ) {
-          return sign*1;
-        } else if ( aThing == Empty ) {
-          return sign*-1;
-        }
-
         // heap-property comparison
         if ( aThing > bThing ) {
           return sign*(this.config.max ? 1 : -1);

@@ -3,7 +3,7 @@ import Heap from './heap.js';
 const DEFAULT_OPTIONS = {
   inplace: false,           /* returns a new array, true sorts in place */
   invert: false,            /* invert order */
-  compare: DEFAULT_COMPARE
+  compare: undefined,
 };
 
 export default function HeapSort(data, opts) {
@@ -19,7 +19,21 @@ export default function HeapSort(data, opts) {
     delete heapOptions.inplace;
   }
 
-  const heap = new Heap({}, data);
+  if ( opts.invert ) {
+    heapOptions.max = true;
+  } else {
+    heapOptions.max = false;
+  }
+
+  if ( opts.compare === undefined ) {
+    heapOptions.invert = false;
+  } 
+
+  const heap = new Heap(heapOptions, data);
+
+  if ( opts.compare ) {
+    Heap.print(heap);
+  }
 
   if ( opts.inplace ) {
     throw new TypeError(`Implement in place heap sort.`);

@@ -30,6 +30,10 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
 
+  testHeapSort();
+
+  return;
+
   // list structures
     testSingList();
 
@@ -644,8 +648,16 @@ export function testAll() {
   function testHeapSort() {
     console.log();
     heapSortOrderTest();
+    heapSortOrderTest({max:false});
     heapSortOrderTest({invert:true});
-    heapSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    heapSortOrderTest({compare:(a,b) => {
+      try {
+        return a - b <= 0 ? 1 : -1;
+      } catch(e) {
+        console.log(a,b, 'FAIL');
+        return 0;
+      }
+    }});
     heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
   }
 
