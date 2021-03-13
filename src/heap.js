@@ -42,6 +42,8 @@ export default class Heap {
       console.log(options);
       guardValidOptions(options);
 
+      const sign1 = options.invert ? -1 : 1;
+      options.sign = sign1;
       this.config = Object.freeze(options);
 
       if ( options.max ) {
@@ -288,17 +290,17 @@ export default class Heap {
     }
 
     #compare(aThing, bThing) {
-      const sign = this.config.invert ? -1 : 1;
+      const sign = this.config.sign;
       // Empty is always lower in heap 
       // regardless of min or max
-      if ( bThing == Empty ) {
-        return sign*1;
-      } else if ( aThing == Empty ) {
-        return sign*-1;
+      if ( bThing === Empty ) {
+        return 1;
+      } else if ( aThing === Empty ) {
+        return -1;
       }
 
       if ( this.config.compare ) {
-        return sign*this.config.compare.call(this, aThing, bThing);
+        return this.config.compare.call(this, aThing, bThing);
       } else {
         // heap-property comparison
         if ( aThing > bThing ) {

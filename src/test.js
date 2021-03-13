@@ -659,6 +659,15 @@ export function testAll() {
         return 0;
       }
     }});
+    heapSortOrderTest({compare:(a,b) => {
+      try {
+        return a - b <= 0 ? 1 : -1;
+      } catch(e) {
+        console.log(a,b, 'FAIL');
+        return 0;
+      }
+    }, invert:true});
+    heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: false});
     heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
   }
 

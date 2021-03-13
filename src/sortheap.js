@@ -23,8 +23,6 @@ export default function HeapSort(data, opts) {
 
   const heap = new Heap(heapOptions, data);
 
-  Heap.print(heap);
-
   if ( opts.inplace ) {
     throw new TypeError(`Implement in place heap sort.`);
   } else {
@@ -32,6 +30,8 @@ export default function HeapSort(data, opts) {
     while( heap.size ) {
       result.push(heap.pop());
     }
+    console.log(result);
+    Heap.print(heap);
     return result;
   }
 }
