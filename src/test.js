@@ -19,7 +19,7 @@ import * as CS from './index.js';
   const QUICKSELECT_SCALE_MAX = 100000;
   const QUICKSELECT_TRIALS = 300;
   const INSERTIONSORT_SCALE_MAX = 2500;
-  const HEAPSORT_SCALE_MAX = 100;
+  const HEAPSORT_SCALE_MAX = 10000;
 
 testAll();
 
@@ -30,10 +30,6 @@ export default {
 export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
-
-  testHeapSort();
-
-  return;
 
   // list structures
     testSingList();
@@ -77,7 +73,7 @@ export function testAll() {
 // insertion sort tests 
   function testInsertionSort() {
     insertionSortOrderTest();
-    insertionSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    insertionSortOrderTest({compare:(a,b) => Math.sign(a - b)});
     insertionSortOrderTest({invert:true});
     insertionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
 
@@ -548,7 +544,7 @@ export function testAll() {
     console.log();
     mergeSortOrderTest();
     mergeSortOrderTest({invert:true});
-    mergeSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    mergeSortOrderTest({compare:(a,b) => Math.sign(a - b)});
     mergeSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
   }
 
@@ -599,7 +595,7 @@ export function testAll() {
     quickSortOrderTest();
     quickSortOrderTest({iterative:true});
     quickSortOrderTest({invert:true});
-    quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
+    quickSortOrderTest({compare:(a,b) => Math.sign(a - b)});
     quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
     quickSortOrderTest({pivot: 'mom'});
   }
@@ -651,21 +647,12 @@ export function testAll() {
     heapSortOrderTest();
     heapSortOrderTest({max:true});
     heapSortOrderTest({invert:true});
+    heapSortOrderTest({invert:true, max:true});
     heapSortOrderTest({compare:(a,b) => {
-      try {
-        return a - b <= 0 ? 1 : -1;
-      } catch(e) {
-        console.log(a,b, 'FAIL');
-        return 0;
-      }
+      return a - b < 0 ? 1 : a - b > 0 ? -1 : 0;
     }});
     heapSortOrderTest({compare:(a,b) => {
-      try {
-        return a - b <= 0 ? 1 : -1;
-      } catch(e) {
-        console.log(a,b, 'FAIL');
-        return 0;
-      }
+      return Math.sign(a - b);
     }, invert:true});
     heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: false});
     heapSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
@@ -1132,7 +1119,7 @@ export function testAll() {
     const heapC = CS.Heap.Class.merge(heapA, heapB);
     let valid = true;
 
-    list.sort((a,b) => parseInt(a)-parseInt(b));
+    list.sort((a,b) => Math.sign(parseInt(a)-parseInt(b)));
 
     while(heapC.size) {
       const heapNext = heapC.pop();
@@ -1460,7 +1447,7 @@ export function testAll() {
 // PQ (priority queue) tests
   function testPQ() {
     pqOrderTest();
-    pqOrderTest({max:false});
+    pqOrderTest({invert:true});
   }
 
   function pqOrderTest(opts) {
@@ -1472,7 +1459,7 @@ export function testAll() {
     for( let r = 0; r < ORDER_TEST_RUNS; r++ ) {
       console.log(`Run: ${r+1}`);
       const pq = CS.PQ.create(opts);
-      let last = pq.config.max ? {priority: Infinity} : {priority: -Infinity};
+      let last = !pq.config.invert ? {priority: Infinity} : {priority: -Infinity};
 
       for( let i = 0; i < ORDER_TEST_MAX; i++ ) {
         const num = randomNumber(ORDER_TEST_MAX);
@@ -1484,7 +1471,7 @@ export function testAll() {
       while(pq.size) {
         const next = pq.pull();
         let test;
-        if ( pq.config.max ) {
+        if ( !pq.config.invert ) {
           test = (next.priority <= last.priority);
         } else {
           test = (next.priority >= last.priority);

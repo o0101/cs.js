@@ -39,11 +39,11 @@ export default class Heap {
       }
       options = Object.assign({}, DEFAULT_OPTIONS, options);
 
-      console.log(options);
       guardValidOptions(options);
 
       const sign1 = options.invert ? -1 : 1;
-      options.sign = sign1;
+      const sign2 = options.max? -1 : 1;
+      options.sign = sign1*sign2;
       this.config = Object.freeze(options);
 
       if ( options.max ) {
@@ -290,7 +290,6 @@ export default class Heap {
     }
 
     #compare(aThing, bThing) {
-      const sign = this.config.sign;
       // Empty is always lower in heap 
       // regardless of min or max
       if ( bThing === Empty ) {
@@ -299,16 +298,18 @@ export default class Heap {
         return -1;
       }
 
+      const sign = this.config.sign;
+
       if ( this.config.compare ) {
-        return this.config.compare.call(this, aThing, bThing);
+        return sign*this.config.compare.call(this, aThing, bThing);
       } else {
         // heap-property comparison
         if ( aThing > bThing ) {
-          return sign*(this.config.max ? 1 : -1);
+          return -sign;
         } else if ( aThing === bThing ) {
           return 0;
         } else {
-          return sign*(!this.config.max ? 1 : -1);
+          return sign;
         }
       }
     }
@@ -517,7 +518,8 @@ export function create(...args) {
       asTree: 'boolean',         
       max: 'boolean',              
       arity: 'number',              
-      compare: ['undefined', 'function']
+      compare: ['undefined', 'function'],
+      sign: 'number'
     };
     const OptionKeys = new Set(Object.keys(OptionTypes));
 

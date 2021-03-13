@@ -30,8 +30,6 @@ export default function HeapSort(data, opts) {
     while( heap.size ) {
       result.push(heap.pop());
     }
-    console.log(result);
-    Heap.print(heap);
     return result;
   }
 }

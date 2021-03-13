@@ -2,7 +2,7 @@ import Heap from './heap.js';
 import {Empty} from './lib/tree.js';
 
 const DEFAULT_OPTS = {
-  max: true,
+  invert: false,
   compare: function (A, B) {
     const {priority:pA = Empty} = A;
     const {priority:pB = Empty} = B;
@@ -14,11 +14,11 @@ const DEFAULT_OPTS = {
     }
 
     if ( pA > pB ) {
-      return this.config.max ? 1 : -1;
-    } else if ( pA == pB ) {
+      return -1;
+    } else if ( pA === pB ) {
       return 0;
     } else {
-      return !this.config.max ? 1 : -1;
+      return 1;
     }
   }
 };
@@ -33,16 +33,18 @@ export default class PQ {
       constructor(opts = DEFAULT_OPTS, data) {
         opts = Object.assign({}, DEFAULT_OPTS, opts);
 
-        this.config = Object.freeze(opts);
-
         const heapOpts = {
-          max: opts.max,
+          invert: opts.invert,
+          max: true,
           compare: opts.compare,
           asTree: false,
           arity: 4
         };
 
         this.#store = new Heap(heapOpts, data);
+
+        opts.sign = this.#store.config.sign;
+        this.config = Object.freeze(opts);
       }
 
       isEmpty() {
