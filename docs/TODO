@@ -1,3 +1,8 @@
+// sorts
+  - selection
+  - bubble
+  - heap
+
 // skiplist
   - handle deletion better -- delete the levels if last node
   - prevent levels growing up if there's only one node in level below (keep a max height on the skiplist and only allow grow by 1 level at a time)
@@ -6,6 +11,7 @@
   getAll or getFirst, or getLast or getNth for thing if duplicatesOkay is true
 
 // heap 
+  - heapsort
   - iterator
 
 - [ ] Summary structure (count, sum, average, max, min, ~median?, ~membership?, etc without storing any data, just seeing it, online)

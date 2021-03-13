@@ -1,4 +1,5 @@
 const DEFAULT_OPTIONS = {
+  iterative: false,         /* use an iterative version */
   invert: false,            /* invert order */
   compare: DEFAULT_COMPARE,
   pivot: undefined          /* standard random pivot. 'mom' uses median of medians algorithm */
@@ -17,17 +18,40 @@ export default function QuickSort(data, opts) {
       throw new TypeError(`Median of medians pivot selection algorithm can only be used on lists of numbers. Received: ${data[0]} at list position 0`);
     }
   }
-  recursiveQuickSort(data, 0, data.length - 1, opts);
+
+  if ( opts.iterative ) {
+    iterativeQuickSort(data, opts);
+  } else {
+    recursiveQuickSort(data, 0, data.length - 1, opts);
+  }
 }
 
 export const sort = QuickSort;
 
+function iterativeQuickSort(list, opts) {
+  const stack = [{low:0, high: list.length-1}];
+  while ( stack.length ) {
+    const {low,high} = stack.pop();
+    if ( low < high ) {
+      const pivot = getPivot(list,low,high);
+      const p = partition(list, low, high, opts, pivot);
+      stack.push({low, high: p-1});
+      stack.push({low: p+1, high});
+    }
+  }
+}
+
 function recursiveQuickSort(list, low, high, opts) {
-  if ( low < high ) {
-    const p = partition(list, low, high, opts);
+  if ( low <= high ) {
+    const pivot = getPivot(list,low,high);
+    const p = partition(list, low, high, opts, pivot);
     recursiveQuickSort(list, low, p - 1, opts);
     recursiveQuickSort(list, p + 1, high, opts);
   }
+}
+
+function getPivot(list, low, high) {
+  return Math.floor(Math.random()*(high-low))+low;
 }
 // simple pivot using O(n) extra space
 // sophisticated partition 

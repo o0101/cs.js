@@ -30,11 +30,6 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
 
-    testHeapSort();
-
-    return;
-
-  
   // list structures
     testSingList();
 
@@ -597,6 +592,7 @@ export function testAll() {
   function testQuickSort() {
     console.log();
     quickSortOrderTest();
+    quickSortOrderTest({iterative:true});
     quickSortOrderTest({invert:true});
     quickSortOrderTest({compare:(a,b) => a - b <= 0 ? 1 : -1});
     quickSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
