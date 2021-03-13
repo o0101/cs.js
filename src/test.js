@@ -30,10 +30,6 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
 
-  testHeapSort();
-
-  return;
-
   // list structures
     testSingList();
 
