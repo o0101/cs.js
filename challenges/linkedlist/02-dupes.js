@@ -9,7 +9,7 @@ test();
 function test() {
   let runs = 5;
   do {
-    console.log(`${runs} runs remaining...`);
+    console.log(`\n${runs} runs remaining...`);
     let list = createRandomLinkedList(100);
     console.log(`Before dedupe: ${display(list)}`);
 
