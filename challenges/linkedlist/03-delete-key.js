@@ -13,12 +13,13 @@ test();
 function test(){
   test1();
   test2();
+  test3();
 }
 
 function test1() {
   let runs = 5;
   do {
-    console.log(`${runs} runs remaining...`);
+    console.log(`\n${runs} runs remaining...`);
     const randomList = randomNumberList(30);
     let key = randomItem(randomList);
     let list = createLinkedList(randomList);
@@ -43,7 +44,20 @@ function test2() {
   let key = 0;
   let list = createLinkedList([1,2,3,0,1,2,3,0,5,6,7,0,0,0,9,9,9,0,0,0]);
   //const key = pickRandomNode(list).data;
-  console.log(`Before delete: ${display(list)}`);
+  console.log(`\nBefore delete: ${display(list)}`);
+
+  console.log(`Key to delete: ${key}`);
+
+  list = deleteKey(list, key);
+
+  console.log(`After delete: ${display(list)}`);
+}
+
+function test3() {
+  let key = 1;
+  let list = createLinkedList([1,1,1,1,2,3,0,1,2,3,0,5,6,7,0,0,0,9,9,9,0,0,0]);
+  //const key = pickRandomNode(list).data;
+  console.log(`\nBefore delete: ${display(list)}`);
 
   console.log(`Key to delete: ${key}`);
 
