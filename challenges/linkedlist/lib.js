@@ -24,7 +24,7 @@ export let length = function(head) {
   let node = head;
   let i = 0;
 
-  while(node && node.next) {
+  while(node) {
     i++;
     node = node.next; 
   }
