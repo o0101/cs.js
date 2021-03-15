@@ -9,6 +9,29 @@ export let insertAtHead = function(head, data) {
   return newNode;
 }
 
+export let getIth = function(head, i) {
+  let node = head;
+
+  while(i--) {
+    if ( ! node ) break;
+    node = node.next; 
+  }
+
+  return node;
+}
+
+export let length = function(head) {
+  let node = head;
+  let i = 0;
+
+  while(node && node.next) {
+    i++;
+    node = node.next; 
+  }
+
+  return i;
+}
+
 export let insertAtTail = function(head, node) {
 	if (!head) {
 		return node;
