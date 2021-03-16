@@ -1,15 +1,28 @@
-export let LinkedListNode = function(data){
+export function LinkedListNode(data){
 	this.data = data;
   this.next = null;
 }
 
-export let insertAtHead = function(head, data) {
+export function insertAtHead(head, data) {
   let newNode = new LinkedListNode(data);
   newNode.next = head;
   return newNode;
 }
 
-export let getIth = function(head, i) {
+export function getIth1(head, i) {
+  let node = head;
+
+  let j = 1;
+  while(j < i) {
+    if ( ! node ) break;
+    node = node.next; 
+    j++;
+  }
+
+  return node;
+}
+
+export function getIth(head, i) {
   let node = head;
 
   while(i--) {
@@ -20,7 +33,7 @@ export let getIth = function(head, i) {
   return node;
 }
 
-export let length = function(head) {
+export function length(head) {
   let node = head;
   let i = 0;
 
@@ -32,7 +45,7 @@ export let length = function(head) {
   return i;
 }
 
-export let insertAtTail = function(head, node) {
+export function insertAtTail(head, node) {
 	if (!head) {
 		return node;
 	}
@@ -47,7 +60,7 @@ export let insertAtTail = function(head, node) {
 	return head;
 }
 
-export let createRandomLinkedList = function(length) {
+export function createRandomLinkedList(length) {
   let listHead = null;
   for (let i = 0; i < length; i++) {
     listHead = insertAtHead(listHead, Math.floor(Math.random() * 100 + 1));
@@ -55,7 +68,7 @@ export let createRandomLinkedList = function(length) {
   return listHead;
 }
 
-export let createLinkedList = function(lst) {
+export function createLinkedList(lst) {
   let listHead = null;
   lst.reverse();
   for (let x = 0; x < lst.length; x++) {
@@ -64,7 +77,7 @@ export let createLinkedList = function(lst) {
   return listHead;
 }
 
-export let display = function(head) {
+export function display(head) {
   let temp = head;
   let s = "";
   //let max = 11;
@@ -79,3 +92,54 @@ export let display = function(head) {
   }
   return s;
 };
+
+export function mergeSorted(a,b) {
+  let head;
+  let node;
+  let smallest;
+
+  while(a && b) {
+
+    if ( a.data < b.data ) {
+      smallest = a;
+      a = a.next;
+    } else {
+      smallest = b;
+      b = b.next;
+    }
+
+    if ( ! node ) {
+      node = smallest;
+      head = node;
+    } else {
+      node.next = smallest;
+      node = smallest;
+    }
+  }
+
+  while ( a ) {
+    smallest = a;
+    if ( ! node ) {
+      node = smallest;
+      head = node;
+    } else {
+      node.next = smallest;
+      node = smallest;
+    }
+    a = a.next;
+  }
+
+  while ( b ) {
+    smallest = b;
+    if ( ! node ) {
+      node = smallest;
+      head = node;
+    } else {
+      node.next = smallest;
+      node = smallest;
+    }
+    b = b.next;
+  }
+
+  return head;
+}
