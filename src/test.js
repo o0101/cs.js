@@ -43,10 +43,6 @@ export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
 
-    testSkipList();
-
-    return;
-
   // list structures
     testSingList();
 
