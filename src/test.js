@@ -21,7 +21,19 @@ import * as CS from './index.js';
   const INSERTIONSORT_SCALE_MAX = 2500;
   const HEAPSORT_SCALE_MAX = 10000;
 
-testAll();
+try {
+  if ( import.meta.url === `file://${process.argv[1]}` ) {
+    testAll();
+  }
+} catch(e) {
+  try {
+    if( self.window ) {
+      testAll();
+    }
+  } catch(e) {
+
+  }
+}
 
 export default {
   testAll
@@ -30,6 +42,10 @@ export default {
 export function testAll() {
   console.log({mainExport:CS});
   console.log(`\nRunning tests for cs.js / (cs101@npm)...\n`);
+
+    testSkipList();
+
+    return;
 
   // list structures
     testSingList();
@@ -1634,11 +1650,15 @@ export function testAll() {
   }
 
 // helpers
-  function randomNumber(n) {
+  export function randomNumber(n) {
     return Math.floor(Math.random()*n);
   }
 
-  function randomNumberList(len) {
+  export function randomItem(list) {
+    return list[randomNumber(list.length)];
+  }
+
+  export function randomNumberList(len) {
     const list = [];
     while(len--) {
       list.push(randomNumber(len));

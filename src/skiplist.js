@@ -18,6 +18,7 @@ export default class SkipList {
   // private fields
   #size
   #root
+  #depth
 
   // API
     constructor(options, data) {
@@ -47,6 +48,7 @@ export default class SkipList {
       this.#root.nextWidth = [0];
       this.#root.lastWidth = null;
       this.#size = 0;
+      this.#depth = 0;
 
       if ( data !== undefined ) {
         try {
@@ -65,10 +67,7 @@ export default class SkipList {
     }
 
     get depth() {
-      return Math.floor(
-        Math.log(this.#size) /
-        Math.log(1/this.config.p)
-      );
+      return this.#depth;
     }
 
     get size() {
@@ -215,8 +214,13 @@ export default class SkipList {
             prior.setNext(level, node);
           } else break;
           level += 1;
+          if ( level > (this.#depth + 1) ) break;
         }
         /* eslint-enable no-constant-condition */
+
+        if ( level > this.#depth ) {
+          this.#depth = level;
+        }
 
         for( let i = 0; i < updates.nodes.length; i++ ) {
           const prior = updates.nodes[i];
