@@ -78,6 +78,10 @@ export function testAll() {
 
     testQuickSort();
 
+    testSelectionSort();
+
+    testBubbleSort();
+
 
   console.log('Tests complete.\n\n');
 }
@@ -142,6 +146,136 @@ export function testAll() {
       console.error(`Insertion Sort test failed.`);
     } else {
       console.log(`Insertion Sort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// bubble sort tests
+  function testBubbleSort() {
+    bubbleSortOrderTest();
+    bubbleSortOrderTest({compare:(a,b) => Math.sign(a - b)});
+    bubbleSortOrderTest({invert:true});
+    bubbleSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+
+    bubbleSortOrderTest({inplace:true});
+    bubbleSortOrderTest({inplace:true, nosplice: true});
+    bubbleSortOrderTest({inplace:true, nobs: true});
+    bubbleSortOrderTest({nobs:true});
+  }
+
+  function bubbleSortOrderTest(opts = {}) {
+    console.group(`\nBubble Sort test: ${JSON.stringify({opts})}. Length: ${INSERTIONSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(INSERTIONSORT_SCALE_MAX);
+    let valid = true;
+
+    console.time(`Bubble Sort test`);
+    const sortedList = CS.BubbleSort.sort(list, opts);
+    console.timeEnd(`Bubble Sort test`);
+
+    let lastVal = CS.BubbleSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.BubbleSort.signedCompare(lastVal, val, opts);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          Bubble Sort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        console.log({sortedList});
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    const lengthTest = sortedList.length === list.length;
+
+    if ( ! lengthTest ) {
+      console.error(`Bubble Sort length test failed. Sorted list is expected to be 
+        the same length as the original list (${list.length}), 
+        but its length was ${sortedList.length}`);
+    }
+
+    valid = valid && lengthTest;
+
+    if ( ! valid ) {
+      console.error(`Bubble Sort test failed.`);
+    } else {
+      console.log(`Bubble Sort test passed.`);
+    }
+
+    console.groupEnd();
+  }
+
+// selection sort tests
+  function testSelectionSort() {
+    selectionSortOrderTest();
+    selectionSortOrderTest({compare:(a,b) => Math.sign(a - b)});
+    selectionSortOrderTest({invert:true});
+    selectionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
+
+    selectionSortOrderTest({inplace:true});
+    selectionSortOrderTest({inplace:true, nosplice: true});
+    selectionSortOrderTest({inplace:true, nobs: true});
+    selectionSortOrderTest({nobs:true});
+  }
+
+  function selectionSortOrderTest(opts = {}) {
+    console.group(`\nSelection Sort test: ${JSON.stringify({opts})}. Length: ${INSERTIONSORT_SCALE_MAX}`);
+
+    const list = randomNumberList(INSERTIONSORT_SCALE_MAX);
+    let valid = true;
+
+    console.time(`Selection Sort test`);
+    const sortedList = CS.SelectionSort.sort(list, opts);
+    console.timeEnd(`Selection Sort test`);
+
+    let lastVal = CS.SelectionSort.signedCompare(-1, 1, opts) < 0 ? Infinity : -Infinity;
+
+    for( const val of sortedList ) {
+      const comparison = CS.SelectionSort.signedCompare(lastVal, val, opts);
+      const test = comparison >= 0; // in order
+
+      valid = valid && test;
+
+      if ( ! test ) {
+        console.error(`
+          Selection Sort test order violation. Value ${val} was not equal to or ${
+            opts.invert ? 'less than' : 'greater than'
+          } previous value ${lastVal}. It needs to be. ${comparison}
+        `);
+        console.log({sortedList});
+        break;
+      }
+
+      lastVal = val;
+    }
+
+    console.log({lastVal});
+
+    const lengthTest = sortedList.length === list.length;
+
+    if ( ! lengthTest ) {
+      console.error(`Selection Sort length test failed. Sorted list is expected to be 
+        the same length as the original list (${list.length}), 
+        but its length was ${sortedList.length}`);
+    }
+
+    valid = valid && lengthTest;
+
+    if ( ! valid ) {
+      console.error(`Selection Sort test failed.`);
+    } else {
+      console.log(`Selection Sort test passed.`);
     }
 
     console.groupEnd();

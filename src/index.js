@@ -16,6 +16,9 @@ export * as InsertionSort from './insertionsort.js';
 export * as HeapSort from './sortheap.js';
 export * as QuickSort from './quicksort.js';
 export * as MergeSort from './mergesort.js';
+export * as SelectionSort from './ssort.js';
+export * as BubbleSort from './bubblesort.js';
+
 
 
 
