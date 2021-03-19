@@ -77,18 +77,20 @@ export function createLinkedList(lst) {
   return listHead;
 }
 
-export function display(head) {
+export function display(head, DEBUG = 0) {
   let temp = head;
   let s = "";
-  //let max = 11;
+  let max = DEBUG;
   while (temp) {
     s += temp.data;
     temp = temp.next;
     if (temp) {
       s += ", ";
     }
-    //console.log('ok', temp);
-    //if ( max <= 0 ) break;
+    if ( DEBUG ) {
+      console.log('ok', temp);
+      if ( max-- <= 0 ) break;
+    }
   }
   return s;
 };
