@@ -6,6 +6,11 @@
       iterativeBinarySearch: [Function: iterativeBinarySearch],
       recursiveBinarySearch: [Function: recursiveBinarySearch]
     },
+    BubbleSort: [Object: null prototype] [Module] {
+      default: [Function: InsertionSort],
+      signedCompare: [Function: signedCompare],
+      sort: [Function: InsertionSort]
+    },
     Heap: [Object: null prototype] [Module] {
       Class: [class Heap],
       create: [Function: create],
@@ -56,6 +61,11 @@
       create: [Function: create],
       default: [class SOL]
     },
+    SelectionSort: [Object: null prototype] [Module] {
+      default: [Function: SelectionSort],
+      signedCompare: [Function: signedCompare],
+      sort: [Function: SelectionSort]
+    },
     SingList: [Object: null prototype] [Module] {
       Class: [class SingList],
       create: [Function: create],
@@ -91,66 +101,66 @@ Singly linked list test passed.
 LinkedList test passed.
 Self-organizing list scale test. Opts: undefined
   Scale Has Test passed.
-  Self-organizing list scale test. Insert phase: 37.574ms
+  Self-organizing list scale test. Insert phase: 40.52ms
   Scale Delete Test passed.
-  Self-organizing list scale test. Delete phase: 18.112ms
-  Expected size: 944. Actual size: 944
-  SOL first 5: [{"key":11,"value":"number 11"},{"key":14,"value":"number 14"},{"key":26,"value":"number 26"},{"key":18,"value":"number 18"},{"key":32,"value":"number 32"}]
-  SOL length: 944
+  Self-organizing list scale test. Delete phase: 16.539ms
+  Expected size: 939. Actual size: 939
+  SOL first 5: [{"key":17,"value":"number 17"},{"key":34,"value":"number 34"},{"key":38,"value":"number 38"},{"key":45,"value":"number 45"},{"key":98,"value":"number 98"}]
+  SOL length: 939
 
 Self-organizing list iterator test. Opts: {}
   Iterator Test passed.
-  Self-organizing list iterator test.: 3.835ms
-  SOL first 5: [{"key":268,"value":"number 268"},{"key":481,"value":"number 481"},{"key":628,"value":"number 628"},{"key":501,"value":"number 501"},{"key":958,"value":"number 958"}]
+  Self-organizing list iterator test.: 3.375ms
+  SOL first 5: [{"key":633,"value":"number 633"},{"key":246,"value":"number 246"},{"key":576,"value":"number 576"},{"key":732,"value":"number 732"},{"key":842,"value":"number 842"}]
   SOL length: 1000
 
 Self-organizing list scale test. Opts: {"asLinkedList":true}
   Scale Has Test passed.
-  Self-organizing list scale test. Insert phase: 169.324ms
+  Self-organizing list scale test. Insert phase: 187.988ms
   Scale Delete Test passed.
-  Self-organizing list scale test. Delete phase: 220.506ms
-  Expected size: 955. Actual size: 955
-  SOL first 5: [{"thing":{"key":17,"value":"number 17"}},{"thing":{"key":25,"value":"number 25"}},{"thing":{"key":30,"value":"number 30"}},{"thing":{"key":11,"value":"number 11"}},{"thing":{"key":40,"value":"number 40"}}]
+  Self-organizing list scale test. Delete phase: 255.973ms
+  Expected size: 948. Actual size: 948
+  SOL first 5: [{"thing":{"key":43,"value":"number 43"}},{"thing":{"key":52,"value":"number 52"}},{"thing":{"key":82,"value":"number 82"}},{"thing":{"key":134,"value":"number 134"}},{"thing":{"key":53,"value":"number 53"}}]
 
 Self-organizing list iterator test. Opts: {"asLinkedList":true}
   Iterator Test passed.
-  Self-organizing list iterator test.: 22.323ms
-  SOL first 5: [{"thing":{"key":837,"value":"number 837"}},{"thing":{"key":330,"value":"number 330"}},{"thing":{"key":256,"value":"number 256"}},{"thing":{"key":243,"value":"number 243"}},{"thing":{"key":371,"value":"number 371"}}]
+  Self-organizing list iterator test.: 27.465ms
+  SOL first 5: [{"thing":{"key":661,"value":"number 661"}},{"thing":{"key":105,"value":"number 105"}},{"thing":{"key":111,"value":"number 111"}},{"thing":{"key":744,"value":"number 744"}},{"thing":{"key":306,"value":"number 306"}}]
 
 Self-organizing list scale test. Opts: {"_breakNoReorganize":true}
   Scale Has Test passed.
-  Self-organizing list scale test. Insert phase: 31.682ms
+  Self-organizing list scale test. Insert phase: 34.136ms
   Scale Delete Test passed.
-  Self-organizing list scale test. Delete phase: 14.913ms
-  Expected size: 938. Actual size: 938
-  SOL first 5: [{"key":33,"value":"number 33"},{"key":67,"value":"number 67"},{"key":53,"value":"number 53"},{"key":57,"value":"number 57"},{"key":101,"value":"number 101"}]
-  SOL length: 938
+  Self-organizing list scale test. Delete phase: 12.892ms
+  Expected size: 929. Actual size: 929
+  SOL first 5: [{"key":10,"value":"number 10"},{"key":28,"value":"number 28"},{"key":19,"value":"number 19"},{"key":39,"value":"number 39"},{"key":47,"value":"number 47"}]
+  SOL length: 929
 
 Self-organizing list iterator test. Opts: {"_breakNoReorganize":true}
   Iterator Test passed.
-  Self-organizing list iterator test.: 1.849ms
-  SOL first 5: [{"key":453,"value":"number 453"},{"key":698,"value":"number 698"},{"key":502,"value":"number 502"},{"key":12,"value":"number 12"},{"key":820,"value":"number 820"}]
+  Self-organizing list iterator test.: 2.833ms
+  SOL first 5: [{"key":791,"value":"number 791"},{"key":756,"value":"number 756"},{"key":651,"value":"number 651"},{"key":545,"value":"number 545"},{"key":216,"value":"number 216"}]
   SOL length: 1000
 
 Self-organizing list scale test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
   Scale Has Test passed.
-  Self-organizing list scale test. Insert phase: 128.562ms
+  Self-organizing list scale test. Insert phase: 187.859ms
   Scale Delete Test passed.
-  Self-organizing list scale test. Delete phase: 228.044ms
-  Expected size: 910. Actual size: 910
-  SOL first 5: [{"thing":{"key":15,"value":"number 15"}},{"thing":{"key":17,"value":"number 17"}},{"thing":{"key":54,"value":"number 54"}},{"thing":{"key":13,"value":"number 13"}},{"thing":{"key":11,"value":"number 11"}}]
+  Self-organizing list scale test. Delete phase: 249.045ms
+  Expected size: 1000. Actual size: 1000
+  SOL first 5: [{"thing":{"key":12,"value":"number 12"}},{"thing":{"key":42,"value":"number 42"}},{"thing":{"key":17,"value":"number 17"}},{"thing":{"key":29,"value":"number 29"}},{"thing":{"key":66,"value":"number 66"}}]
 
 Self-organizing list iterator test. Opts: {"asLinkedList":true,"_breakNoReorganize":true}
   Iterator Test passed.
-  Self-organizing list iterator test.: 18.821ms
-  SOL first 5: [{"thing":{"key":842,"value":"number 842"}},{"thing":{"key":47,"value":"number 47"}},{"thing":{"key":410,"value":"number 410"}},{"thing":{"key":703,"value":"number 703"}},{"thing":{"key":903,"value":"number 903"}}]
+  Self-organizing list iterator test.: 19.878ms
+  SOL first 5: [{"thing":{"key":341,"value":"number 341"}},{"thing":{"key":814,"value":"number 814"}},{"thing":{"key":99,"value":"number 99"}},{"thing":{"key":27,"value":"number 27"}},{"thing":{"key":17,"value":"number 17"}}]
 
 Scale test heap as tree...
-{ size: 1000, heapTop: 999, actual: { min: 1, max: 999 } }
-  Heap As Tree 1000 insertions: 44.842ms
+{ size: 1000, heapTop: 999, actual: { min: 4, max: 999 } }
+  Heap As Tree 1000 insertions: 47.876ms
 Scale test heap as list...
-{ size: 1000000, heapTop: 999999, actual: { min: 2, max: 999999 } }
-  Heap As List 1000000 insertions: 124.275ms
+{ size: 1000000, heapTop: 999998, actual: { min: 0, max: 999998 } }
+  Heap As List 1000000 insertions: 144.997ms
 New heap
 
 Heap (as list)
@@ -1036,11 +1046,11 @@ node:  -> @Empty
   Subtrie deletion test passed.
 
 Trie scale test.
-  Trie scale test.: 19.603ms
+  Trie scale test.: 20.385ms
   Trie scale test passed.
 
 Trie scale delete and has test.
-  Trie scale test.: 17.668ms
+  Trie scale test.: 14.656ms
   Trie scale test passed.
 
 Trie key iterator test.
@@ -1048,7 +1058,7 @@ Trie key iterator test.
   Trie key iterator long test passed.
 
 Trie repeated idempotent test.
-  Trie repeated idempotent test.: 49.554ms
+  Trie repeated idempotent test.: 43.152ms
   Trie repeated idempotent test passed.
 
 Trie iterator edgecase test.
@@ -1056,23 +1066,23 @@ Trie iterator edgecase test.
 Skiplist index test. Opts: undefined
 SkipList index test passed.
 Skiplist index test with deletion. Opts: undefined
-Skiplist index test with deletion.: 78.452ms
+Skiplist index test with deletion.: 76.986ms
 SkipList index test with deletion passed.
 Skiplist iterator test. Opts: undefined
 SkipList iterator tests passed.
 Skiplist index test. Opts: undefined
 SkipList index test passed.
 Skiplist insert test. Opts: undefined
-Row: 10:  392 830
-Row: 9:  392 475 830
-Row: 8:  189 392 475 824 830
-Row: 7:  189 392 475 705 824 830 966
-Row: 6:  92 170 189 229 296 365 392 439 475 493 705 727 824 830 848 911 917 966 978
-Row: 5:  92 170 189 202 229 235 296 329 333 365 392 396 439 442 475 491 493 518 668 705 727 734 824 830 848 911 917 953 954 966 978
-Row: 4:  9 53 66 92 146 170 189 202 221 226 229 235 296 320 329 333 343 365 369 392 396 439 442 463 475 491 493 518 551 555 631 660 668 677 686 705 707 727 734 751 807 824 830 848 870 911 917 929 949 953 954 966 978 984 994
-Row: 3:  9 14 27 38 39 41 45 53 64 66 77 92 109 114 119 128 146 161 170 173 177 181 189 202 209 221 225 226 227 229 232 235 283 296 300 315 320 323 329 333 341 343 365 369 378 380 383 392 396 425 439 442 463 475 491 493 502 503 507 518 540 551 555 568 569 589 619 631 660 668 677 681 686 705 707 724 727 734 751 754 763 764 765 771 792 804 807 813 823 824 830 842 848 870 891 895 902 906 911 917 929 934 949 953 954 961 966 974 978 984 985 994 996 997
-Row: 2:  9 14 17 18 19 23 27 28 32 38 39 41 45 50 53 57 58 62 64 66 77 78 87 92 100 102 104 109 113 114 119 128 129 143 144 146 148 152 153 161 165 166 170 173 177 181 182 184 189 196 198 201 202 209 220 221 225 226 227 229 232 233 235 250 255 258 262 266 270 272 274 277 282 283 296 300 308 315 320 323 324 327 329 333 340 341 343 353 358 365 369 372 374 378 380 383 389 392 396 399 402 406 407 410 425 437 439 442 444 446 455 463 468 475 479 481 491 493 497 502 503 507 510 518 524 533 534 535 537 540 541 551 555 556 568 569 570 574 577 584 586 589 591 594 606 609 610 615 617 619 622 623 625 627 631 635 640 660 662 668 670 674 677 681 682 686 689 693 705 707 715 716 724 725 727 730 731 734 735 738 747 751 752 753 754 763 764 765 768 771 779 780 789 792 797 804 805 807 808 813 815 819 820 823 824 827 829 830 835 842 843 848 852 856 863 864 870 878 887 890 891 895 897 902 906 911 914 917 929 934 949 951 953 954 955 961 963 966 969 974 976 978 983 984 985 991 994 996 997
-Row: 1:  1 2 8 9 11 13 14 15 17 18 19 20 21 22 23 24 27 28 31 32 37 38 39 40 41 42 44 45 48 49 50 51 52 53 57 58 62 63 64 66 68 72 75 77 78 80 81 83 87 90 92 95 98 99 100 102 104 105 109 110 111 113 114 115 117 119 122 123 126 128 129 133 134 135 137 143 144 145 146 148 149 150 152 153 154 157 161 164 165 166 169 170 173 174 176 177 179 181 182 184 186 189 190 196 198 199 201 202 204 207 208 209 213 214 215 216 217 218 219 220 221 222 225 226 227 229 232 233 235 238 246 249 250 252 255 258 262 263 264 265 266 267 268 269 270 272 273 274 276 277 278 280 282 283 284 288 293 296 300 303 304 306 307 308 309 315 318 320 322 323 324 325 327 329 333 337 340 341 342 343 348 349 353 355 358 359 360 361 365 368 369 370 371 372 373 374 376 378 380 381 382 383 384 385 386 388 389 390 392 393 395 396 399 402 406 407 408 410 411 412 415 424 425 428 429 430 431 433 435 437 438 439 441 442 444 445 446 448 450 453 455 460 463 466 467 468 475 479 480 481 483 484 485 491 493 494 497 498 502 503 507 508 509 510 511 514 515 518 520 521 524 531 532 533 534 535 537 538 539 540 541 546 551 555 556 559 568 569 570 573 574 577 583 584 586 587 589 591 593 594 595 596 597 599 600 601 603 606 607 608 609 610 614 615 617 619 622 623 625 627 629 631 635 636 638 640 644 645 647 648 655 659 660 662 663 666 668 669 670 672 674 676 677 678 681 682 685 686 689 690 692 693 697 698 699 701 704 705 707 709 711 713 715 716 718 724 725 727 730 731 732 734 735 736 738 739 742 743 747 751 752 753 754 760 761 762 763 764 765 768 771 772 779 780 781 785 786 788 789 792 795 796 797 804 805 807 808 809 813 815 819 820 823 824 826 827 829 830 832 834 835 839 841 842 843 846 848 849 850 851 852 853 855 856 857 858 861 863 864 867 870 871 873 874 876 877 878 881 887 888 890 891 892 893 895 897 902 903 906 911 914 917 918 919 920 925 927 929 930 931 932 934 941 943 944 946 948 949 950 951 953 954 955 957 958 961 963 964 965 966 969 972 974 975 976 977 978 983 984 985 988 991 992 993 994 996 997 999
+Row: 10:  783
+Row: 9:  783
+Row: 8:  464 618 783
+Row: 7:  464 618 783
+Row: 6:  25 105 409 464 480 490 618 627 760 783 917 935 952
+Row: 5:  25 79 105 200 365 405 409 464 480 490 498 514 517 617 618 627 695 743 760 776 778 783 804 900 917 921 922 935 952
+Row: 4:  15 25 77 79 104 105 134 148 158 200 291 294 337 348 365 368 405 409 460 464 478 480 482 490 498 503 514 517 543 607 617 618 620 627 642 657 660 695 725 736 743 760 761 776 778 781 782 783 804 850 871 900 917 921 922 935 941 952
+Row: 3:  15 16 19 25 46 73 77 79 98 104 105 110 118 120 126 129 134 140 148 158 200 206 231 247 285 291 294 299 322 328 330 333 336 337 344 348 365 368 395 403 405 409 411 429 434 438 445 460 464 465 469 478 480 482 490 498 503 507 514 517 522 536 543 544 548 566 578 592 600 607 617 618 620 624 627 640 641 642 657 660 661 687 695 706 708 719 725 736 743 744 760 761 767 776 778 781 782 783 804 807 808 833 835 844 848 850 853 871 900 910 917 921 922 923 935 938 941 947 951 952 962 974 977 994
+Row: 2:  13 15 16 19 25 31 46 47 49 55 63 65 68 72 73 77 79 87 98 104 105 106 110 113 118 120 126 129 133 134 139 140 141 148 156 158 161 162 169 171 178 185 187 200 206 211 227 231 235 246 247 279 285 288 291 294 299 301 309 312 322 328 330 333 336 337 344 348 356 363 365 368 373 374 385 386 395 401 403 405 409 411 423 425 429 434 438 445 446 448 453 456 458 460 464 465 467 469 470 478 479 480 482 490 498 500 501 503 506 507 514 517 522 530 536 539 543 544 548 550 552 553 558 563 566 578 592 600 603 607 617 618 620 621 624 627 631 640 641 642 648 657 660 661 677 679 685 687 691 695 698 702 706 708 717 719 721 725 726 736 743 744 745 747 751 760 761 765 766 767 776 777 778 781 782 783 786 787 789 798 799 800 804 807 808 810 811 815 822 828 833 835 842 844 848 849 850 853 857 864 871 875 879 882 900 901 902 907 910 916 917 921 922 923 935 937 938 941 947 950 951 952 954 955 958 962 965 967 969 970 971 974 977 980 989 992 994
+Row: 1:  1 2 3 4 6 7 11 13 15 16 19 20 22 23 25 31 32 34 36 38 42 45 46 47 49 53 54 55 58 63 65 68 70 72 73 74 75 76 77 78 79 82 85 87 88 91 93 94 98 100 104 105 106 110 112 113 117 118 120 121 124 125 126 128 129 132 133 134 135 139 140 141 144 148 149 155 156 157 158 161 162 165 166 167 169 170 171 173 174 176 177 178 185 187 188 193 200 206 211 212 213 219 225 226 227 231 235 238 241 242 244 245 246 247 248 249 251 254 256 262 267 268 269 272 275 276 279 284 285 286 287 288 291 292 294 297 298 299 300 301 303 306 307 309 311 312 313 314 317 320 322 324 328 330 333 334 335 336 337 339 342 344 348 349 350 353 356 357 359 361 362 363 364 365 368 373 374 376 377 379 381 384 385 386 390 391 393 394 395 398 401 403 405 407 408 409 411 417 421 423 425 429 432 433 434 435 437 438 439 443 444 445 446 448 453 456 458 460 461 463 464 465 466 467 469 470 478 479 480 482 483 485 487 490 498 500 501 502 503 504 506 507 509 510 513 514 517 519 522 527 529 530 531 535 536 539 543 544 546 548 550 552 553 555 558 563 566 569 576 578 587 588 592 594 595 598 600 601 603 606 607 608 609 610 612 613 617 618 619 620 621 624 626 627 628 630 631 635 636 638 640 641 642 645 647 648 649 651 655 657 659 660 661 664 665 667 668 671 676 677 678 679 680 681 685 686 687 691 693 694 695 698 701 702 704 705 706 707 708 712 717 719 721 722 725 726 728 731 732 735 736 737 743 744 745 747 749 751 752 755 757 760 761 762 763 765 766 767 770 776 777 778 781 782 783 786 787 789 794 795 797 798 799 800 804 805 807 808 810 811 813 815 816 818 819 821 822 828 831 833 835 840 842 844 848 849 850 853 855 857 858 864 866 868 869 871 875 878 879 880 882 883 897 898 899 900 901 902 907 910 911 913 916 917 920 921 922 923 927 928 930 935 937 938 939 941 943 946 947 948 950 951 952 954 955 957 958 959 962 965 967 969 970 971 974 977 980 981 984 985 986 989 992 993 994 996 997
 Row: 0:  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 350 351 352 353 354 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385 386 387 388 389 390 391 392 393 394 395 396 397 398 399 400 401 402 403 404 405 406 407 408 409 410 411 412 413 414 415 416 417 418 419 420 421 422 423 424 425 426 427 428 429 430 431 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449 450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 540 541 542 543 544 545 546 547 548 549 550 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 566 567 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 622 623 624 625 626 627 628 629 630 631 632 633 634 635 636 637 638 639 640 641 642 643 644 645 646 647 648 649 650 651 652 653 654 655 656 657 658 659 660 661 662 663 664 665 666 667 668 669 670 671 672 673 674 675 676 677 678 679 680 681 682 683 684 685 686 687 688 689 690 691 692 693 694 695 696 697 698 699 700 701 702 703 704 705 706 707 708 709 710 711 712 713 714 715 716 717 718 719 720 721 722 723 724 725 726 727 728 729 730 731 732 733 734 735 736 737 738 739 740 741 742 743 744 745 746 747 748 749 750 751 752 753 754 755 756 757 758 759 760 761 762 763 764 765 766 767 768 769 770 771 772 773 774 775 776 777 778 779 780 781 782 783 784 785 786 787 788 789 790 791 792 793 794 795 796 797 798 799 800 801 802 803 804 805 806 807 808 809 810 811 812 813 814 815 816 817 818 819 820 821 822 823 824 825 826 827 828 829 830 831 832 833 834 835 836 837 838 839 840 841 842 843 844 845 846 847 848 849 850 851 852 853 854 855 856 857 858 859 860 861 862 863 864 865 866 867 868 869 870 871 872 873 874 875 876 877 878 879 880 881 882 883 884 885 886 887 888 889 890 891 892 893 894 895 896 897 898 899 900 901 902 903 904 905 906 907 908 909 910 911 912 913 914 915 916 917 918 919 920 921 922 923 924 925 926 927 928 929 930 931 932 933 934 935 936 937 938 939 940 941 942 943 944 945 946 947 948 949 950 951 952 953 954 955 956 957 958 959 960 961 962 963 964 965 966 967 968 969 970 971 972 973 974 975 976 977 978 979 980 981 982 983 984 985 986 987 988 989 990 991 992 993 994 995 996 997 998 999
 Size: 1000
 
@@ -1080,9 +1090,7 @@ Size: 1000
 
 SkipList Map test passed.
 Skiplist insert test. Opts: undefined
-Row: 3:  3
-Row: 2:  3
-Row: 1:  3 5
+Row: 1:  5
 Row: 0:  -1 0 1 2 3 4 5 6
 Size: 8
 
@@ -1090,10 +1098,9 @@ Size: 8
 
 
 Skiplist insert test. Opts: {"max":true}
-Row: 4:  3
-Row: 3:  3
-Row: 2:  3
-Row: 1:  5 4 3 2 0
+Row: 3:  2
+Row: 2:  6 2
+Row: 1:  6 5 4 3 2 1 0 -1
 Row: 0:  6 5 4 3 2 1 0 -1
 Size: 8
 
@@ -1101,12 +1108,9 @@ Size: 8
 
 
 Skiplist insert test. Opts: {"max":true,"_breakLinearize":true}
-Row: 6:  3
-Row: 5:  3
-Row: 4:  -1 3
-Row: 3:  -1 6 3
-Row: 2:  -1 6 4 3 2
-Row: 1:  -1 6 4 3 2
+Row: 3:  2 1
+Row: 2:  5 4 2 1
+Row: 1:  -1 5 4 2 1 0
 Row: 0:  6 5 4 3 2 1 0 -1
 Size: 8
 
@@ -1123,19 +1127,19 @@ Skiplist has test. Opts: {"duplicatesOkay":true}
 Test passed. All inserted numbers tested as present in skiplist.
 
 Skiplist scale test. Opts: undefined
-  Skiplist scale test. Insert phase: 29.335ms
+  Skiplist scale test. Insert phase: 32.703ms
   Scale Has Test passed.
-  Skiplist scale test. Has phase: 21.217ms
+  Skiplist scale test. Has phase: 17.473ms
 
 Skiplist scale test. Opts: {"max":true}
-  Skiplist scale test. Insert phase: 29.447ms
+  Skiplist scale test. Insert phase: 25.555ms
   Scale Has Test passed.
-  Skiplist scale test. Has phase: 28.809ms
+  Skiplist scale test. Has phase: 27.652ms
 
 Skiplist scale test. Opts: {"p":0.25}
-  Skiplist scale test. Insert phase: 46.411ms
+  Skiplist scale test. Insert phase: 49.774ms
   Scale Has Test passed.
-  Skiplist scale test. Has phase: 27.735ms
+  Skiplist scale test. Has phase: 24.27ms
 
 Skiplist delete test. Opts: undefined
 Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.
@@ -1143,167 +1147,247 @@ Expected size: 306. Actual size: 306
 
 Skiplist delete test. Opts: {"max":true}
 Test passed. All inserted numbers tested as present, and deleted numbers as absent, in skiplist.
-Expected size: 296. Actual size: 296
+Expected size: 317. Actual size: 317
 
 Binary search scale test. 200000. Opts: {"recursive":true}
   Finding 20000 numbers...
   Done.
   Finding 20000 words...
   Done.
-  Binary search find phase.: 164.368ms
+  Binary search find phase.: 174.198ms
   Binary search test passed.
 Binary search scale test. 200000. Opts: {}
   Finding 20000 numbers...
   Done.
   Finding 20000 words...
   Done.
-  Binary search find phase.: 138.4ms
+  Binary search find phase.: 172.525ms
   Binary search test passed.
 QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {}
-  QuickSelect 300 trials.: 2.638ms
+  QuickSelect 300 trials.: 2.92ms
   QuickSelect test passed.
 QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"recursive":true}
-  QuickSelect 300 trials.: 3.032ms
+  QuickSelect 300 trials.: 2.566ms
   QuickSelect test passed.
 QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"pivot":"mom"}
-  QuickSelect 300 trials.: 1.634ms
+  QuickSelect 300 trials.: 1.8ms
   QuickSelect test passed.
 QuickSelect test. List length: 100000. K-th order trials: 300. Opts: {"pivot":"mom","recursive":true}
-  QuickSelect 300 trials.: 2.14ms
+  QuickSelect 300 trials.: 2.788ms
   QuickSelect test passed.
 
 
 HeapSort test: {"opts":{}}. Length: 10000
-  HeapSort test: 50.121ms
-{ lastVal: 9934 }
+  HeapSort test: 72.197ms
+{ lastVal: 9930 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"max":true}}. Length: 10000
-  HeapSort test: 44.628ms
+  HeapSort test: 45.007ms
 { lastVal: 0 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"invert":true}}. Length: 10000
-  HeapSort test: 38.411ms
+  HeapSort test: 39.423ms
 { lastVal: 0 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"invert":true,"max":true}}. Length: 10000
-  HeapSort test: 37.507ms
-{ lastVal: 9914 }
+  HeapSort test: 36.284ms
+{ lastVal: 9837 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{}}. Length: 10000
-  HeapSort test: 61.376ms
-{ lastVal: 9842 }
+  HeapSort test: 59.725ms
+{ lastVal: 9933 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"invert":true}}. Length: 10000
-  HeapSort test: 42.558ms
-{ lastVal: 9902 }
+  HeapSort test: 39.186ms
+{ lastVal: 9777 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"invert":false}}. Length: 10000
-  HeapSort test: 40.665ms
-{ lastVal: 9963 }
+  HeapSort test: 39.799ms
+{ lastVal: 9882 }
   HeapSort test passed.
 
 HeapSort test: {"opts":{"invert":true}}. Length: 10000
-  HeapSort test: 42.203ms
+  HeapSort test: 38.023ms
 { lastVal: 0 }
   HeapSort test passed.
 
 Insertion Sort test: {"opts":{}}. Length: 2500
-  Insertion Sort test: 8.979ms
-{ lastVal: 2443 }
+  Insertion Sort test: 7.568ms
+{ lastVal: 2412 }
   Insertion Sort test passed.
 
 Insertion Sort test: {"opts":{}}. Length: 2500
-  Insertion Sort test: 9.471ms
+  Insertion Sort test: 7.769ms
 { lastVal: 0 }
   Insertion Sort test passed.
 
 Insertion Sort test: {"opts":{"invert":true}}. Length: 2500
-  Insertion Sort test: 9.853ms
+  Insertion Sort test: 8.628ms
 { lastVal: 0 }
   Insertion Sort test passed.
 
 Insertion Sort test: {"opts":{"invert":true}}. Length: 2500
-  Insertion Sort test: 5.544ms
+  Insertion Sort test: 4.037ms
 { lastVal: 0 }
   Insertion Sort test passed.
 
-Insertion Sort test: {"opts":{"inplace":true}}. Length: 2500
-  Insertion Sort test: 5.405ms
-{ lastVal: 2444 }
+Insertion Sort test: {"opts":{"nosplice":true}}. Length: 2500
+  Insertion Sort test: 28.485ms
+{ lastVal: 2452 }
   Insertion Sort test passed.
 
-Insertion Sort test: {"opts":{"inplace":true,"nosplice":true}}. Length: 2500
-  Insertion Sort test: 29.633ms
-{ lastVal: 2417 }
-  Insertion Sort test passed.
-
-Insertion Sort test: {"opts":{"inplace":true,"nobs":true}}. Length: 2500
-  Insertion Sort test: 97.143ms
-{ lastVal: 2398 }
+Insertion Sort test: {"opts":{"inplace":false}}. Length: 2500
+  Insertion Sort test: 4.506ms
+{ lastVal: 2436 }
   Insertion Sort test passed.
 
 Insertion Sort test: {"opts":{"nobs":true}}. Length: 2500
-  Insertion Sort test: 137.747ms
-{ lastVal: 2464 }
+  Insertion Sort test: 99.652ms
+{ lastVal: 2439 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"inplace":false,"nobs":true}}. Length: 2500
+  Insertion Sort test: 106.48ms
+{ lastVal: 2415 }
+  Insertion Sort test passed.
+
+Insertion Sort test: {"opts":{"nobs":false,"nosplice":true}}. Length: 2500
+  Insertion Sort test: 8.176ms
+{ lastVal: 2429 }
   Insertion Sort test passed.
 
 
 MergeSort test: {"opts":{}}. Length: 10000
-  MergeSort test: 13.187ms
-{ lastVal: 9885 }
+  MergeSort test: 11.358ms
+{ lastVal: 9958 }
   MergeSort test passed.
 
 MergeSort test: {"opts":{"invert":true}}. Length: 10000
-  MergeSort test: 14.186ms
+  MergeSort test: 12.804ms
 { lastVal: 0 }
   MergeSort test passed.
 
 MergeSort test: {"opts":{}}. Length: 10000
-  MergeSort test: 16.627ms
+  MergeSort test: 13.043ms
 { lastVal: 0 }
   MergeSort test passed.
 
 MergeSort test: {"opts":{"invert":true}}. Length: 10000
-  MergeSort test: 7.231ms
+  MergeSort test: 6.407ms
 { lastVal: 0 }
   MergeSort test passed.
 
 
 QuickSort test: {"opts":{}}. Length: 10000
-  QuickSort test: 19.956ms
-{ lastVal: 9801 }
+  QuickSort test: 20.355ms
+{ lastVal: 9921 }
   QuickSort test passed.
 
 QuickSort test: {"opts":{"iterative":true}}. Length: 10000
-  QuickSort test: 13.874ms
-{ lastVal: 9956 }
+  QuickSort test: 13.341ms
+{ lastVal: 9819 }
   QuickSort test passed.
 
 QuickSort test: {"opts":{"invert":true}}. Length: 10000
-  QuickSort test: 17.189ms
+  QuickSort test: 19.549ms
 { lastVal: 0 }
   QuickSort test passed.
 
 QuickSort test: {"opts":{}}. Length: 10000
-  QuickSort test: 6.896ms
+  QuickSort test: 7.515ms
 { lastVal: 0 }
   QuickSort test passed.
 
 QuickSort test: {"opts":{"invert":true}}. Length: 10000
-  QuickSort test: 8.742ms
+  QuickSort test: 7.331ms
 { lastVal: 0 }
   QuickSort test passed.
 
 QuickSort test: {"opts":{"pivot":"mom"}}. Length: 10000
-  QuickSort test: 6.394ms
-{ lastVal: 9767 }
+  QuickSort test: 6.888ms
+{ lastVal: 9860 }
   QuickSort test passed.
+
+Selection Sort test: {"opts":{}}. Length: 2500
+  Selection Sort test: 116.276ms
+{ lastVal: 2362 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{}}. Length: 2500
+  Selection Sort test: 93.863ms
+{ lastVal: 0 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{"invert":true}}. Length: 2500
+  Selection Sort test: 121.904ms
+{ lastVal: 0 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{"invert":true}}. Length: 2500
+  Selection Sort test: 100.689ms
+{ lastVal: 0 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{"inplace":false}}. Length: 2500
+  Selection Sort test: 116.083ms
+{ lastVal: 2412 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{"inplace":false,"nosplice":false}}. Length: 2500
+  Selection Sort test: 115.243ms
+{ lastVal: 2455 }
+  Selection Sort test passed.
+
+Selection Sort test: {"opts":{"nosplice":false}}. Length: 2500
+  Selection Sort test: 121.417ms
+{ lastVal: 2460 }
+  Selection Sort test passed.
+
+Bubble Sort test: {"opts":{}}. Length: 2500
+  Bubble Sort test: 5.865ms
+{ lastVal: 2450 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{}}. Length: 2500
+  Bubble Sort test: 5.762ms
+{ lastVal: 0 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"invert":true}}. Length: 2500
+  Bubble Sort test: 4.595ms
+{ lastVal: 0 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"invert":true}}. Length: 2500
+  Bubble Sort test: 4.895ms
+{ lastVal: 0 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"inplace":true}}. Length: 2500
+  Bubble Sort test: 5.829ms
+{ lastVal: 2419 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"inplace":true,"nosplice":true}}. Length: 2500
+  Bubble Sort test: 22.14ms
+{ lastVal: 2462 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"inplace":true,"nobs":true}}. Length: 2500
+  Bubble Sort test: 99.087ms
+{ lastVal: 2425 }
+  Bubble Sort test passed.
+
+Bubble Sort test: {"opts":{"nobs":true}}. Length: 2500
+  Bubble Sort test: 141.088ms
+{ lastVal: 2448 }
+  Bubble Sort test passed.
 Tests complete.
 
 

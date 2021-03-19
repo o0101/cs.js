@@ -50,7 +50,6 @@ export function testAll() {
 
     testSelfOrganizingList(); 
 
-
   // tree structures
     testHeap();
 
@@ -93,10 +92,11 @@ export function testAll() {
     insertionSortOrderTest({invert:true});
     insertionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
 
-    insertionSortOrderTest({inplace:true});
-    insertionSortOrderTest({inplace:true, nosplice: true});
-    insertionSortOrderTest({inplace:true, nobs: true});
+    insertionSortOrderTest({nosplice: true});
+    insertionSortOrderTest({inplace:false});
     insertionSortOrderTest({nobs:true});
+    insertionSortOrderTest({inplace:false, nobs: true});
+    insertionSortOrderTest({nobs:false, nosplice: true});
   }
 
   function insertionSortOrderTest(opts = {}) {
@@ -223,10 +223,9 @@ export function testAll() {
     selectionSortOrderTest({invert:true});
     selectionSortOrderTest({compare:(a,b) => a === b ? 0 : a - b <= 0 ? 1 : -1, invert: true});
 
-    selectionSortOrderTest({inplace:true});
-    selectionSortOrderTest({inplace:true, nosplice: true});
-    selectionSortOrderTest({inplace:true, nobs: true});
-    selectionSortOrderTest({nobs:true});
+    selectionSortOrderTest({inplace:false});
+    selectionSortOrderTest({inplace:false, nosplice: false});
+    selectionSortOrderTest({nosplice: false});
   }
 
   function selectionSortOrderTest(opts = {}) {
@@ -264,13 +263,13 @@ export function testAll() {
 
     const lengthTest = sortedList.length === list.length;
 
-    if ( ! lengthTest ) {
+    if ( ! lengthTest && opts.inplace ) {
       console.error(`Selection Sort length test failed. Sorted list is expected to be 
         the same length as the original list (${list.length}), 
         but its length was ${sortedList.length}`);
     }
 
-    valid = valid && lengthTest;
+    valid = valid && (!opts.inplace || lengthTest);
 
     if ( ! valid ) {
       console.error(`Selection Sort test failed.`);

@@ -42,6 +42,7 @@ Or [jump straight to the API documentation](#api-documentation).
 ## Sorting Algorithms 
 
 - [x] [InsertionSort](src/insertionsort.js) - **O(n\*\*2)** (no binary search), **O(n log n)** (with binary search), **O(n)** (already sorted)
+- [x] [SelectionSort](src/ssort.js) - **O(n\*\*2)** (no binary search), **O(n\*\*2)** (already sorted) normally slower than insertion because it has to search all of unsorted tail each time, while insertion only has to search until it finds the insertion slot in the sorted head, which is often not the entire length of the sorted head.
 - [x] [MergeSort](src/mergesort.js) - **O(n log n)** (every case) **O(n) space** stable sort, divide and conquer, merging
 - [x] [QuickSort](src/quicksort.js) - **O(n\*\*2)** (worst case of bad pivots) **O(n log n)** **O(1) space** non-stable in-place sort, divide and conquer, partitioning on pivot, *bad pivots can lead to quadratic performance.*
 
@@ -104,6 +105,7 @@ $ node -r esm src/test.js > testout.txt
     - [Quick Select](#quick-select)
   - Sorting algorithms
     - [Insertion sort](#insertion-sort)
+    - [Selection sort](#selection-sort)
     - [Merge sort](#merge-sort)
     - [Quick sort](#quick-sort)
 
@@ -860,11 +862,46 @@ $ node -r esm src/test.js > testout.txt
     invert: false,      /* inverts the order */
     compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2), 
           /* undefined uses DEFAULT_COMPARE, but can be a custom comparison */
-    inplace: false,     /* sort is in place, 
+    inplace: true,      /* sort is in place, 
                         /* false is create a new array without changing original */
     nobs: false,        /* false gives an O(N log N) sort */
                         /* true will not use binary search (just linear search) to */
                         /* find insert index in sorted part of list, reduces to O(N**2) */
+    nosplice: false,    /* don't use array splice operations on inplace array instead use swaps */
+  }); // [{a:1,b:'hi'}, {a:2,b:'9'}, {a:4,b:'12321'}]
+  ```
+
+### Selection sort
+
+  Import direct:
+  ```js
+  import SelectionSort from './src/ssort.js';
+  // equivalent
+  import {sort} from './src/ssort.js';
+  ```
+
+  Import from package:
+  ```js
+  import * as CS from 'cs101';
+  const SelectionSort = CS.SelectionSort.sort;
+  ```
+
+  Sorting a list
+  ```js
+  const list = [5,9,2,4,1,3,0,8];
+  const sorted = SelectionSort(list); // [0,1,2,3,4,5,8,9]
+  ```
+
+  Using more options:
+
+  ```js
+  const list = [{a:4,b:'12321'}, {a:1,b:'hi'}, {a:2,b:'9'}];
+  const sorted = SelectionSort(list, {
+    invert: false,      /* inverts the order */
+    compare: ({a:a1}, {a:a2}) => Math.sign(a1-a2), 
+          /* undefined uses DEFAULT_COMPARE, but can be a custom comparison */
+    inplace: true,     /* sort is in place, 
+                        /* false is create a new array without changing original */
     nosplice: false,    /* don't use array splice operations on inplace array instead use swaps */
   }); // [{a:1,b:'hi'}, {a:2,b:'9'}, {a:4,b:'12321'}]
   ```
