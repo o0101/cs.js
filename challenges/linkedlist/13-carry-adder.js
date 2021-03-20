@@ -57,7 +57,7 @@ import {
     let curr = sum;
     let carry = 0;
 
-    while((a && b) || carry) {
+    while(a || b || carry) {
       const pointSum = carry + (a ? parseInt(a.data) : 0) + (b ? parseInt(b.data) : 0)
       const sumUnit = pointSum % radix; 
       const sumCarry = (pointSum - sumUnit)/radix;
