@@ -73,7 +73,7 @@ import {
         b = b.next;
       }
 
-      if ((a && b) || carry) {
+      if (a || b || carry) {
         update(); 
       }
     }
