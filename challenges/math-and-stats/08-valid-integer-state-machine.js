@@ -1,5 +1,5 @@
 let isValidNumber = function validateAsNumber(s) {
-  console.log({s});
+  //console.log({s});
   const End = Symbol.for(`[[End]]`);
   const VALID = 1;
   const INVALID = 0;
@@ -90,6 +90,13 @@ console.log(isValidNumber('34.'));
 console.log(isValidNumber('.'));
 console.log(isValidNumber('1.'));
 console.log(isValidNumber(''));
+console.log('Is this number valid 4.325? ' + isValidNumber("4.325"));
+console.log('Is this number valid 1.1.1? ' + isValidNumber("1.1.1"));
+console.log('Is this number valid 222? ' + isValidNumber("222"));
+console.log('Is this number valid 22.? ' + isValidNumber("22."));
+console.log('Is this number valid 0.1? ' + isValidNumber("0.1"));
+console.log('Is this number valid 22.22.? ' + isValidNumber("22.22."));
+console.log('Iis this number valid 1.? ' + isValidNumber("1."));
 
 
 isValidNumber = function validateAsNumber(s) {
