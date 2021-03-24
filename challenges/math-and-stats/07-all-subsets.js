@@ -1,54 +1,27 @@
 
 // this is my solution I came up with after thinking about it and writing some 
 // examples by hand
-let permute = function allPermutations(str) {
-  const ps = [];
-  if ( str.length === 0 ) return ps;
+let subsets = function allSubsets(v, sets = []) {
+  v.sort((a,b) => Math.sign(a-b));
+  const n = v.length; 
+  const limit = 2**n;
 
-  const values = str.split('');
-  const n = values.length;
-  const indices = Array(n).fill(0);
-
-  permute: while(true) {
-    // create permutation from indices
-      const source = values.slice();
-      let p = '';
-      let i = 0;
-      while(source.length) {
-        p += source.splice(indices[i], 1); 
-        i++;
-      }
-      ps.push(p);
-
-    // update indices with carry
-    let current = n-1;
-    update: while(current >= 0) {
-      indices[current] += 1;
-
-      // if we need to carry
-      if ( indices[current] === n-current ) {
-        indices[current] = 0;
-
-        if ( current === 0 ) {
-          break permute;
-        }
-
-        current--;
-      } else break update;
-    }
+  for( let i = 0; i < limit; i++ ) {
+    const x = i.toString(2).padStart(n,'0').split('');
+    x.reverse();
+    console.log(x);
+    const set = v.filter((_,j) => x[j] === '1');
+    sets.push(set);
   }
 
-  console.log(ps.join('\n'));
-
-  return ps;
+  return sets;
 }
 
-console.log(permute(process.argv[2] || 'bad'));
+console.log(subsets((process.argv[2] || '2,5,7').split(',').map(x => parseInt(x))));
 
-// note: i want to go back later and implement a solution based on their official solution
-// so i can understand it
+// this is based on their official solution
+subsets = function allSubsets(v, sets = []) {
 
-permute = function allPermutations(str) {
-
+  return sets;
 }
-console.log(permute(process.argv[2] || 'bad'));
+//console.log(subsets((process.argv[2] || '2,5,7').split(',').map(x => parseInt(x))));
