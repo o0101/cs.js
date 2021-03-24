@@ -1,0 +1,5 @@
+- equivalence classes of integers under partitions as determined by binary representation
+  - second to this investigate the partitions given by and the equivalence classes of numbers in 
+  irrational (base phi, base e, etc (c.f. irradix)) radix representations
+- kth permutation of a string / ordered set. That means we can define any sequence in terms of
+S (ordered set or string) and k (the kth permutation) as well as a partial order p.
