@@ -1,4 +1,4 @@
-console.log(allPermutations('bad'));
+console.log(allPermutations(process.argv[2] || 'bad'));
 
 function allPermutations(str) {
   const ps = [];
@@ -36,6 +36,8 @@ function allPermutations(str) {
       } else break update;
     }
   }
+
+  console.log(ps.join('\n'));
 
   return ps;
 }
