@@ -1,6 +1,7 @@
-console.log(allPermutations(process.argv[2] || 'bad'));
 
-function allPermutations(str) {
+// this is my solution I came up with after thinking about it and writing some 
+// examples by hand
+let permute = function allPermutations(str) {
   const ps = [];
   if ( str.length === 0 ) return ps;
 
@@ -41,3 +42,13 @@ function allPermutations(str) {
 
   return ps;
 }
+
+console.log(permute(process.argv[2] || 'bad'));
+
+// note: i want to go back later and implement a solution based on their official solution
+// so i can understand it
+
+permute = function allPermutations(str) {
+
+}
+console.log(permute(process.argv[2] || 'bad'));
