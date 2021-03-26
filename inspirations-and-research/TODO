@@ -3,3 +3,7 @@
   irrational (base phi, base e, etc (c.f. irradix)) radix representations
 - kth permutation of a string / ordered set. That means we can define any sequence in terms of
 S (ordered set or string) and k (the kth permutation) as well as a partial order p.
+- what's the connection between bit sequences, repeated squarings, reconstructing a number via a sequence of doublings and additions, and deconstructing via the reverse
+- question: if you have a box of N pairs of socks, how many socks do you have to draw until you get a match with probability p? (might be related to birthday spacings). Now, what if you throw a spanner in the works with K unmatched (lost / forgotten) half-pairs? Now, what if you throw another spanner in the works with a function Z(S,S) => R0,1 that fuzzily compares socks, so you no longer have an exact (0,1) match but a fuzzy continuum of match-iness, what's the relationship between p, N, and Z?
+
+
