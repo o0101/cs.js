@@ -172,12 +172,13 @@ function recursiveRadixRep(n, r, s = '') {
   if ( n >= r ) {
     const unit = n % r;
     console.log(`LSB-first order`, unit);
-    s = rec(a, (b-unit)/r, s) + s;
+    s = recursiveRadixRep((n-unit)/r, r, s) + s;
     console.log(`MSB-first order`, unit);
     s = s + unit + '';
     console.log({s});
     return s;
   } else {
+    console.log(`Last recursion level`, n);
     return n + '';
   }
 }
