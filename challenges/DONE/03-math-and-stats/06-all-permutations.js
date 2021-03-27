@@ -5,7 +5,7 @@ let permute = function allPermutations(str) {
   const ps = [];
   if ( str.length === 0 ) return ps;
 
-  const values = str.split('');
+  const values = str.split();
   const n = values.length;
   const indices = Array(n).fill(0);
 
@@ -65,7 +65,7 @@ permute = function allPermutations(str) {
     }
   } else {
     const ps = [];
-    const vals = str.split('');
+    const vals = str.split();
     for( let i = 0; i < vals.length; i++ ) {
       const char = vals[i];
       let tail = vals.slice(0);
@@ -134,7 +134,7 @@ permute = function allPermutations(str) {
     }
   } else {
     const ps = [];
-    const vals = str.split('');
+    const vals = str.split();
     for( let i = 0; i < vals.length; i++ ) {
       const char = vals[i];
       const permutedInput = swap(str,0,i);

@@ -40,7 +40,7 @@ console.log("Power(2, -2) = " + exp(2, -2));
 
 // my alternate solution start with MSB
 exp = function exp(a, b) {
-  let k = Math.abs(b).toString(2).split('');
+  let k = Math.abs(b).toString(2).split();
 
   let n = 1;
   let x = 0;

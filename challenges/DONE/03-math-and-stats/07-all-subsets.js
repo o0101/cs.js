@@ -7,7 +7,7 @@ let subsets = function allSubsets(v, sets = []) {
   const limit = 2**n;
 
   for( let i = 0; i < limit; i++ ) {
-    const x = i.toString(2).padStart(n,'0').split('');
+    const x = i.toString(2).padStart(n,'0').split();
     x.reverse();
     console.log(x);
     const set = v.filter((_,j) => x[j] === '1');
