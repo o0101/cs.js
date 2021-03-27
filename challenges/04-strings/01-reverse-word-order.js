@@ -23,42 +23,42 @@ let rwo = function reverseWordOrder(s) {
 
 // this is complex, reminds me to always keep things simple
 rwo = function hardReverseWordOrder(s) {
-	WS = /\s/g;
-	const sentenceParts = [];
-	const part = {
-		isWord: false,
-		chars: []
-	};
+  WS = /\s/g;
+  const sentenceParts = [];
+  const part = {
+    isWord: false,
+    chars: []
+  };
 
-	for( const char of s ) {
-		switch(WS.test(char)) {
-			case false:
-				if ( !part.isWord ) {
-					sentenceParts.push(part.chars.join(''));
-					part.chars = [char];
-					part.isWord = true;
-				} else {
-					part.chars.push(char);
-				}
-				break;
+  for( const char of s ) {
+    switch(WS.test(char)) {
+      case false:
+        if ( !part.isWord ) {
+          sentenceParts.push(part.chars.join(''));
+          part.chars = [char];
+          part.isWord = true;
+        } else {
+          part.chars.push(char);
+        }
+        break;
 
-			case true:
-				if ( part.isWord ) {
-					sentenceParts.push(part.chars.join(''));
-					part.chars = [char];
-					part.isWord = false;
-				} else {
-					part.chars.push(char);
-				}
-				break;
-		}
-	}
+      case true:
+        if ( part.isWord ) {
+          sentenceParts.push(part.chars.join(''));
+          part.chars = [char];
+          part.isWord = false;
+        } else {
+          part.chars.push(char);
+        }
+        break;
+    }
+  }
 
-	sentenceParts.push(part.chars.join(''));
+  sentenceParts.push(part.chars.join(''));
 
-	sentenceParts.reverse();
+  sentenceParts.reverse();
 
-	return sentenceParts.join('');
+  return sentenceParts.join('');
 }
 
 // wow the above was a real lesson for me in keeping things simple
@@ -83,3 +83,92 @@ rwo = function hardReverseWordOrder(s) {
 // it's really a lesson for me to keep things simple, or be very deliberate if I'm making it long
 // I mean only if I'm in a test, otherwise I can just hack it out, but if I'm in a test
 // it pays to be very deliberate
+
+
+// the below is a solution i wrote based on glancing at the official solution
+// which uses reversed words and "doesn't require extra memory"
+// so I'm guessing after seeing this trick before in 
+// linkedlists reversal (or reverse k)
+// no it was in array rotation
+// we can use the trick of reverse the words, then reverse the list. 
+
+rwo = function reverseWordOrderNoExtraSpace(s) {
+  const WS = /\s/g;
+  const None = Symbol.for(`None`);
+  let wordStart = None;
+
+  // arrays not strings for unicode safety
+  s = Array.from(s);
+
+  for( let i = 0; i < s.length; i++ ) {
+    const char = s[i];
+    switch(WS.test(char)) {
+      case true:
+        if ( wordStart !== None ) {
+          s = reverse(s, wordStart, i-1);
+          wordStart = None;
+        }
+        break;
+      case false:
+        if ( wordStart === None ) {
+          wordStart = i;
+        }
+        break;
+    }
+  }
+
+  if ( wordStart !== None ) {
+    s = reverse(s, wordStart, s.length - 1);
+  }
+
+  s = reverse(s, 0, s.length - 1);
+
+  return s.join('');
+}
+
+function reverse(s, i, j) {
+  while(i < j) {
+    s = swap(s, i, j);
+    i++;
+    j--;
+  }
+  return s;
+}
+
+function swap(s, i, j) {
+  // splitting into characters is safer for unicode strings,
+  // otherwise your indices may pull out and swap against
+  // surrogate pairs which won't work
+  if ( typeof s === 'string' ) {
+    s = s.split();
+  } else if ( Array.isArray(s) ) {
+    s = s;
+  } else {
+    throw new TypeError(`This version of swap only works on strings or Arrays`);
+  }
+  if ( i == j ) {
+    return s.slice();
+  } else if ( i > j ){
+    ([i, j] = [j, i]);
+  }
+  // also once we deal with arrays with distinct elements,
+  // there's no need to consider that a character can have a "width"
+  // since all characters no matter how they are encoded will only
+  // occupy a single slot in the array so we can readily swap them in and out
+
+
+  // this reliability trumps the (in any case, dubious,
+  // as we are creating new strings via substr or slice) "no extra memory"
+  // benefit touted by the official solution which uses substrs and unicode-unsafe indexing
+  return [...s.slice(0, i), s[j], ...s.slice(i+1, j), s[i], ...s.slice(j+1)];
+}
+
+// wow I am learning so much
+// I just learned there is a difference between
+// str.split('') and str.split()
+// e.g if you have x = '😊'
+// str.split('') gives you the "surrogate pairs", ["�", "�"], while
+// str.split()  gives you the logical (semantic, symbolic) characters, ["😊"]
+
+
+// tech blog post, "In Search of the O(1) memory JavaScript string reversal"
