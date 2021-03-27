@@ -94,30 +94,25 @@ rwo = function hardReverseWordOrder(s) {
 
 rwo = function reverseWordOrderNoExtraSpace(s) {
   const WS = /\s/g;
-  const None = Symbol.for(`None`);
-  let wordStart = None;
+  const word = () => Number.isInteger(wordStart);
+  let wordStart = null;
+  let i = 0;
 
   // arrays not strings for unicode safety
   s = Array.from(s);
 
-  for( let i = 0; i < s.length; i++ ) {
-    const char = s[i];
-    switch(WS.test(char)) {
-      case true:
-        if ( wordStart !== None ) {
-          s = reverse(s, wordStart, i-1);
-          wordStart = None;
-        }
-        break;
-      case false:
-        if ( wordStart === None ) {
-          wordStart = i;
-        }
-        break;
+  for( const char of s ) {
+    const thenWhitespace = WS.test(char);
+    if ( word() && thenWhitespace ) {
+      s = reverse(s, wordStart, i-1);
+      wordStart = null;
+    } else if ( !word() && !thenWhitespace ) {
+      wordStart = i;
     }
+    i++;
   }
 
-  if ( wordStart !== None ) {
+  if ( word() ) {
     s = reverse(s, wordStart, s.length - 1);
   }
 
@@ -172,3 +167,37 @@ function swap(s, i, j) {
 
 
 // tech blog post, "In Search of the O(1) memory JavaScript string reversal"
+
+
+// this is my final refactored version
+// i like the simplicity, naming and readibility
+
+
+rwo = function reverseWordOrderNoExtraSpace(s) {
+  // arrays not strings for unicode safety
+  s = Array.from(s);
+
+  const len = s.length; 
+  const WhiteSpace = /\s/g;
+  const word = () => Number.isInteger(wordStart);
+  let wordStart = null;
+  let i = 0;
+
+  for( const char of s ) {
+    const thenWhitespace = WhiteSpace.test(char);
+    const endOfWord = word() && thenWhitespace;
+    const startOfWord = !word() && !thenWhitespace;
+
+    if (startOfWord) {
+      wordStart = i;
+    } else if (endOfWord) {
+      s = reverse(s, wordStart, i-1);
+      wordStart = null;
+    }
+    i++;
+  }
+
+  if (word()) s = reverse(s, wordStart, len - 1);
+
+  return reverse(s, 0, len - 1).join('');
+} 
