@@ -135,7 +135,7 @@ function swap(s, i, j) {
   // otherwise your indices may pull out and swap against
   // surrogate pairs which won't work
   if ( typeof s === 'string' ) {
-    s = s.split();
+    s = Array.from(s);
   } else if ( Array.isArray(s) ) {
     s = s;
   } else {
@@ -160,11 +160,14 @@ function swap(s, i, j) {
 
 // wow I am learning so much
 // I just learned there is a difference between
-// str.split('') and str.split()
+// str.split('') and str.split() 
 // e.g if you have x = '😊'
 // str.split('') gives you the "surrogate pairs", ["�", "�"], while
 // str.split()  gives you the logical (semantic, symbolic) characters, ["😊"]
+// this is wrong
 
+// Array.from(x) or [...x] gives you the logical (semantic, symbolic) characters, ["😊"]
+// str.split just wraps the string in an array
 
 // tech blog post, "In Search of the O(1) memory JavaScript string reversal"
 

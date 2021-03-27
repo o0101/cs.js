@@ -1,0 +1,1 @@
+- what I'm noticing so far is that equivalence class of integer by binary weight, further divides into equivalence class by partition, which then further branches out into individual integers. It's like a topological sort (perhaps?) why don't I do that.

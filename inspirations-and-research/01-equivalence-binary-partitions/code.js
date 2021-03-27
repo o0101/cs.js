@@ -155,6 +155,8 @@ function integerEquivalenceClassOfPartitions(n, showBits = false) {
   
   let {rep,partition,sum} = binaryToPartition();
 
+  sum = `sum: ${sum}`;
+  partition = `prt: ${partition}`;
   let list = lists[sum];
   if ( ! list ) {
     list = lists[sum] = [];
@@ -173,6 +175,9 @@ function integerEquivalenceClassOfPartitions(n, showBits = false) {
     const rawBinary = i.toString(2);
     ({rep, partition,sum} = binaryToPartition(rawBinary));
 
+    sum = `sum: ${sum}`;
+    partition = `prt: ${partition}`;
+
     list = lists[sum];
     if ( ! list ) {
       list = lists[sum] = [];
@@ -189,10 +194,10 @@ function integerEquivalenceClassOfPartitions(n, showBits = false) {
 
     if ( showBits ) {
       const vals = [
-        `n: ${(i+'').padStart(rep.length, ' ')}`, 
-        'b: -'+i.toString(2).split('').join('-')+'-', 
+        `w: ${(weight(i)+'').padStart(rep.length, ' ')}`,
+        'b: _'+i.toString(2).split('').join('_')+'_', 
         `p: ${rep}`, 
-        `w: ${(weight(i)+'').padStart(rep.length, ' ')}`
+        `n: ${(i+'').padStart(rep.length, ' ')}`, 
       ];
       list.push(vals.slice());
       equivalences.push(vals.slice());
@@ -219,11 +224,11 @@ function binaryToPartition(rawBinary = '') {
   for( const unit of binary ) {
     if ( unit === 0 ) {
       current += 1;    
-      rep += ',1';
+      rep += '+1';
     } else if ( unit === 1 ) {
       p.push(current);
       current = 1;
-      rep += '-1';
+      rep += ',1';
     }
     sum += 1;
   }
