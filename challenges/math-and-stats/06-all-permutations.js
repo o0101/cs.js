@@ -85,21 +85,64 @@ console.log(permute(process.argv[2] || 'bad'));
 // the following is a solution more directly related to theirs
 // but I think their algorithm is more elegant because it uses the concept
 // of "swap" to go all the way down and handle the base case and the general case
-permute = function allPermutations(str, currentIndex = 0, result = []) {
-  if ( currentIndex === str.length - 1 ) {
+
+// OK I got it
+// It's basically the same as mine but using swaps instead of splicing
+permute = function allPermutations(str, i = 0, result = []) {
+  if ( i === str.length - 1 ) {
     result.push(str.slice());
   } else {
-    for( let i = currentIndex; i < str.length; i++ ) {
-      let permutedInput = str.slice();
-      if ( i > currentIndex ) {
-        const charCI = str[currentIndex];
-        const charI = str[i];
-        permutedInput = str.slice(0, currentIndex) + charI +
-          str.slice(currentIndex + charI.length, i) + charCI + str.slice(i + charCI.length); 
-      }
-      allPermutations(permutedInput, currentIndex + 1, result);
+    for( let j = i; j < str.length; j++ ) {
+      const permutedInput = swap(str, i, j);
+      allPermutations(permutedInput, i + 1, result);
     }
   }
   return result; 
+}
+
+function swap(str, i, j) {
+  let permutedInput = str.slice();
+
+  if ( i < j ) {
+    ([i, j] = [j, i]);
+  }
+  if ( i > j ) {
+    const charCI = str[j];
+    const charI = str[i];
+    permutedInput = str.slice(0, j) + charI +
+      str.slice(j + charI.length, i) + charCI + str.slice(i + charCI.length); 
+  }
+
+  return permutedInput;
+}
+
+console.log(permute(process.argv[2] || 'bad'));
+
+// so for example if I re-implement mine with swaps
+// then it gives the exact same values as the above algorithm 
+// that uses swaps
+permute = function allPermutations(str) {
+  if ( str.length < 3 ) {
+    if ( str.length === 1 ) {
+      return [str];
+    } else if ( str.length === 2 ) {
+      const a = str[0];
+      const b = str[1];
+      return [a+b, b+a];
+    } else {
+      return [];
+    }
+  } else {
+    const ps = [];
+    const vals = str.split('');
+    for( let i = 0; i < vals.length; i++ ) {
+      const char = vals[i];
+      const permutedInput = swap(str,0,i);
+      const tail = permutedInput.slice(1);
+      const charHeadPermutations = allPermutations(tail).map(p => char + p);
+      ps.push(...charHeadPermutations);
+    }
+    return ps;
+  }
 }
 console.log(permute(process.argv[2] || 'bad'));
