@@ -43,6 +43,8 @@ dedupe = function dedupe(str) {
 dedupe = s => Array.from(s).reduce(({S,u}, c) => !S.has(c) ? (S.add(c), u.push(c), S) : S, {S:new Set(), u: []}).u.join('');
 
 // my fourth solution involves no hash set
+// it's "O(n**2)" but actually you can say it's
+// O(n*u) where u is the number of unique characters in the string
 dedupe = function dedupe(str) {
   const uniques = [];
 
@@ -51,7 +53,7 @@ dedupe = function dedupe(str) {
 
   while(read < str.length) {
     const char = str[read];
-    if ( str.slice(0, read).indexOf(char) === -1 ) {
+    if ( !uniques.includes(char) ) {
       uniques[write] = char;
       write++;
     }
