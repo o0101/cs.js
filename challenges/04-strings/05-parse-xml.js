@@ -10,8 +10,11 @@ let createXmlTree = function parse(xml) {
   const stack = [];
   let root;
 
+  console.log(xml);
+  console.log(tokens(xml));
+
   for( const token of tokens(xml) ) {
-    const {tagName, attrs, isEndTag, isText, textContent} = token;
+    const {tagName, attrs, isEndTag, isText, isSelfClosing, textContent} = token;
     const top = stack[stack.length-1];
     if ( isEndTag ) {
       if ( stack[stack.length-1].node_name === tagName ) {
@@ -29,7 +32,11 @@ let createXmlTree = function parse(xml) {
       top.children.push(node);
     } else {
       const node = new Node_xml(tagName);
-      top.children.push(node);
+      if ( top ) {
+        top.children.push(node);
+      } else {
+        root = node;
+      }
       stack.push(node);
     }
   }
@@ -41,6 +48,9 @@ let createXmlTree = function parse(xml) {
   return root;
 };
 
+console.log(createXmlTree(`<xml><data></data><a><b></b><b><c></c></b></a></xml>`));
+console.log(createXmlTree(`<xml><data></data><a>OKay some data<b></b><b><c>text</c>hello world</b></a></xml>`));
+
 function tokens(s) {
   s = Array.from(s);
 
@@ -48,11 +58,14 @@ function tokens(s) {
   let tagName = '';
   let textContent = '';
   let isTag = false;
+  let isEndTag = false;
   let isText = true;
 
   let i = 0;
   while(i < s.length) {
     const c = s[i];
+
+    //console.log({isTag,isText,tagName,textContent,c,i});
 
     if ( c === '<' ) {
       if ( textContent.length ) {
@@ -62,22 +75,43 @@ function tokens(s) {
       isText = false;
       isTag = true;
       i++;
+      if ( s[i] === '/' ) {
+        isEndTag = true;
+        i++;
+      }
       continue;
     } else if ( c === '/' ) {
-      if ( isTag ) {
+      if ( isTag && ! isEndTag ) {
         if ( s[i+1] === '>' ) {
           s += 2;
-          T.push({isTag,tagName});
+          T.push({isTag,tagName, isSelfClosing:true});
           isTag = false;
           tagName = '';
           isText = true;
           continue;
         } else {
-          throw new TypeError(`Invalid closing tag syntax. / must be followed immediately by >`);
+          throw new TypeError(`Invalid self closing tag syntax. / must be followed immediately by >`);
         }
       } else if ( isText ) {
         textContent += c;
-        s++;
+        i++;
+        continue;
+      } else {
+        throw new TypeError(`Invalid state. Tokenizer is always either in a tag or in text, but it was
+          in neither.`);
+      }
+    } else if ( c === '>' ) {
+      if ( isTag ) {
+        T.push({isTag,tagName,isEndTag});
+        isEndTag = false;
+        isTag = false;
+        tagName = '';
+        isText = true;
+        i++;
+        continue;
+      } else if ( isText ) {
+        textContent += c;
+        i++;
         continue;
       } else {
         throw new TypeError(`Invalid state. Tokenizer is always either in a tag or in text, but it was
@@ -98,14 +132,12 @@ function tokens(s) {
   }
 
   if ( isTag ) {
-    T.push({isTag,tagName});
+    throw new TypeError(`Tag ${tagName} in last position does not have terminating characters.`);
   } else if ( isText ) {
-    if ( textCotent.length ) {
+    if ( textContent.length ) {
       T.push({isText,textContent});
     }
   }
-
-  console.log({s:s.join(''), tokens:T});
 
   return T;
 }
