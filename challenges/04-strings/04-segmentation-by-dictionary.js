@@ -4,7 +4,7 @@
 // then after seeing their solution description did not mentioned trie
 // but did mention n**2 and substring I came up with this
 // equivalent algorithm
-let segment = function segment(s, d) {
+let segment = function segment(s, dictionary) {
   // at each step we get a substring of s
   // and find any prefixes of that substring that are in the dictionary
   const segments = new Map();
