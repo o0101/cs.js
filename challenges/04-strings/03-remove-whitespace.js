@@ -1,4 +1,4 @@
-let removeWhitespace = function nowhite(str) {
+let removeWhiteSpaces = function nowhite(str) {
   const WS = /\s/;
   const parts = [];
   let read = 0;
@@ -19,7 +19,7 @@ let removeWhitespace = function nowhite(str) {
 }
 
 // same as above but more concise
-removeWhitespace = function nowhite(str) {
+removeWhiteSpaces = function nowhite(str) {
   str = Array.from(str);
 
   const WS = /\s/;
@@ -42,7 +42,7 @@ removeWhitespace = function nowhite(str) {
 }
 
 // same as above but more concise
-removeWhitespace = function nowhite(str) {
+removeWhiteSpaces = function nowhite(str) {
   str = Array.from(str);
 
   const WS = /\s/;
@@ -64,7 +64,7 @@ removeWhitespace = function nowhite(str) {
 }
 
 // same as above but more concise
-removeWhitespace = function nowhite(str) {
+removeWhiteSpaces = function nowhite(str) {
   str = Array.from(str);
 
   const WS = /\s/;
@@ -84,7 +84,7 @@ removeWhitespace = function nowhite(str) {
 }
 
 // same as above but no indexes
-removeWhitespace = function nowhite(str) {
+removeWhiteSpaces = function nowhite(str) {
   str = Array.from(str);
 
   const WS = /\s/;
@@ -100,19 +100,19 @@ removeWhitespace = function nowhite(str) {
 }
 
 // same as above but more concise
-removeWhitespace = str => Array.from(str).filter(c => !/\s/.test(c)).join('');
+removeWhiteSpaces = str => Array.from(str).filter(c => !/\s/.test(c)).join('');
 
 // same as above but with reduce
-removeWhitespace = str => Array.from(str).reduce((f, c) => (/\s/.test(c) ? 0 : f.push(c), f), []).join('');
+removeWhiteSpaces = str => Array.from(str).reduce((f, c) => (/\s/.test(c) ? 0 : f.push(c), f), []).join('');
 
 // one liner with indexes (breaks with unicode)
-removeWhitespace = str => Array.from(str).map((_,i) => i).filter(i => !/\s/.test(str[i])).map(i => str[i]).join('')
+removeWhiteSpaces = str => Array.from(str).map((_,i) => i).filter(i => !/\s/.test(str[i])).map(i => str[i]).join('')
 
 // one liner with indexes (breaks with unicode) and without join
-removeWhitespace = str => Array.from(str).map((_,i) => i).filter(i => !/\s/.test(str[i])).reduce((S,i) => S + str[i], '');
+removeWhiteSpaces = str => Array.from(str).map((_,i) => i).filter(i => !/\s/.test(str[i])).reduce((S,i) => S + str[i], '');
 
 // word processing
-removeWhiteSpace = function nowhite(str) {
+removeWhiteSpaces = function nowhite(str) {
   str = Array.from(str);
 
   const WS = /\s/;
