@@ -27,7 +27,7 @@ let segment = function segment(s, dictionary) {
 
 // same as above with comments and debug output
 // and a correction s++ -> i++ (lesson to be careful!)
-segment = let canSegmentString = function segment(s, dictionary) {
+segment = function segment(s, dictionary) {
   // at each step we get a substring of s
   // and find any prefixes of that substring that are in the dictionary
   const segments = new Map();
