@@ -1,4 +1,31 @@
 TO DO
+- regex and partitions with zeroes. Look at this: a*a*a* and string aaa
+  The ways to match (each number represents a pattern unit, a*)
+  0,0,3
+  0,1,2
+  1,1,1
+  0,2,1
+  0,3,0
+  1,2,0
+  2,1,0
+  3,0,0
+  Isn't this somehow connected to the partitions of 3 with zeroes?
+  If I sort them
+  0,0,3
+  0,1,2
+  1,1,1
+  To get the basis partitions, then rearrange I get all of them. It's connected, 
+  but possible not deeply connected, but I think it's also connected with 
+    the factors (and ways to arrange them) of a number. And possibly the sigma function
+    (number of divisors)
+- Primes and perfect numbers, sigma(p) = p + 1, and sigma(perfect) = 2p
+  Perfect numbers might have some special patterning in the numbers, or in relation to the primes
+  In a sense they are like primes of the second order from the point of view of the sum of divisors function
+  Sigma_0(p) = p + 1 sigma_1(perfect) = 2p Near relationships between sigma_k(n) and n is something 
+  special
+- Number theory, expressing n=pq in terms of euler totioent and sum of divisors functions
+https://en.wikipedia.org/wiki/Divisor_function#Other_properties_and_identities
+And these identities are cool too https://en.wikipedia.org/wiki/Arithmetic_function#Divisor_sum_convolutions
 - orders. Hasse diagrams. This stuff is fascinating. (see: https://archive.is/wip/nP1Oh)
 - equivalence classes of integers under partitions as determined by binary representation
   - let's do a topolgocial sort by these classes. See NOTES in the 01 directory
