@@ -86,7 +86,7 @@ function matchR(str, pattern) {
     if ( patternTail.length && patternTail[0] === '*' ) {
       const newPatternTail = patternTail.slice(1);
 
-      for(let i = 0; i < str.length; i++) {
+      for(let i = 0; i <= str.length; i++) {
         const newStrTail = str.slice(i);
         const strTailHead = newStrTail[0];
 
@@ -181,7 +181,108 @@ console.log(str, pattern, regxMatch(str, pattern));
 **/
 
 regxMatch = function match(str, pattern) {
+  // unicode 
+    pattern = Array.from(pattern);
+    str = Array.from(str);
   // build NFA from pattern
-  // step through str, keeping match frontier up to date
-  // if there's any frontier left we have a match
+  const nfa = buildNFA(pattern);
+  let frontier = [nfa.start];
+
+  for ( const char of str ) {
+    frontier = nfa.update(frontier, char);
+    if ( frontier.length === 0 ) break;
+  }
+  
+  return frontier.length > 0;
 }
+
+class NFAState {
+  constructor() {
+
+  }
+}
+
+class NFAEdge {
+  constructor() {
+
+  }
+}
+
+function buildNFA(pattern) {
+  pattern = Array.from(pattern);
+  pattern = toPost(pattern);
+  const start = new NFAState(); 
+  const stack = [start];
+
+  let current = start;
+
+  for(const symbol of pattern) {
+    switch(symbol) {
+      case '?':
+
+
+      case '*':
+
+
+      case '+':
+
+
+      case '.':
+
+
+      default:
+
+    }
+  }
+
+  return {
+    start, 
+    update
+  }
+
+  function update(states, char) {
+
+  }
+}
+
+function toPost(s) {
+  s = Array.from(s);
+  const OP = {
+    '*': 1,
+    '+': 1,
+    '.': 1,
+    '?': 1,
+  };
+  const prec = c => OP[c] || 0;
+  const stack = [];
+  const top = () => stack[stack.length-1];
+  const p = [];
+  for( let i = 0; i < s.length; i++ ) {
+    const char = s[i];
+    switch(char) {
+      case '+':
+      case '*':
+      case '?':
+      case '.':
+        stack.push(char); 
+        break;
+      case '(':
+        stack.push(char);
+        break;
+      case ')':
+        while(top() !== '(') {
+          p += stack.pop();
+        }
+        stack.pop();
+        break;
+      default:
+        p.push(char);
+        break;
+    }
+  }
+
+  console.log(p);
+  return p;
+}
+
+
