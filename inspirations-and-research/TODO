@@ -1,4 +1,5 @@
 TO DO
+- thompson NFA finish it simple as possible only support * and .
 - regex and partitions with zeroes. Look at this: a*a*a* and string aaa
   The ways to match (each number represents a pattern unit, a*)
   0,0,3
