@@ -90,13 +90,13 @@ function matchR(str, pattern) {
         const newStrTail = str.slice(i);
         const strTailHead = newStrTail[0];
 
-        // zero or more pattern[0]*
+        // zero patternHead*
         if ( matchR(newStrTail, newPatternTail) ) {
           return true;
         }
 
         // if that didn't match 
-        // check if 1 or more pattern[0]* matches
+        // check if 1 or more patternHead* matches
         if ( patternHead === strTailHead ) {
           continue;
         } else if ( patternHead === '.' ) {
@@ -121,6 +121,51 @@ function matchR(str, pattern) {
 const str = process.argv[2] || 'fabbbc';
 const pattern = process.argv[3] || '.ab*c';
 console.log(str, pattern, regxMatch(str, pattern));
+
+/**
+  I think I understand a good argument now for why the above algorithm can be exponential.
+
+  Consider a?**na**n (with n as superscript meaning repeat n times)
+
+  Backtracking, which the above is (because it tries a path until it fails, then falls back to the 
+  last point that wasn't failing)
+
+  Will try the a?**n with each one being either 1 a or 0 a, and there are n such choices to make
+
+  meaning it's at least O(2**n)
+
+  The same can be considered, basically what I was saying of going the 0 branch or 1 or more branch
+  with
+
+  a*(**n)a**n
+
+  Consider that at each a*, the backtracking algorithm above will try 0 a, and then try 1 or more. 
+  Again there are n such choices to make, each choice having two options, so again,
+
+  it's at least O(2**n)
+
+  Just an added note that if you take the 1 or more path you reduce n by 2 and input by 1
+  and if you take the zero path you reduce n by 2 and input by none
+
+  Also note the recursive call graph in backtracking algorithm matches and is a map to the paths through
+  the DFA tree of the regular expression, there can be an expoential number of such paths, so 
+  the algorithm (and in fact any backtracking algorithm over a graph) can have exponential behaviour in the worst case.
+  
+  Finally, in the non-recursive case, you still have to take the same steps, you're just doing them
+  without recursive function calls, so it's still exponential, of course, because it's the same number
+  of steps. 
+
+  FUCK YEAH!! :P;)xxxx 
+  :P ;) xx XCHAKKA :P ;) xx
+
+  OK, I fucking get it. That's awesome! :P ;) xxx FUCK YEAH I ROCK I AM THE FUCKING BEST FOREFVER AAA
+
+  :p; ) xxx xchakka :) ;P ;) xx FUCK YEAH :P ;) xxxxlll
+
+  I really wanted to get this, and now I've got two good arguments for why backtracking algorithms
+  over graphs (such as the backtracking algorithm for regex matching) will be exponential
+**/
+
 
 
 /**
