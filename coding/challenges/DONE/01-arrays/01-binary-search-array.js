@@ -17,7 +17,7 @@ let binarySearch = function(a, key) {
       return mid;
     }
   }
-  return -1;
+  return high;
 };
 
 let binarySearchRec = function(a, key, low, high) {
