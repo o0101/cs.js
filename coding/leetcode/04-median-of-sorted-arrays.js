@@ -20,21 +20,17 @@ let medianOfSorted = function medianOfSorted(a1,a2) {
 }
 
 function findValueAtIndexInMerged(a1,a2,index) {
-  const N = a1.length + a2.length;
-  const A = [a1,a2];
-  const offset = [
-    10000000,
-    20000000
-  ];
+  if ( a1.length === 0 ) {
+    return med(a2).medVal;
+  } else if ( a2.length === 0 ) {
+    return med(a1).medVal;
+  } else if ( a2.length > a1.length ) {
+    ([a1,a2] = [a2,a1]);
+  }
+
+  let A = {arr:a1,lo:0,hi:a1.length};
+  let B = {arr:a2,lo:0,hi:a2.length};
   const guess = {
-    arrIndex: a1.length > a2.length ? 0 : 1,
-    bounds: [{
-      low: 0,
-      high: a1.length - 1
-    }, {
-      low: 0,
-      high: a2.length - 1
-    }],
     index: -1,
     val: null,
     sortedIndex: -1
@@ -46,31 +42,33 @@ function findValueAtIndexInMerged(a1,a2,index) {
   // left by the length of the first array
   // this gives correct answer for case
   // [1,2,3, ... k] [k+1, K+2, ... n] for example
-  let guessArray = A[guess.arrIndex];
-  let otherArray = A[(guess.arrIndex+1)%2];
-  guess.index = Math.min(guessArray.length-1, Math.max(0,index-(otherArray.length)));
-  guess.val = guessArray[guess.index];
-  guess.otherArrayIndex = binarySearch(otherArray, guess.val, offset[guess.arrIndex]);
-  guess.sortedIndex = guess.index + guess.otherArrayIndex;
+
+  guess.index = (A.lo+A.hi)>>1;
+  guess.val = A.arr[guess.index];
+  guess.BIndex = binarySearch(B.arr, guess.val);
+  guess.sortedIndex = guess.index + guess.BIndex;
 
   while(index !== guess.sortedIndex) {
     // update guess
     if ( guess.sortedIndex > index ) {
-      guess.bounds[guess.arrIndex].high = Math.max(guess.index-1,0);
+      A.hi = guess.index-1;
     } else {
-      guess.bounds[guess.arrIndex].low = Math.min(guess.index+1,guessArray.length-1);
+      A.lo = guess.index+1;
     }
-    guess.arrIndex = (guess.arrIndex + 1) % 2;
-    guess.index = Math.floor((guess.bounds[guess.arrIndex].low+guess.bounds[guess.arrIndex].high)/2);
+    //console.log({A,B});
+    ([A, B] = [B, A])
 
-    ([guessArray, otherArray] = [otherArray, guessArray])
-
-    guess.val = guessArray[guess.index]+guess.index+offset[guess.arrIndex]+1;
-    guess.otherArrayIndex = binarySearch(otherArray, guess.val, guess.index+offset[guess.arrIndex]+1);
-    guess.sortedIndex = guess.index + guess.otherArrayIndex;
-    console.log({guess,index,a1,a2})
+    guess.index = Math.floor((A.lo+A.hi)/2);
+    guess.val = A.arr[guess.index];
+    guess.BIndex = binarySearch(
+      B.arr, 
+      guess.val,
+      B.lo,
+      B.hi
+    );
+    guess.sortedIndex = guess.index + guess.BIndex;
+    //console.log({A,B,guess});
   }
-  //console.log({guess,index})
 
   return guess.val;
 }
@@ -89,6 +87,7 @@ function med(arr) {
 //console.log(binarySearch([0,1,2,3,4,6,7,8,9,10], 4));
 //console.log(binarySearch([0,1,2,3,4,6,7,8,9,10], 6));
 //console.log(binarySearch([0,1,2,3,4,6,7,8,9,10], 12));
+//console.log(binarySearch([ 2, 3, 5, 6, 7, 9], 8));
 
 //console.log(med([0,1,2,3,4]));
 //console.log(med([0,1,2,3,4,5]));
@@ -99,24 +98,25 @@ console.log(medianOfSorted([1,4,8,11],[2,3,5,6,7,9]));
 console.log(medianOfSorted([1,2,3],[0]));
 console.log(medianOfSorted([],[0]));
 console.log(medianOfSorted([0],[0]));
+console.log(medianOfSorted([2,3],[0]));
+console.log(medianOfSorted([2],[3]));
 console.log(medianOfSorted([1,2],[1,2]));
 console.log(medianOfSorted([2,2,4,4],[2,2,4,4]));
+console.log(medianOfSorted([2,3],[]));
+console.log(medianOfSorted([],[2,3]));
 
 // return the insert position of key even if it's not in array
-function binarySearch(a, key, offset = 0) {
-  console.log(offset);
-  let low = 0;
-  let high = a.length;
+function binarySearch(a, key, low = 0, high = a.length) {
   // Note on the condition:
     // <= is important as <
     // will only handle down to cases where subarray a[low..high] is length 2
     // but subarray of length 1 can only be handled by <=
   while( low <= high ) {
     const mid = (low+high)>>1;
-    const midKey = a[mid]+mid+offset+1;
-    if ( midKey < (key+mid+offset+1) ) {
+    const midKey = a[mid];
+    if ( midKey < key ) {
       low = mid + 1;
-    } else if ( midKey > (key+mid+offset) ) {
+    } else if ( midKey > key ) {
       high = mid - 1;
     } else {
       return mid;
