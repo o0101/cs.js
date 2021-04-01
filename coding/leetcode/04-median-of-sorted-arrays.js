@@ -58,7 +58,7 @@ function findValueAtIndexInMerged(a1,a2,index) {
     //console.log({A,B});
     ([A, B] = [B, A])
 
-    guess.index = Math.floor((A.lo+A.hi)/2);
+    guess.index = Math.min(Math.floor((A.lo+A.hi)/2),A.arr.length-1);
     guess.val = A.arr[guess.index];
     guess.BIndex = binarySearch(
       B.arr, 
@@ -92,18 +92,19 @@ function med(arr) {
 //console.log(med([0,1,2,3,4]));
 //console.log(med([0,1,2,3,4,5]));
 
-console.log(medianOfSorted([1,2,3],[4,5,6,7,8,9]));
-console.log(medianOfSorted([1,4,8],[2,3,5,6,7,9]));
-console.log(medianOfSorted([1,4,8,11],[2,3,5,6,7,9]));
-console.log(medianOfSorted([1,2,3],[0]));
-console.log(medianOfSorted([],[0]));
-console.log(medianOfSorted([0],[0]));
-console.log(medianOfSorted([2,3],[0]));
-console.log(medianOfSorted([2],[3]));
-console.log(medianOfSorted([1,2],[1,2]));
-console.log(medianOfSorted([2,2,4,4],[2,2,4,4]));
-console.log(medianOfSorted([2,3],[]));
-console.log(medianOfSorted([],[2,3]));
+//console.log(medianOfSorted([1,2],[3,4]));
+//console.log(medianOfSorted([1,2,3],[4,5,6,7,8,9]));
+//console.log(medianOfSorted([1,4,8],[2,3,5,6,7,9]));
+//console.log(medianOfSorted([1,4,8,11],[2,3,5,6,7,9]));
+//console.log(medianOfSorted([1,2,3],[0]));
+//console.log(medianOfSorted([],[0]));
+//console.log(medianOfSorted([0],[0]));
+//console.log(medianOfSorted([2,3],[0]));
+//console.log(medianOfSorted([2],[3]));
+//console.log(medianOfSorted([1,2],[1,2]));
+//console.log(medianOfSorted([2,2,4,4],[2,2,4,4]));
+//console.log(medianOfSorted([2,3],[]));
+//console.log(medianOfSorted([],[2,3]));
 
 // return the insert position of key even if it's not in array
 function binarySearch(a, key, low = 0, high = a.length) {
