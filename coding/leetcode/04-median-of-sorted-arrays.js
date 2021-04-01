@@ -113,8 +113,8 @@ function binarySearch(a, key, offset = 0) {
     // but subarray of length 1 can only be handled by <=
   while( low <= high ) {
     const mid = (low+high)>>1;
-    const midKey = a[mid]+mid+offset;
-    if ( midKey < (key+mid+offset) ) {
+    const midKey = a[mid]+mid+offset+1;
+    if ( midKey < (key+mid+offset+1) ) {
       low = mid + 1;
     } else if ( midKey > (key+mid+offset) ) {
       high = mid - 1;
