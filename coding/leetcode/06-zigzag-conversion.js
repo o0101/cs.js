@@ -84,3 +84,36 @@ zigzag = function zigzag(s, numRows) {
 }
 
 console.log(zigzag("PAYPALISHIRING",3));
+
+// and below is one i tried to optimize more but it had no effect on the leetcode reported runtime
+
+zigzag = function zigzag(s, numRows) {
+  if ( s.length < 2 || numRows < 2 ) return s;
+
+  const cycle = numRows - 1;
+  const list = [];
+  let X = 0;
+  let Y = 0;
+  let maxX = 0;
+  
+  let i = 0;
+  while( i < s.length ) {
+    const quot = Math.floor(i/cycle);
+    list.push([X,Y,s[i]]);
+    if ( (quot & 1) === 0 ) {
+      Y++;
+    } else {
+      X++
+      if ( X > maxX ) {
+        maxX = X;
+      }
+      Y--;
+    }
+    i++;
+  }
+  
+  list.sort(([a1,b1],[a2,b2]) => b2 === b1 ? (a1-a2) : (b1-b2));
+  
+  return list.map(([,,c]) => c).join('');
+};
+}
