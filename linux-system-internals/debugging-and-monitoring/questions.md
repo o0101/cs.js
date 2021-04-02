@@ -2,3 +2,4 @@
 - lsof -p 1, what is the proc filesystem, what are the files under it. 
   - /proc/self magicly link to calling processes pid
 - lsof /home/cris - display files open in that directory
+- check it http://www.linuxguide.it/command_line/linux_monitoring_and_debugging-c26_en.html
