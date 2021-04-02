@@ -1,0 +1,4 @@
+- lsmod, what are the modules returned by lsmod? what do they do?
+- lsof -p 1, what is the proc filesystem, what are the files under it. 
+  - /proc/self magicly link to calling processes pid
+- lsof /home/cris - display files open in that directory
