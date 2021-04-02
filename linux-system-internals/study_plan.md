@@ -27,6 +27,11 @@ Also: 6.828
 Basically, "but in order to pass the linux systems internals interview you need to know the linux system very well and know everyhing that happens in every step in as many details as possible."
 
 Questions
+- What is a lock? Give an example of a lock and a lock-free algorithm in the linux kernel
+- What happens when a lock is contested?
+- What is a cache line?
+- What is branch prediction?
+- How is an LRU cache implemented?
 - What information is not in the inode?
 - What part of the tcp header does traceroute modify?
 - How do you make a process a service?
