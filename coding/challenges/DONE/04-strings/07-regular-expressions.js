@@ -63,17 +63,6 @@ function matchR(str, pattern) {
     if ( str.length === 0 && pattern.length === 0 ) {
       return true;
     }
-    if( str.length === 0 && pattern.length > 0 ) {
-      // remaining pattern after string
-      // entire pattern is unmatches so
-      return false;
-    }
-    if ( str.length > 0 && pattern.length === 0 ) {
-      // remaining string after pattern
-      // entire string is unmatched (and we don't implement
-      // but instead assume ^ and $) so
-      return false;
-    }
   
   // matching based on content
     const [patternHead, ...patternTail] = pattern;
@@ -106,8 +95,21 @@ function matchR(str, pattern) {
         }
       }
       console.warn(`We are here?`);
+    }
+    if( str.length === 0 && pattern.length > 0 ) {
+      // remaining pattern after string
+      // entire pattern is unmatches so
+      return false;
+    }
+    if ( str.length > 0 && pattern.length === 0 ) {
+      // remaining string after pattern
+      // entire string is unmatched (and we don't implement
+      // but instead assume ^ and $) so
+      return false;
+    }
+
     // any match
-    } else if ( patternHead === '.' ) {
+    if ( patternHead === '.' ) {
       return matchR(strTail, patternTail);
     // exact match
     } else if ( patternHead === strHead ) {
