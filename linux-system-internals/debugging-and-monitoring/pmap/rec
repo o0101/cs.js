@@ -1,0 +1,291 @@
+Script started on 2021-04-06 10:58:52+00:00 [TERM="xterm" TTY="/dev/pts/1" COLUMNS="104" LINES="26"]
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ strace ./hello &
+[1] 377179
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ execve("./hello", ["./hello"], 0x7ffeca794640 /* 27 vars */) = 0
+brk(NULL)                               = 0x23d7000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffca1a3e060) = -1 EINVAL (Invalid argument)
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=74855, ...}) = 0
+mmap(NULL, 74855, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f186643a000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\360q\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\t\233\222%\274\260\320\31\331\326\10\204\276X>\263"..., 68, 880) = 68
+fstat(3, {st_mode=S_IFREG|0755, st_size=2029224, ...}) = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f1866438000
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\t\233\222%\274\260\320\31\331\326\10\204\276X>\263"..., 68, 880) = 68
+mmap(NULL, 2036952, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f1866246000
+mprotect(0x7f186626b000, 1847296, PROT_NONE) = 0
+mmap(0x7f186626b000, 1540096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x25000) = 0x7f186626b000
+mmap(0x7f18663e3000, 303104, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19d000) = 0x7f18663e3000
+mmap(0x7f186642e000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7f186642e000
+mmap(0x7f1866434000, 13528, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f1866434000
+close(3)                                = 0
+arch_prctl(ARCH_SET_FS, 0x7f1866439540) = 0
+mprotect(0x7f186642e000, 12288, PROT_READ) = 0
+mprotect(0x403000, 4096, PROT_READ)     = 0
+mprotect(0x7f186647a000, 4096, PROT_READ) = 0
+munmap(0x7f186643a000, 74855)           = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x3), ...}) = 0
+brk(NULL)                               = 0x23d7000
+brk(0x23f8000)                          = 0x23f8000
+write(1, "Hello, World!\n", 14Hello, World!
+)         = 14
+
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ pmap 377179
+377179:   strace ./hello
+00005610407c8000    472K r---- strace
+000056104083e000    432K r-x-- strace
+00005610408aa000    312K r---- strace
+00005610408f8000    332K r---- strace
+000056104094b000      4K rw--- strace
+000056104094c000    168K rw---   [ anon ]
+0000561041866000    132K rw---   [ anon ]
+00007f651147c000    200K r---- LC_CTYPE
+00007f65114ae000   1484K r---- LC_COLLATE
+00007f6511621000   2968K r---- locale-archive
+00007f6511907000     12K rw---   [ anon ]
+00007f651190a000      8K r---- libunwind.so.8.0.1
+00007f651190c000     32K r-x-- libunwind.so.8.0.1
+00007f6511914000     12K r---- libunwind.so.8.0.1
+00007f6511917000      4K r---- libunwind.so.8.0.1
+00007f6511918000      4K rw--- libunwind.so.8.0.1
+00007f6511919000     64K rw---   [ anon ]
+00007f6511929000     12K r---- liblzma.so.5.2.4
+00007f651192c000     96K r-x-- liblzma.so.5.2.4
+00007f6511944000     44K r---- liblzma.so.5.2.4
+00007f651194f000      4K ----- liblzma.so.5.2.4
+00007f6511950000      4K r---- liblzma.so.5.2.4
+00007f6511951000      4K rw--- liblzma.so.5.2.4
+00007f6511952000     28K r---- libpthread-2.31.so
+00007f6511959000     68K r-x-- libpthread-2.31.so
+00007f651196a000     20K r---- libpthread-2.31.so
+00007f651196f000      4K r---- libpthread-2.31.so
+00007f6511970000      4K rw--- libpthread-2.31.so
+00007f6511971000     16K rw---   [ anon ]
+00007f6511975000    148K r---- libc-2.31.so
+00007f651199a000   1504K r-x-- libc-2.31.so
+00007f6511b12000    296K r---- libc-2.31.so
+00007f6511b5c000      4K ----- libc-2.31.so
+00007f6511b5d000     12K r---- libc-2.31.so
+00007f6511b60000     12K rw--- libc-2.31.so
+00007f6511b63000     16K rw---   [ anon ]
+00007f6511b67000      8K r---- libunwind-x86_64.so.8.0.1
+00007f6511b69000     52K r-x-- libunwind-x86_64.so.8.0.1
+00007f6511b76000      8K r---- libunwind-x86_64.so.8.0.1
+00007f6511b78000      4K ----- libunwind-x86_64.so.8.0.1
+00007f6511b79000      4K r---- libunwind-x86_64.so.8.0.1
+00007f6511b7a000      4K rw--- libunwind-x86_64.so.8.0.1
+00007f6511b7b000     56K rw---   [ anon ]
+00007f6511b89000      4K r---- libunwind-ptrace.so.0.0.0
+00007f6511b8a000      4K r-x-- libunwind-ptrace.so.0.0.0
+00007f6511b8b000      4K r---- libunwind-ptrace.so.0.0.0
+00007f6511b8c000      4K r---- libunwind-ptrace.so.0.0.0
+00007f6511b8d000      4K rw--- libunwind-ptrace.so.0.0.0
+00007f6511b8e000     12K r---- librt-2.31.so
+00007f6511b91000     16K r-x-- librt-2.31.so
+00007f6511b95000      4K r---- librt-2.31.so
+00007f6511b96000      4K ----- librt-2.31.so
+00007f6511b97000      4K r---- librt-2.31.so
+00007f6511b98000      4K rw--- librt-2.31.so
+00007f6511b99000      8K rw---   [ anon ]
+00007f6511b9e000      4K r---- LC_NUMERIC
+00007f6511b9f000      4K r---- LC_TIME
+00007f6511ba0000      4K r---- LC_MONETARY
+00007f6511ba1000      4K r---- SYS_LC_MESSAGES
+00007f6511ba2000      4K r---- LC_PAPER
+00007f6511ba3000      4K r---- LC_NAME
+00007f6511ba4000      4K r---- LC_ADDRESS
+00007f6511ba5000      4K r---- LC_TELEPHONE
+00007f6511ba6000      4K r---- LC_MEASUREMENT
+00007f6511ba7000     28K r--s- gconv-modules.cache
+00007f6511bae000      4K r---- ld-2.31.so
+00007f6511baf000    140K r-x-- ld-2.31.so
+00007f6511bd2000     32K r---- ld-2.31.so
+00007f6511bda000      4K r---- LC_IDENTIFICATION
+00007f6511bdb000      4K r---- ld-2.31.so
+00007f6511bdc000      4K rw--- ld-2.31.so
+00007f6511bdd000      4K rw---   [ anon ]
+00007ffeca776000    132K rw---   [ stack ]
+00007ffeca7a3000     12K r----   [ anon ]
+00007ffeca7a6000      4K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total             9552K
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ pmap $(pgrap hel[K[K[K[K[K[Kep hello)
+377182:   ./hello
+0000000000400000      4K r---- hello
+0000000000401000      4K r-x-- hello
+0000000000402000      4K r---- hello
+0000000000403000      4K r---- hello
+0000000000404000      4K rw--- hello
+00000000023d7000    132K rw---   [ anon ]
+00007f1866246000    148K r---- libc-2.31.so
+00007f186626b000   1504K r-x-- libc-2.31.so
+00007f18663e3000    296K r---- libc-2.31.so
+00007f186642d000      4K ----- libc-2.31.so
+00007f186642e000     12K r---- libc-2.31.so
+00007f1866431000     12K rw--- libc-2.31.so
+00007f1866434000     24K rw---   [ anon ]
+00007f186644d000      4K r---- ld-2.31.so
+00007f186644e000    140K r-x-- ld-2.31.so
+00007f1866471000     32K r---- ld-2.31.so
+00007f186647a000      4K r---- ld-2.31.so
+00007f186647b000      4K rw--- ld-2.31.so
+00007f186647c000      4K rw---   [ anon ]
+00007ffca1a1e000    132K rw---   [ stack ]
+00007ffca1be6000     12K r----   [ anon ]
+00007ffca1be9000      4K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total             2492K
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ kill 377182
+--- SIGTERM {si_signo=SIGTERM, si_code=SI_USER, si_pid=376985, si_uid=1001} ---
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ +++ killed by SIGTERM +++
+
+[1]+  Terminated              strace ./hello
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ strace ./littlest 
+execve("./littlest", ["./littlest"], 0x7ffda354c680 /* 27 vars */) = 0
+^C--- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+strace: Process 377219 detached
+
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ strace ./littlest &
+[1] 377222
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ execve("./littlest", ["./littlest"], 0x7ffea78c30c0 /* 27 vars */) = 0
+
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ pmap 377222
+377222:   strace ./littlest
+000055a28e950000    472K r---- strace
+000055a28e9c6000    432K r-x-- strace
+000055a28ea32000    312K r---- strace
+000055a28ea80000    332K r---- strace
+000055a28ead3000      4K rw--- strace
+000055a28ead4000    168K rw---   [ anon ]
+000055a290413000    132K rw---   [ anon ]
+00007f251cd7f000    200K r---- LC_CTYPE
+00007f251cdb1000   1484K r---- LC_COLLATE
+00007f251cf24000   2968K r---- locale-archive
+00007f251d20a000     12K rw---   [ anon ]
+00007f251d20d000      8K r---- libunwind.so.8.0.1
+00007f251d20f000     32K r-x-- libunwind.so.8.0.1
+00007f251d217000     12K r---- libunwind.so.8.0.1
+00007f251d21a000      4K r---- libunwind.so.8.0.1
+00007f251d21b000      4K rw--- libunwind.so.8.0.1
+00007f251d21c000     64K rw---   [ anon ]
+00007f251d22c000     12K r---- liblzma.so.5.2.4
+00007f251d22f000     96K r-x-- liblzma.so.5.2.4
+00007f251d247000     44K r---- liblzma.so.5.2.4
+00007f251d252000      4K ----- liblzma.so.5.2.4
+00007f251d253000      4K r---- liblzma.so.5.2.4
+00007f251d254000      4K rw--- liblzma.so.5.2.4
+00007f251d255000     28K r---- libpthread-2.31.so
+00007f251d25c000     68K r-x-- libpthread-2.31.so
+00007f251d26d000     20K r---- libpthread-2.31.so
+00007f251d272000      4K r---- libpthread-2.31.so
+00007f251d273000      4K rw--- libpthread-2.31.so
+00007f251d274000     16K rw---   [ anon ]
+00007f251d278000    148K r---- libc-2.31.so
+00007f251d29d000   1504K r-x-- libc-2.31.so
+00007f251d415000    296K r---- libc-2.31.so
+00007f251d45f000      4K ----- libc-2.31.so
+00007f251d460000     12K r---- libc-2.31.so
+00007f251d463000     12K rw--- libc-2.31.so
+00007f251d466000     16K rw---   [ anon ]
+00007f251d46a000      8K r---- libunwind-x86_64.so.8.0.1
+00007f251d46c000     52K r-x-- libunwind-x86_64.so.8.0.1
+00007f251d479000      8K r---- libunwind-x86_64.so.8.0.1
+00007f251d47b000      4K ----- libunwind-x86_64.so.8.0.1
+00007f251d47c000      4K r---- libunwind-x86_64.so.8.0.1
+00007f251d47d000      4K rw--- libunwind-x86_64.so.8.0.1
+00007f251d47e000     56K rw---   [ anon ]
+00007f251d48c000      4K r---- libunwind-ptrace.so.0.0.0
+00007f251d48d000      4K r-x-- libunwind-ptrace.so.0.0.0
+00007f251d48e000      4K r---- libunwind-ptrace.so.0.0.0
+00007f251d48f000      4K r---- libunwind-ptrace.so.0.0.0
+00007f251d490000      4K rw--- libunwind-ptrace.so.0.0.0
+00007f251d491000     12K r---- librt-2.31.so
+00007f251d494000     16K r-x-- librt-2.31.so
+00007f251d498000      4K r---- librt-2.31.so
+00007f251d499000      4K ----- librt-2.31.so
+00007f251d49a000      4K r---- librt-2.31.so
+00007f251d49b000      4K rw--- librt-2.31.so
+00007f251d49c000      8K rw---   [ anon ]
+00007f251d4a1000      4K r---- LC_NUMERIC
+00007f251d4a2000      4K r---- LC_TIME
+00007f251d4a3000      4K r---- LC_MONETARY
+00007f251d4a4000      4K r---- SYS_LC_MESSAGES
+00007f251d4a5000      4K r---- LC_PAPER
+00007f251d4a6000      4K r---- LC_NAME
+00007f251d4a7000      4K r---- LC_ADDRESS
+00007f251d4a8000      4K r---- LC_TELEPHONE
+00007f251d4a9000      4K r---- LC_MEASUREMENT
+00007f251d4aa000     28K r--s- gconv-modules.cache
+00007f251d4b1000      4K r---- ld-2.31.so
+00007f251d4b2000    140K r-x-- ld-2.31.so
+00007f251d4d5000     32K r---- ld-2.31.so
+00007f251d4dd000      4K r---- LC_IDENTIFICATION
+00007f251d4de000      4K r---- ld-2.31.so
+00007f251d4df000      4K rw--- ld-2.31.so
+00007f251d4e0000      4K rw---   [ anon ]
+00007ffea78a3000    132K rw---   [ stack ]
+00007ffea79aa000     12K r----   [ anon ]
+00007ffea79ad000      4K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total             9552K
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ pmap $(pgrep littlest)
+376887:   ./littlest
+0000000000400000      4K r---- littlest
+0000000000401000      4K r-x-- littlest
+0000000000402000      4K r---- littlest
+00007ffe31be3000    132K rw---   [ stack ]
+00007ffe31d29000     12K r----   [ anon ]
+00007ffe31d2c000      4K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total              164K
+377225:   ./littlest
+0000000000400000      4K r---- littlest
+0000000000401000      4K r-x-- littlest
+0000000000402000      4K r---- littlest
+00007ffff292d000    132K rw---   [ stack ]
+00007ffff294e000     12K r----   [ anon ]
+00007ffff2951000      4K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total              164K
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ killall littlest
+--- SIGTERM {si_signo=SIGTERM, si_code=SI_USER, si_pid=377253, si_uid=1001} ---
++++ killed by SIGTERM +++
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ killall strace
+strace: no process found
+[1]+  Terminated              strace ./littlest
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ pmap $(pgrep littlest)
+
+Usage:
+ pmap [options] PID [PID ...]
+
+Options:
+ -x, --extended              show details
+ -X                          show even more details
+            WARNING: format changes according to /proc/PID/smaps
+ -XX                         show everything the kernel provides
+ -c, --read-rc               read the default rc
+ -C, --read-rc-from=<file>   read the rc from file
+ -n, --create-rc             create new default rc
+ -N, --create-rc-to=<file>   create new rc to file
+            NOTE: pid arguments are not allowed with -n, -N
+ -d, --device                show the device format
+ -q, --quiet                 do not display header and footer
+ -p, --show-path             show path in the mapping
+ -A, --range=<low>[,<high>]  limit results to the given range
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+For more details see pmap(1).
+]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ clear
+[H[2J[3J]0;cris@ubuntu-3: ~/cs.js/linux-system-internals/debugging-and-monitoring/pmapcris@ubuntu-3:~/cs.js/linux-system-internals/debugging-and-monitoring/pmap$ exit
+exit
+
+Script done on 2021-04-06 11:01:25+00:00 [COMMAND_EXIT_CODE="0"]
