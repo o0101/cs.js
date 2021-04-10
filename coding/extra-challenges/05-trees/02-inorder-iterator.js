@@ -42,45 +42,30 @@ let InorderIterator = class InorderIterator {
 
 // Below is my second solution I created after reading about their solution
 // using a pre-prepared single stack
-let InorderIterator = class InorderIterator {
+InorderIterator = class InorderIterator {
   constructor(root) {
     this.stack = [...allLeft(root)];
   }
   hasNext() {
-   return this.addLeft.length || this.addRight.length;
+    return this.stack.length > 0;
   }
   // getNext returns null if there are no more elements in tree
   getNext() {
-    //console.log({left:this.addLeft.map(n => n.data), right:this.addRight.map(n => n.data)});
-    if ( this.addLeft.length ) {
-      let node = this.addLeft.pop();
-      while(node.left) {
-        this.addRight.push(node);
-        if ( node.left ) {
-          this.addLeft.push(node.left);
-        }
-        node = this.addLeft.pop();
-      }
-      if ( node.right ) {
-        this.addRight.push(node.right);
-      }
-      //console.log({node:node.data});
-      return node;
-    } else if ( this.addRight.length ) {
-      let node = this.addRight.pop();
-      if ( node.right ) {
-        this.addLeft.push(node.right);
-      }
-      //console.log({node:node.data});
-      return node;
+    const node = this.stack.pop();
+    if ( node.right ) {
+      this.stack.push(...allLeft(node.right));
     }
+    return node;
   }
 }
 
 function allLeft(node) {
-  while(node) {
-    
+  const list = [node];
+  while(node.left) {
+    node = node.left
+    list.push(node);
   }
+  return list;
 }
 
 let inorderUsingIterator = function(root) {
@@ -93,3 +78,4 @@ let inorderUsingIterator = function(root) {
   }
   return result_str;
 };
+
