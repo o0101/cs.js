@@ -6,10 +6,9 @@ Contains Heap, Trie, SkipList, QuickSelect, various sorts and more.
 
 [cs101](https://npmjs.com/package/cs101) on NPM.
 
-## Other cool and notable implementations
+## Todo
 
-- [Heap in minimal, tidy, clean and cool C](https://hyrious.me/p/heap.html)
-
+- [LinkedHashMap](https://docs.oracle.com/javase/7/docs/api/java/util/LinkedHashMap.html) - good for LRU (get it? back-to-front URL?) caches, etc
 
 ## Contents
 
