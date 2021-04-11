@@ -13,6 +13,8 @@
   So I can basically find the successor and find d in parent chain in 1 step. 
   But if it has a right path then I just find d.
 
+  Oh shit and I can also find d without DFS, just using the BS since it's a BST! 
+
 **/
 let inorderSuccessorBST = function(root, d) {
   let val = d;
