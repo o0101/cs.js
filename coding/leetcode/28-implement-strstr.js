@@ -3,6 +3,7 @@
  * @param {string} needle
  * @return {number}
  */
+// O(nm)
 var strStr = function(haystack, needle) {
   const hLen = haystack.length;
   const nLen = needle.length;
