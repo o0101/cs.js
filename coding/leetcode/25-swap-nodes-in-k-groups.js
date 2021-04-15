@@ -1,48 +1,20 @@
-import {
-  LinkedListNode,
-  getIth,
-  length,
-  insertAtTail,
-  mergeSorted,
-  createLinkedList,
-  display
-} from './lib.js';
-import {
-  randomNumberList,
-  randomNumber
-} from '../../src/test.js';
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var reverseKGroup = function(head, k) {
+  return reverseChunks(head, k);   
+};
 
-{
-  test();
-
-  function test(){
-    console.log(`\nTest at: ${new Date}`);
-    test1();
-  }
-
-  function test1() {
-    let runs = 5;
-
-    do {
-      console.log(`\n\n${runs} runs remaining...\n`);
-
-      const randomList = randomNumberList(21);
-      const randomRotation = randomNumber(21);
-      const list = createLinkedList(randomList);
-
-      console.log(`Before reverse-k: ${display(list)}`);
-      console.log(`k: ${randomRotation}`);
-
-      const kReversedList = reverseChunks(list, randomRotation);
-
-      console.log(`After reverse-k: ${display(kReversedList)}`);
-
-      console.log('\n');
-    } while(--runs);
-
-    console.log(`Done!`);
-  }
-
+  // Will be an O(n log n)
   function reverseChunks(a, k = 2) {
     if ( !a || ! a.next || k <= 1 ) {
       return a;
@@ -58,6 +30,8 @@ import {
       while(i-- && fore.next) {
         fore = fore.next;
       }
+      //console.log(i,k,fore.val);
+      if ( i >= 0 ) break;
       //console.log({fore,k});
 
       const next = fore.next;
@@ -84,7 +58,7 @@ import {
   function reverseInterval(tail, head) {
     let prior;
     let node = head;
-  
+
     while(node && node !== tail) {
       const {next} = node;
       node.next = prior;
@@ -94,7 +68,3 @@ import {
 
     tail.next = prior;
   }
-}
-
-
-

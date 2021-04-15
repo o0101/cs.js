@@ -49,3 +49,36 @@ let inorderSuccessorBST = function(root, d) {
     return d.parent;
   }
 };
+
+/**
+
+below is my second solution I created after looking at their solution
+
+**/
+inorderSuccessorBST = function(root, d) {
+  let parent;
+  let node = root;
+  while(true) {
+    if ( node.data === d ) {
+      break;
+    } else if (d < node.data) {
+      parent = node;
+      node = node.left;
+    } else {
+      node = node.right;
+    }
+  }
+  if ( ! node ) return;
+  if ( d.right ) {
+    d = d.right;
+    while(d.left) {
+      d = d.left;
+    }
+    return d;
+  } else {
+    return parent;
+  }
+};
+
+function findNodeFor(d, root) {
+}
