@@ -1,17 +1,20 @@
-let findNthHighestInBST = function(node, n) {
-  return recInOrder(node, n, 0);
+let findNthHighestInBST = function(node, n = 1) {
+  let i = 0;
+  return recInOrder(node, n);
+
+  function recInOrder(node, n) {
+    if ( ! node ) return;
+
+    let found = recInOrder(node.right, n);
+    if ( found ) return found;
+
+    i += 1;
+
+    if ( i === n ) {
+      return node;
+    }
+
+    return recInOrder(node.left, n);
+  }
 };
 
-function recInOrder(node, n = 1, i = 0) {
-  ({i,node} = recInOrder(node.right, n, i + 1));
-
-  if ( i === n ) {
-    return node;
-  } 
-
-  ({i, node} = recInOrder(node.left, n, i + 1))
-
-  if ( i === n ) {
-    return node;
-  } 
-}
