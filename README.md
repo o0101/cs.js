@@ -1,4 +1,4 @@
-# cs.js
+# cs.js ![npm](https://img.shields.io/npm/dt/cs101)
 
 Computer Science Data Structured and Algorithms in JavaScript ( Node.JS, ES ) in simple, clean, reusable code.
 
