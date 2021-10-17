@@ -81,8 +81,10 @@ $ npm run lint
 Push test output to a file:
 
 ```shell
-$ node -r esm src/test.js > testout.txt
+$ npm run save-test
 ```
+
+Test output will be in file `testout.txt`
 
 ## API Documentation
 
