@@ -31,7 +31,7 @@ try {
       testAll();
     }
   } catch(e) {
-
+    console.warn(e);
   }
 }
 

@@ -1,7 +1,4 @@
-import {Empty} from './lib/tree.js';
 import {swap, signedCompare as SC} from './quicksort.js';
-import BinarySearch from './binarysearch.js'; 
-import {iterativeBinarySearch} from './binarysearch.js'; 
 
 const DEFAULT_OPTS = {
   compare: undefined, /* uses DEFAULT_COMPARE, but can be a custom comparison */
@@ -21,7 +18,6 @@ export default function SelectionSort(data, opts) {
 
   if ( opts.inplace ) {
     if ( opts.nosplice ) {
-      let start = 0;
       for( let start = 0; start < data.length; start++ ) {
         const minIndex = findMin(data, start, opts);
         let j = minIndex;
@@ -31,7 +27,6 @@ export default function SelectionSort(data, opts) {
         }
       }
     } else {
-      let start = 0;
       for( let start = 0; start < data.length; start++ ) {
         const minIndex = findMin(data, start, opts);
         const minVal = data[minIndex];
