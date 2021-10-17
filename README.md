@@ -622,13 +622,13 @@ $ node -r esm src/test.js > testout.txt
     ['abc', {movie: 'ok'}],
     ['def', {time: 'yes'}]
   ]);
-  const trie2 = new Trie(null, data);
+  const trie2 = new Trie(null, data2);
 
   const data3 = {
     abc: {movie: 'ok'},
     def: {time: 'yes'},
   }
-  const trie3 = new Trie(null, data);
+  const trie3 = new Trie(null, data3);
   ```
 
   Getting size:
