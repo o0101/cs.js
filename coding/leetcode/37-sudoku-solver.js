@@ -31,7 +31,9 @@ let isValidSudoku = function(board) {
 
 let solveSudoku = function(board) {
   const result = recursiveSolver(board, 0, 0);
-  console.log(result);
+  DEBUG && console.log('solved', result.solved);
+  DEBUG && result.board.forEach(row => console.log(row.join('  ')));
+  DEBUG && console.log('valid', isValidSudoku(result.board));
   return result.board;
 }
 
@@ -45,7 +47,7 @@ solveSudoku(E0);
       DEBUG && console.log('i', i);
       for( let j = startJ; j < SZ; j++ ) {
         if ( startJ > 0 ) {
-          console.log({startJ,j});
+          //console.log({startJ,j});
           //startJ = 0;
         }
         DEBUG && console.log(i,j);
@@ -85,7 +87,7 @@ solveSudoku(E0);
     return {
       board,
       columns: columns(board),
-      squares: squaresAsVectors(board).squares
+      squares: squaresAsVectors(board).boxes
     };
   }
   
@@ -94,17 +96,8 @@ solveSudoku(E0);
     const colJ = columns[j];
     const I = (i-(i%3))/3;
     const J = (j-(j%3))/3;
-    const square = squares[I,J];
+    const square = squares[I][J];
     const vals = possibleValues(rowI, colJ, square);
-    if ( i === 0 && j >= 7 ) {
-      //console.log({rowI,colJ,square,vals,i,j});
-      flag = true;
-    }
-    if ( flag && i > 0 ) {
-      console.log({rowI,colJ,square,vals,i,j,I,J});
-      //console.log(squares);
-    }
-    //process.exit(1);
     return [...vals];
   }
 
@@ -171,7 +164,7 @@ solveSudoku(E0);
       if ( ! set.has(val) ) {
         set.add(val);
       } else {
-        console.log(set, i, val);
+        DEBUG && console.log('Invalid duplicate value', {set, i, val});
         isValid = false;
         break;
       }
