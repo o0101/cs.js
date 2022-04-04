@@ -32,7 +32,7 @@ let isValidSudoku = function(board) {
 let solveSudoku = function(board) {
   const result = recursiveSolver(board, 0, 0);
   DEBUG && console.log('solved', result.solved);
-  DEBUG && result.board.forEach(row => console.log(row.join('  ')));
+  result.board.forEach(row => console.log(row.join('  ')));
   DEBUG && console.log('valid', isValidSudoku(result.board));
   return result.board;
 }
