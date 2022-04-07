@@ -1,9 +1,10 @@
-var combinationSum = function(c, t) {
+var combinationSum = comboSum;
+
+function comboSumOriginal(c, t) {
   const C = c.length;
   c = c.map(n => parseInt(n));
   c.sort((a,b) => b-a); // decreasing order 
   const m = [];
-  const P = [];
   let i = 0;
   while(i < C) {
     const sum = [];
@@ -36,7 +37,32 @@ var combinationSum = function(c, t) {
   return result;
 };
 
-/*
+function cSum(t, c, i, S, s, A) {
+  if ( S > t ) return; 
+  if ( S === t ) {
+    A.push(Array.from(s));
+    return;
+  }
+
+  for( ; i < c.length; i++ ) {
+    const C = c[i];
+    s.push(C);
+    S += C;
+    cSum(t, c, i, S, s, A);
+    s.pop();
+    S -= C;
+  }
+}
+
+function comboSum(c, t) {
+  const A = [];
+  const s = [];
+  cSum(t, c, 0, 0, s, A);
+  return A;
+}
+
+
+
 const T = [
   combinationSum([2], 1),
   combinationSum([2,3,5], 8),
@@ -44,5 +70,4 @@ const T = [
 ];
 
 console.log(T);
-*/
 
