@@ -1,6 +1,42 @@
 import BIG from './test-42.js';
 
-var trap = function(height) {
+var trap = newTrap;
+
+function newTrap(height) {
+  let total = 0;
+
+  // create maxes
+    const maxLeft = [];
+    const maxRight = new Array(height.length);
+    let maxL = 0;
+    let maxR = 0;
+
+    height.forEach(val => {
+      if ( val > maxL ) {
+        maxL = val;
+      }
+      maxLeft.push(maxL);
+    });
+
+    for( let i = height.length - 1; i >= 0; i-- ) {
+      const val = height[i];
+      if ( val > maxR ) {
+        maxR = val;
+      }
+      maxRight[i] = maxR;
+    }
+
+  console.log(maxLeft, maxRight);
+  height.forEach((val, index) => {
+    maxL = maxLeft[index];
+    maxR = maxRight[index];
+    total += (Math.min(maxL, maxR) - val);
+  });
+
+  return total;
+}
+
+function originalTrap(height) {
   let total = 0;
   let lastFirst1 = 0, lastLast1 = height.length - 1;
   //const max = Math.max(...height);
