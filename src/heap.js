@@ -443,7 +443,12 @@ export default class Heap {
       return new Heap(heap1.config, bigList);
     }
 
+    /* this is incorrect */
     static heapify(heap, data) {
+      data.forEach(val => heap.push(val));
+    }
+
+    static _incorrect_heapify(heap, data) {
       if ( heap.size > 0 ) {
         throw new TypeError(`Cannot call heapify using a non-empty heap.`);
       }
