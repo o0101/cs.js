@@ -44,7 +44,6 @@ var removeDuplicates = function(nums) {
 const T = [
   removeDuplicates([1,1,1,1,1]),
   removeDuplicates([0,0,0,0,0]),
-  /*
   removeDuplicates([1,1,1,2,2,3]),
   removeDuplicates([0,0,1,1,1,1,2,3,3]),
   removeDuplicates([0]),
@@ -55,7 +54,6 @@ const T = [
   removeDuplicates([2,1,1,1]),
   removeDuplicates([2,1,1]),
   removeDuplicates([1,2]),
-  */
 ];
 console.log(T);
 
