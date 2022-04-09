@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-const DEBUG = false;
+const DEBUG = true;
 var removeDuplicates = function(nums) {
   const DUPS = 2;
   let newLength = nums.length; 
@@ -13,7 +13,7 @@ var removeDuplicates = function(nums) {
     therefore !== lastVal we are guarunteed to run runCount > DUPS if that applies
     this means we don't need to put that check again after the loop
   */
-  for( let i = 0; i <= nums.length; i++ ) {
+  for( let i = 0; i <= Math.min(newLength, nums.length); i++ ) {
     const val = nums[i];
     if ( i < nums.length && val === lastVal ) {
       runCount++;
@@ -42,6 +42,9 @@ var removeDuplicates = function(nums) {
 };
 
 const T = [
+  removeDuplicates([1,1,1,1,1]),
+  removeDuplicates([0,0,0,0,0]),
+  /*
   removeDuplicates([1,1,1,2,2,3]),
   removeDuplicates([0,0,1,1,1,1,2,3,3]),
   removeDuplicates([0]),
@@ -52,6 +55,7 @@ const T = [
   removeDuplicates([2,1,1,1]),
   removeDuplicates([2,1,1]),
   removeDuplicates([1,2]),
+  */
 ];
 console.log(T);
 
