@@ -14,6 +14,10 @@ var combinations = function(nums) {
   return all;
 };
 
+// research idea: think of permutations like a tree
+  // seems there's a natural thing with the way we funnel in (first character to last character)
+  // and fan out (last character to first character) respecting the periods...
+  // maybe anyway there is something here
 var permuteUnique = function(nums) {
   const rows = f(nums.length);
   const all = new Array(rows);
@@ -51,9 +55,12 @@ function f(n) {
 
 const T = [
   permuteUnique([1,2,3]),
+  permuteUnique([1,2,2]),
   permuteUnique([0,1]),
   permuteUnique([1]),
+  /*
   permuteUnique([-10,-3,2,5,1,11,10]),
+  */
 ];
 
 console.log(T);
